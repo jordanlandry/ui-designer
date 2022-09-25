@@ -1,5 +1,6 @@
 // Dom elements
 const thicknessElement = document.getElementById("thickness");
+const colorElement = document.getElementById("color");
 
 // Global variables
 const width = 500;
@@ -11,18 +12,20 @@ const properties = {
   color: "white",
   canvasColor: "black",
   currentTool: "pencil",
-  thickness: 1,
+  thickness: 10,
 };
 
 const setColor = (newColor: string) => {
+  colorElement!.style.backgroundColor = newColor;
   properties.color = newColor;
 };
 
+const colorWheel = new ColorWheel(properties, setColor);
+
 const setTool = (newTool: string) => {
   document.getElementById(properties.currentTool)!.className = "tool";
-
-  properties.currentTool = newTool;
   document.getElementById(newTool)!.className += " active";
+  properties.currentTool = newTool;
 };
 
 const updateThickness = (isUp: boolean) => {
@@ -30,8 +33,7 @@ const updateThickness = (isUp: boolean) => {
   else if (properties.thickness === 1) return;
   else properties.thickness -= 1;
 
-  // @ts-ignore
-  thicknessElement?.textContent = properties.thickness;
+  thicknessElement!.textContent = properties.thickness.toString();
 };
 
 const keybinds: any = {
@@ -39,6 +41,7 @@ const keybinds: any = {
   "[": () => updateThickness(false),
   e: () => setTool("eraser"),
   p: () => setTool("pencil"),
+  escape: () => colorWheel.hide(),
 };
 
 const handleKeydown = (e: KeyboardEvent) => {
@@ -62,5 +65,5 @@ const handleKeydown = (e: KeyboardEvent) => {
 document.addEventListener("keydown", handleKeydown);
 
 const logGlobals = () => {
-  console.log(properties);
+  // console.log(properties);
 };

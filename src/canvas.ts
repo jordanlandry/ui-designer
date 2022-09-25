@@ -13,6 +13,8 @@ const handleMouseDown = (e: MouseEvent) => {
   logGlobals(); // Temp
   mouseDown = true;
   handleMouseMove(e);
+
+  colorWheel.hide();
 };
 
 const handleMouseUp = () => {
@@ -62,7 +64,7 @@ const popHistory = () => {
 
 // Mouse
 canvas.addEventListener("mousedown", handleMouseDown);
-canvas.addEventListener("mouseup", handleMouseUp);
+document.addEventListener("mouseup", handleMouseUp);
 canvas.addEventListener("mousemove", handleMouseMove);
 
 // State

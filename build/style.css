@@ -5,22 +5,22 @@
   cursor: pointer;
 }
 
-.white {
+#white {
   background-color: white;
 }
-.green {
+#green {
   background-color: green;
 }
-.blue {
+#blue {
   background-color: blue;
 }
-.red {
+#red {
   background-color: red;
 }
-.yellow {
+#yellow {
   background-color: yellow;
 }
-.orange {
+#orange {
   background-color: orange;
 }
 
@@ -44,6 +44,6 @@
   cursor: pointer;
 }
 
-.tool.active {
-  border: 1px solid green !important;
+.active {
+  box-shadow: 0 0 5px rgb(0, 20, 20);
 }
