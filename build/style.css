@@ -47,3 +47,11 @@
 .active {
   box-shadow: 0 0 5px rgb(0, 20, 20);
 }
+
+#canvas {
+  border: 1px solid black;
+}
+
+* {
+  user-select: none;
+}

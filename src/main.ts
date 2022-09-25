@@ -5,12 +5,14 @@ const colorElement = document.getElementById("color");
 // Global variables
 const width = 500;
 const height = 500;
+const defaultColor = "black";
+const defaultCanvasColor = "white";
 
 let mouseDown = false;
 
 const properties = {
-  color: "white",
-  canvasColor: "black",
+  color: defaultColor,
+  canvasColor: defaultCanvasColor,
   currentTool: "pencil",
   thickness: 10,
 };
@@ -20,6 +22,7 @@ const setColor = (newColor: string) => {
   properties.color = newColor;
 };
 
+setColor(defaultColor);
 const colorWheel = new ColorWheel(properties, setColor);
 
 const setTool = (newTool: string) => {
