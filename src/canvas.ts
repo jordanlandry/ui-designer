@@ -1,24 +1,6 @@
-// Canvas Defining
+// Initializing DOM elements
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const ctx = canvas?.getContext("2d");
-
-// Global variables
-const width = 500;
-const height = 500;
-
-let mouseDown = false;
-let thickness = 1;
-let color = "white";
-let canvasColor = "black";
-
-let state: any = [];
-for (let i = 0; i < width; i++) {
-  state.push([]);
-  for (let j = 0; j < height; j++) {
-    state[i].push({ color: "black" });
-  }
-}
-let currentState: any = [];
 
 canvas.width = width;
 canvas.height = height;
@@ -45,21 +27,13 @@ const handleMouseMove = (e: MouseEvent) => {
   if (!mouseDown) return;
   logGlobals(); //
 
-  for (
-    let i = e.x - Math.ceil(thickness / 2);
-    i < e.x + Math.ceil(thickness / 2);
-    i++
-  ) {
-    for (
-      let j = e.y - Math.ceil(thickness / 2);
-      j < e.y + Math.ceil(thickness / 2);
-      j++
-    ) {
-      state[i][j] = { color };
-    }
-  }
-
-  update();
+  drawRect(
+    e.x - thickness / 2,
+    e.y - thickness / 2,
+    thickness,
+    thickness,
+    color
+  );
 };
 
 // Keyboard functions
@@ -108,16 +82,6 @@ document.addEventListener("keydown", handleKeydown);
 // State
 const updateCurrentState = () => {
   // currentState;
-};
-
-// Update / Draw
-const update = () => {
-  console.log(state);
-  for (let i = 0; i < width; i++) {
-    for (let j = 0; j < height; j++) {
-      drawRect(i, j, 1, 1, state[i][j].color);
-    }
-  }
 };
 
 // Canvas functions
