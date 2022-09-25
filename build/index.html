@@ -16,7 +16,15 @@
       <span id="thickness">1</span>
       <button onClick="updateThickness(true)">+</button>
     </div>
-    <canvas id="canvas"></canvas>
+
+    <div class="container flex">
+      <div class="tool-wrapper">
+        <div onClick="setTool('eraser')" class="tool">Eraser</div>
+        <div onClick="setTool('pencil')" class="tool">Pencil</div>
+      </div>
+      <canvas id="canvas"></canvas>
+    </div>
+
     <div class="flex">
       <div onClick="setColor('white')" class="color white"></div>
       <div onClick="setColor('green')" class="color green"></div>
@@ -24,10 +32,6 @@
       <div onClick="setColor('red')" class="color red"></div>
       <div onClick="setColor('yellow')" class="color yellow"></div>
       <div onClick="setColor('orange')" class="color orange"></div>
-    </div>
-    <div class="tool-wrapper">
-      <div onClick="setTool('eraser')" class="tool">Eraser</div>
-      <div onClick="setTool('pencil')" class="tool">Pencil</div>
     </div>
   </body>
 </html>
