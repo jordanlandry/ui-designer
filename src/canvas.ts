@@ -6,7 +6,7 @@ canvas.width = width;
 canvas.height = height;
 
 // @ts-ignore
-ctx?.fillStyle = canvasColor;
+ctx?.fillStyle = properties.canvasColor;
 ctx?.fillRect(0, 0, width, height);
 
 // Mouse Functions
@@ -28,24 +28,15 @@ const handleMouseMove = (e: MouseEvent) => {
   logGlobals(); //
 
   drawRect(
-    e.x - thickness / 2,
-    e.y - thickness / 2,
-    thickness,
-    thickness,
-    color
+    e.x - properties.thickness / 2,
+    e.y - properties.thickness / 2,
+    properties.thickness,
+    properties.thickness,
+    properties.color
   );
 };
 
 // Keyboard functions
-const handleKeydown = (e: KeyboardEvent) => {
-  logGlobals(); // Temp
-  let key = e.key.toLowerCase();
-  if (key === "]") thickness += 1;
-  if (key === "[") thickness -= 1;
-  if (key === "z" && e.ctrlKey) {
-    popHistory();
-  }
-};
 
 const addToHistory = () => {
   // userHistory.push(state);
@@ -76,9 +67,6 @@ canvas.addEventListener("mousedown", handleMouseDown);
 canvas.addEventListener("mouseup", handleMouseUp);
 canvas.addEventListener("mousemove", handleMouseMove);
 
-// Keyboard
-canvas.addEventListener("keydown", handleKeydown);
-
 // State
 const updateCurrentState = () => {
   // currentState;
@@ -92,14 +80,14 @@ const drawRect = (
   h: number,
   color?: string
 ) => {
+  if (properties.currentTool === "eraser") color = properties.canvasColor;
   // @ts-ignore
-  if (color) ctx?.fillStyle = color;
+  else if (color) ctx?.fillStyle = color;
+
+  x = x - canvas.offsetLeft;
+  y = y - canvas.offsetTop;
+
+  console.log(x, y);
 
   ctx?.fillRect(x, y, w, h);
-};
-
-const logGlobals = () => {
-  console.log("Thickness: " + thickness);
-  console.log("Color: " + color);
-  // console.log(userHistory);
 };
