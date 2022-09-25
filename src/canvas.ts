@@ -7,8 +7,6 @@ canvas.height = 1000;
 
 // Global variables
 let mouseDown = false;
-// let userHistory = new ListNode(0);
-// let mostPreviousHistory = userHistory.getLastValue();
 const userHistory: any = [];
 let thickness = 1;
 let color = "white";
@@ -37,7 +35,7 @@ const handleMouseUp = () => {
 
 const handleMouseMove = (e: MouseEvent) => {
   if (!mouseDown) return;
-  logGlobals();
+  logGlobals(); //
 
   let x = e.x - thickness / 2;
   let y = e.y - thickness / 2;
