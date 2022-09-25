@@ -19,8 +19,19 @@
 
     <div class="container flex">
       <div class="tool-wrapper">
-        <div onClick="setTool('eraser')" class="tool">Eraser</div>
-        <div onClick="setTool('pencil')" class="tool">Pencil</div>
+        <img
+          src="../assets/eraser-svgrepo-com.svg"
+          onClick="setTool('eraser')"
+          id="eraser"
+          class="tool"
+        />
+
+        <img
+          src="../assets/pencil-svgrepo-com.svg"
+          onClick="setTool('pencil')"
+          id="pencil"
+          class="tool"
+        />
       </div>
       <canvas id="canvas"></canvas>
     </div>

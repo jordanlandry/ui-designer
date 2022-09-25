@@ -5,14 +5,12 @@ const ctx = canvas?.getContext("2d");
 canvas.width = width;
 canvas.height = height;
 
-// @ts-ignore
-ctx?.fillStyle = properties.canvasColor;
+ctx!.fillStyle = properties.canvasColor;
 ctx?.fillRect(0, 0, width, height);
 
 // Mouse Functions
 const handleMouseDown = (e: MouseEvent) => {
   logGlobals(); // Temp
-  // @ts-ignore
   mouseDown = true;
   handleMouseMove(e);
 };
@@ -82,8 +80,7 @@ const drawRect = (
 ) => {
   if (properties.currentTool === "eraser") color = properties.canvasColor;
 
-  // @ts-ignore
-  if (color) ctx?.fillStyle = color;
+  if (color) ctx!.fillStyle = color;
 
   x = x - canvas.offsetLeft;
   y = y - canvas.offsetTop;

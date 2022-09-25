@@ -19,7 +19,10 @@ const setColor = (newColor: string) => {
 };
 
 const setTool = (newTool: string) => {
+  document.getElementById(properties.currentTool)!.className = "tool";
+
   properties.currentTool = newTool;
+  document.getElementById(newTool)!.className += " active";
 };
 
 const updateThickness = (isUp: boolean) => {

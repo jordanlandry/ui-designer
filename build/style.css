@@ -27,3 +27,23 @@
 .flex {
   display: flex;
 }
+
+.tool-wrapper {
+  padding: 5px;
+  background-color: rgb(30, 35, 40);
+  background-color: rgb(225, 230, 235);
+  color: white;
+}
+
+.tool {
+  border: 1px solid black;
+  padding: 3px;
+  margin: 5px;
+  display: block;
+  width: 24px;
+  cursor: pointer;
+}
+
+.tool.active {
+  border: 1px solid green !important;
+}
