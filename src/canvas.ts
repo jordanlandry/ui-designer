@@ -72,12 +72,12 @@ const popHistory = () => {
 };
 
 // Mouse
-document.addEventListener("mousedown", handleMouseDown);
-document.addEventListener("mouseup", handleMouseUp);
-document.addEventListener("mousemove", handleMouseMove);
+canvas.addEventListener("mousedown", handleMouseDown);
+canvas.addEventListener("mouseup", handleMouseUp);
+canvas.addEventListener("mousemove", handleMouseMove);
 
 // Keyboard
-document.addEventListener("keydown", handleKeydown);
+canvas.addEventListener("keydown", handleKeydown);
 
 // State
 const updateCurrentState = () => {
