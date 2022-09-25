@@ -2,21 +2,30 @@
 const canvas = document.getElementById("canvas") as HTMLCanvasElement;
 const ctx = canvas?.getContext("2d");
 
-canvas.width = 1000;
-canvas.height = 1000;
-
 // Global variables
+const width = 500;
+const height = 500;
+
 let mouseDown = false;
-const userHistory: any = [];
 let thickness = 1;
 let color = "white";
 let canvasColor = "black";
 
-let currentPath: any = [];
+let state: any = [];
+for (let i = 0; i < width; i++) {
+  state.push([]);
+  for (let j = 0; j < height; j++) {
+    state[i].push({ color: "black" });
+  }
+}
+let currentState: any = [];
+
+canvas.width = width;
+canvas.height = height;
 
 // @ts-ignore
-ctx?.fillStyle = "black";
-ctx?.fillRect(0, 0, 1000, 1000);
+ctx?.fillStyle = canvasColor;
+ctx?.fillRect(0, 0, width, height);
 
 // Mouse Functions
 const handleMouseDown = (e: MouseEvent) => {
@@ -29,19 +38,28 @@ const handleMouseDown = (e: MouseEvent) => {
 const handleMouseUp = () => {
   logGlobals(); // Temp
   mouseDown = false;
-  userHistory.push(currentPath);
-  currentPath = [];
+  addToHistory();
 };
 
 const handleMouseMove = (e: MouseEvent) => {
   if (!mouseDown) return;
   logGlobals(); //
 
-  let x = e.x - thickness / 2;
-  let y = e.y - thickness / 2;
-  drawRect(x, y, thickness, thickness, color);
+  for (
+    let i = e.x - Math.ceil(thickness / 2);
+    i < e.x + Math.ceil(thickness / 2);
+    i++
+  ) {
+    for (
+      let j = e.y - Math.ceil(thickness / 2);
+      j < e.y + Math.ceil(thickness / 2);
+      j++
+    ) {
+      state[i][j] = { color };
+    }
+  }
 
-  currentPath.push({ x: e.x, y: e.y, thickness, color });
+  update();
 };
 
 // Keyboard functions
@@ -55,29 +73,28 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
-const addToHistory = (e: any) => {
-  userHistory.push({ x: e.x, y: e.y });
+const addToHistory = () => {
+  // userHistory.push(state);
 };
 
 const popHistory = () => {
-  if (!userHistory.length) return;
-  let i = userHistory.length - 1;
-
-  let j = 0;
-  for (const p of userHistory[i]) {
-    let { x, y, thickness, color } = p;
-
-    j++;
-    drawRect(
-      x - thickness / 2,
-      y - thickness / 2,
-      thickness + 5,
-      thickness + 5,
-      canvasColor
-    );
-  }
-
-  userHistory.pop();
+  // if (!userHistory.length) return;
+  // let i = userHistory.length - 1;
+  // let j = 0;
+  // for (const p of userHistory[i]) {
+  //   let { x, y, thickness, color } = p;
+  //   j++;
+  //   drawRect(
+  //     x - thickness / 2,
+  //     y - thickness / 2,
+  //     thickness + 5,
+  //     thickness + 5,
+  //     canvasColor
+  //   );
+  // }
+  // let i = userHistory.length - 2;
+  // if (i) state = userHistory[i];
+  // userHistory.pop();
 };
 
 // Mouse
@@ -87,6 +104,21 @@ document.addEventListener("mousemove", handleMouseMove);
 
 // Keyboard
 document.addEventListener("keydown", handleKeydown);
+
+// State
+const updateCurrentState = () => {
+  // currentState;
+};
+
+// Update / Draw
+const update = () => {
+  console.log(state);
+  for (let i = 0; i < width; i++) {
+    for (let j = 0; j < height; j++) {
+      drawRect(i, j, 1, 1, state[i][j].color);
+    }
+  }
+};
 
 // Canvas functions
 const drawRect = (
@@ -105,5 +137,5 @@ const drawRect = (
 const logGlobals = () => {
   console.log("Thickness: " + thickness);
   console.log("Color: " + color);
-  console.log(userHistory);
+  // console.log(userHistory);
 };
