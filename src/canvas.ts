@@ -81,13 +81,12 @@ const drawRect = (
   color?: string
 ) => {
   if (properties.currentTool === "eraser") color = properties.canvasColor;
+
   // @ts-ignore
-  else if (color) ctx?.fillStyle = color;
+  if (color) ctx?.fillStyle = color;
 
   x = x - canvas.offsetLeft;
   y = y - canvas.offsetTop;
-
-  console.log(x, y);
 
   ctx?.fillRect(x, y, w, h);
 };

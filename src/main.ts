@@ -34,6 +34,8 @@ const updateThickness = (isUp: boolean) => {
 const keybinds: any = {
   "]": () => updateThickness(true),
   "[": () => updateThickness(false),
+  e: () => setTool("eraser"),
+  p: () => setTool("pencil"),
 };
 
 const handleKeydown = (e: KeyboardEvent) => {
