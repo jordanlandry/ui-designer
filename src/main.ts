@@ -15,6 +15,10 @@ const properties = {
   canvasColor: defaultCanvasColor,
   currentTool: "pencil",
   thickness: 10,
+  leftPaneSize: 52,
+  topPaneSize: 21,
+  typing: false,
+  fontSize: 10,
 };
 
 const setColor = (newColor: string) => {
@@ -24,6 +28,7 @@ const setColor = (newColor: string) => {
 
 setColor(defaultColor);
 const colorWheel = new ColorWheel(properties, setColor);
+const canv = new Canvas();
 
 const setTool = (newTool: string) => {
   document.getElementById(properties.currentTool)!.className = "tool";
@@ -39,16 +44,37 @@ const updateThickness = (isUp: boolean) => {
   thicknessElement!.textContent = properties.thickness.toString();
 };
 
+const updateFontSize = (isUp: boolean, ctrl: boolean, shift: boolean) => {
+  if (!ctrl || !shift) return;
+  if (isUp) properties.fontSize++;
+  else properties.fontSize--;
+  console.log("asdasdasdA");
+};
+
 const keybindsDown: any = {
   "]": () => updateThickness(true),
   "[": () => updateThickness(false),
   e: () => setTool("eraser"),
   p: () => setTool("pencil"),
-  escape: () => colorWheel.hide(),
+  g: () => setTool("bucket"),
+  l: () => setTool("line"),
+  t: () => setTool("text"),
+  escape: () => handleEscape(),
+};
+
+const handleEscape = () => {
+  colorWheel.hide();
+  properties.typing = false;
 };
 
 const handleKeydown = (e: KeyboardEvent) => {
   logGlobals(); // Temp
+
+  if (properties.typing) {
+    if (e.key === ">") updateFontSize(true, e.ctrlKey, e.shiftKey);
+    else if (e.key === "<") updateFontSize(false, e.ctrlKey, e.shiftKey);
+  }
+
   let key = e.key.toLowerCase();
   if (keybindsDown[key]) {
     keybindsDown[key]();

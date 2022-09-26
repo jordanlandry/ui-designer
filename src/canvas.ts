@@ -1,98 +1,134 @@
-// Initializing DOM elements
-const canvas = document.getElementById("canvas") as HTMLCanvasElement;
-const ctx = canvas?.getContext("2d");
+class Canvas {
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
+  height: number;
+  width: number;
+  brush: string;
+  x: number;
+  y: number;
+  totalX: number;
+  totalY: number;
+  clickX: number;
+  clickY: number;
+  mouseDown: boolean;
+  fontSize: number;
+  textElement: any;
+  constructor() {
+    this.canvas = document.getElementById("canvas") as HTMLCanvasElement;
+    this.ctx = this.canvas.getContext("2d")!;
+    this.width = width;
+    this.height = height;
+    this.brush = "square";
 
-canvas.width = width;
-canvas.height = height;
+    this.x = 0;
+    this.y = 0;
+    this.clickX = 0;
+    this.clickY = 0;
+    this.fontSize = 25;
+    this.mouseDown = false;
+    this.totalX = 0;
+    this.totalY = 0;
+    this.textElement = false;
 
-ctx!.fillStyle = properties.canvasColor;
-ctx?.fillRect(0, 0, width, height);
+    this.fillBlank();
+    this.init();
+  }
 
-// Mouse Functions
-const handleMouseDown = (e: MouseEvent) => {
-  logGlobals(); // Temp
+  init() {
+    this.canvas!.width = this.width;
+    this.canvas!.height = this.height;
 
-  // Update global variables
-  mouseDown = true;
+    this.canvas!.addEventListener("mousedown", this.handleMouseDown);
+    document.addEventListener("mousemove", this.handleMouseMove);
+    document.addEventListener("mouseup", this.handleMouseUp);
+  }
 
-  handleMouseMove(e);
-  colorWheel.hide();
-};
+  handleMouseDown(e: MouseEvent) {
+    // Hide the colour wheel
+    colorWheel.hide();
+    canv.mouseDown = true;
 
-const handleMouseUp = () => {
-  logGlobals(); // Temp
-  mouseDown = false;
-  addToHistory();
-};
+    // Set the click positions
+    canv.clickX = e.offsetX;
+    canv.clickY = e.offsetY;
+    canv.x = e.offsetX;
+    canv.y = e.offsetY;
+    canv.totalX = e.x;
+    canv.totalY = e.y;
+    canv.draw(true);
+  }
 
-const handleMouseMove = (e: MouseEvent) => {
-  // Update global variables
+  handleMouseMove(e: MouseEvent) {
+    if (!canv.mouseDown) return; // Don't run if the mouse isn't being clicked
 
-  if (!mouseDown) return;
-  let x = e.x;
-  let y = e.y;
+    canv.x = e.offsetX;
+    canv.y = e.offsetY;
+    canv.draw();
+  }
 
-  logGlobals(); //
+  handleMouseUp(e: MouseEvent) {
+    canv.mouseDown = false;
+  }
 
-  drawRect(
-    x - properties.thickness / 2,
-    y - properties.thickness / 2,
-    properties.thickness,
-    properties.thickness,
-    properties.color
-  );
-};
+  fillBlank() {
+    this.ctx!.fillStyle = properties.canvasColor;
+    this.ctx.fillRect(0, 0, this.width, this.height);
+  }
 
-// Keyboard functions
+  draw(mouseClick?: boolean) {
+    if (properties.currentTool === "pencil") this.handlePencil();
+    else if (properties.currentTool === "eraser") this.handleEraser();
+    else if (properties.currentTool === "bucket") this.handleBucket();
+    else if (properties.currentTool === "line") this.handleLine();
+  }
 
-const addToHistory = () => {
-  // userHistory.push(state);
-};
+  handlePencil() {
+    this.ctx!.fillStyle = properties.color;
 
-const popHistory = () => {
-  // if (!userHistory.length) return;
-  // let i = userHistory.length - 1;
-  // let j = 0;
-  // for (const p of userHistory[i]) {
-  //   let { x, y, thickness, color } = p;
-  //   j++;
-  //   drawRect(
-  //     x - thickness / 2,
-  //     y - thickness / 2,
-  //     thickness + 5,
-  //     thickness + 5,
-  //     canvasColor
-  //   );
-  // }
-  // let i = userHistory.length - 2;
-  // if (i) state = userHistory[i];
-  // userHistory.pop();
-};
+    // Handle Brushes
+    if (this.brush === "square") {
+      this.ctx!.fillRect(
+        this.x - properties.thickness / 2,
+        this.y - properties.thickness / 2,
+        properties.thickness,
+        properties.thickness
+      );
+    } else if (this.brush === "circle") {
+      this.ctx!.beginPath();
+      this.ctx!.arc(this.x, this.y, properties.thickness / 2, 0, 2 * Math.PI);
+      this.ctx!.fill();
+    }
+  }
 
-// Mouse
-canvas.addEventListener("mousedown", handleMouseDown);
-document.addEventListener("mouseup", handleMouseUp);
-canvas.addEventListener("mousemove", handleMouseMove);
+  handleEraser() {
+    this.ctx!.fillStyle = properties.canvasColor;
+    // Handle Brushes
+    if (this.brush === "square") {
+      this.ctx!.fillRect(
+        this.x - properties.thickness / 2,
+        this.y - properties.thickness / 2,
+        properties.thickness,
+        properties.thickness
+      );
+    } else if (this.brush === "circle") {
+      this.ctx!.beginPath();
+      this.ctx!.arc(this.x, this.y, properties.thickness / 2, 0, 2 * Math.PI);
+      this.ctx!.fill();
+    }
+  }
 
-// State
-const updateCurrentState = () => {
-  // currentState;
-};
+  handleLine() {
+    console.log("asd");
+  }
 
-// Canvas functions
-const drawRect = (
-  x: number,
-  y: number,
-  w: number,
-  h: number,
-  color?: string
-) => {
-  if (properties.currentTool === "eraser") color = properties.canvasColor;
+  handleBucket() {
+    this.ctx!.fillStyle = properties.color;
+    this.ctx!.fillRect(0, 0, this.width, this.height);
+  }
 
-  if (color) ctx!.fillStyle = color;
-
-  x = x - canvas.offsetLeft;
-  y = y - canvas.offsetTop;
-
-  ctx?.fillRect(x, y, w, h);
-};
+  setBrush(brush: string) {
+    document.getElementById(this.brush)!.className = "";
+    this.brush = brush;
+    document.getElementById(brush)!.className = "active";
+  }
+}

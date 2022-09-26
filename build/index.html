@@ -7,9 +7,9 @@
     <title>UI Designer</title>
     <script src="./interfaces.js" defer></script>
     <script src="./colorwheel.js" defer></script>
-    <script src="./main.js" defer></script>
-    <script src="./helpers.js"></script>
     <script src="./canvas.js" defer></script>
+    <script src="./helpers.js"></script>
+    <script src="./main.js" defer></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body id="body">
@@ -17,10 +17,21 @@
       <button onClick="updateThickness(false)">-</button>
       <span id="thickness">10</span>
       <button onClick="updateThickness(true)">+</button>
+      <span class="active" id="square" onClick="canv.setBrush('square')"
+        >Square</span
+      >
+      <span class="" id="circle" onClick="canv.setBrush('circle')">Circle</span>
     </div>
 
     <div class="container flex">
       <div class="tool-wrapper">
+        <img
+          src="../assets/pencil-svgrepo-com.svg"
+          onClick="setTool('pencil')"
+          id="pencil"
+          class="tool active"
+        />
+
         <img
           src="../assets/eraser-svgrepo-com.svg"
           onClick="setTool('eraser')"
@@ -29,10 +40,24 @@
         />
 
         <img
-          src="../assets/pencil-svgrepo-com.svg"
-          onClick="setTool('pencil')"
-          id="pencil"
-          class="tool active"
+          src="../assets/text-svgrepo-com.svg"
+          onClick="setTool('text')"
+          id="text"
+          class="tool"
+        />
+
+        <img
+          src="../assets/line-svgrepo-com.svg"
+          onClick="setTool('line')"
+          id="line"
+          class="tool"
+        />
+
+        <img
+          src="../assets/bucket-svgrepo-com.svg"
+          onClick="setTool('bucket')"
+          id="bucket"
+          class="tool"
         />
       </div>
       <canvas id="canvas"></canvas>
@@ -40,11 +65,6 @@
 
     <div class="flex">
       <div onClick="colorWheel.toggleShown()" class="color" id="color"></div>
-      <!-- <div onClick="setColor('green')" class="color" id="green"></div>
-      <div onClick="setColor('blue')" class="color" id="blue"></div>
-      <div onClick="setColor('red')" class="color" id="red"></div>
-      <div onClick="setColor('yellow')" class="color" id="yellow"></div>
-      <div onClick="setColor('orange')" class="color" id="orange"></div> -->
     </div>
   </body>
 </html>
