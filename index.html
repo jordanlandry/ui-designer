@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>UI Designer</title>
+    <script src="./interfaces.js" defer></script>
+    <script src="./colorwheel.js" defer></script>
+    <script src="./main.js" defer></script>
+    <script src="./helpers.js"></script>
+    <script src="./canvas.js" defer></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body id="body">
+    <div class="">
+      <button onClick="updateThickness(false)">-</button>
+      <span id="thickness">10</span>
+      <button onClick="updateThickness(true)">+</button>
+    </div>
+
+    <div class="container flex">
+      <div class="tool-wrapper">
+        <img
+          src="../assets/eraser-svgrepo-com.svg"
+          onClick="setTool('eraser')"
+          id="eraser"
+          class="tool"
+        />
+
+        <img
+          src="../assets/pencil-svgrepo-com.svg"
+          onClick="setTool('pencil')"
+          id="pencil"
+          class="tool active"
+        />
+      </div>
+      <canvas id="canvas"></canvas>
+    </div>
+
+    <div class="flex">
+      <div onClick="colorWheel.toggleShown()" class="color" id="color"></div>
+      <!-- <div onClick="setColor('green')" class="color" id="green"></div>
+      <div onClick="setColor('blue')" class="color" id="blue"></div>
+      <div onClick="setColor('red')" class="color" id="red"></div>
+      <div onClick="setColor('yellow')" class="color" id="yellow"></div>
+      <div onClick="setColor('orange')" class="color" id="orange"></div> -->
+    </div>
+  </body>
+</html>

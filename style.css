@@ -1,0 +1,57 @@
+.color {
+  border: 1px solid black;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+#white {
+  background-color: white;
+}
+#green {
+  background-color: green;
+}
+#blue {
+  background-color: blue;
+}
+#red {
+  background-color: red;
+}
+#yellow {
+  background-color: yellow;
+}
+#orange {
+  background-color: orange;
+}
+
+.flex {
+  display: flex;
+}
+
+.tool-wrapper {
+  padding: 5px;
+  background-color: rgb(30, 35, 40);
+  background-color: rgb(225, 230, 235);
+  color: white;
+}
+
+.tool {
+  border: 1px solid black;
+  padding: 3px;
+  margin: 5px;
+  display: block;
+  width: 24px;
+  cursor: pointer;
+}
+
+.active {
+  box-shadow: 0 0 5px rgb(0, 20, 20);
+}
+
+#canvas {
+  border: 1px solid black;
+}
+
+* {
+  user-select: none;
+}
