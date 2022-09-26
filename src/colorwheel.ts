@@ -194,4 +194,8 @@ class ColorWheel {
     this.canvas.style.display = "none";
     this.isShowing = false;
   }
+
+  handleResize() {
+    this.canvas.style.top = `${window.innerHeight - 350}px`;
+  }
 }

@@ -172,5 +172,8 @@ class Canvas {
 
     canv.canvas.width = canv.width;
     canv.canvas.height = canv.height;
+
+    // Update the position of the colorwheel
+    colorWheel.handleResize();
   }
 }
