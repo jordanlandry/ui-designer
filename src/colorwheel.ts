@@ -42,9 +42,9 @@ class ColorWheel {
   init() {
     this.canvas.width = 255;
     this.canvas.height = 255 + 32;
-    this.canvas.style.position = "fixed";
-    this.canvas.style.top = `${300}px`;
-    this.canvas.style.left = "36px";
+    this.canvas.style.position = "absolute";
+    this.canvas.style.top = `${window.innerHeight - 350}px`;
+    this.canvas.style.right = `${properties.rightPaneSize + 15}px`;
     this.canvas.style.zIndex = "100";
     this.canvas.style.border = "1px solid black";
 

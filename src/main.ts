@@ -16,11 +16,12 @@ const properties = {
   currentTool: "pencil",
   thickness: 10,
   leftPaneSize: 52,
-  topPaneSize: 21,
+  topPaneSize: 57,
   rightPaneSize: 100,
   offset: 20,
   typing: false,
   fontSize: 10,
+  padding: 20,
 };
 
 const setColor = (newColor: string) => {

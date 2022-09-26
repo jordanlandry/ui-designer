@@ -20,10 +20,11 @@ class Canvas {
       window.innerWidth -
       properties.leftPaneSize -
       properties.rightPaneSize -
+      properties.padding * 2 -
       properties.offset;
-    this.height = height;
-    this.brush = "square";
+    this.height = window.innerHeight - properties.topPaneSize;
 
+    this.brush = "square";
     this.x = 0;
     this.y = 0;
     this.clickX = 0;
@@ -43,8 +44,10 @@ class Canvas {
     this.canvas!.height = this.height;
 
     this.canvas!.addEventListener("mousedown", this.handleMouseDown);
+
     document.addEventListener("mousemove", this.handleMouseMove);
     document.addEventListener("mouseup", this.handleMouseUp);
+    window.addEventListener("resize", this.handleSetSize);
   }
 
   handleMouseDown(e: MouseEvent) {
@@ -153,5 +156,19 @@ class Canvas {
       console.log("Scrolling Right");
     }
     return;
+  }
+
+  handleSetSize() {
+    canv.width =
+      window.innerWidth -
+      properties.leftPaneSize -
+      properties.rightPaneSize -
+      properties.padding -
+      properties.padding -
+      properties.offset;
+    canv.height = window.innerHeight;
+
+    canv.canvas.width = canv.width;
+    canv.canvas.height = canv.height;
   }
 }
