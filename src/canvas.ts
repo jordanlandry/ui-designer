@@ -6,6 +6,8 @@ class Canvas {
   brush: string;
   x: number;
   y: number;
+  moveX: number;
+  moveY: number;
   totalX: number;
   totalY: number;
   clickX: number;
@@ -13,6 +15,7 @@ class Canvas {
   mouseDown: boolean;
   fontSize: number;
   textElement: any;
+  layers: any;
   constructor() {
     this.canvas = document.getElementById("canvas") as HTMLCanvasElement;
     this.ctx = this.canvas.getContext("2d")!;
@@ -27,6 +30,8 @@ class Canvas {
     this.brush = "square";
     this.x = 0;
     this.y = 0;
+    this.moveX = 0;
+    this.moveY = 0;
     this.clickX = 0;
     this.clickY = 0;
     this.fontSize = 25;
@@ -34,6 +39,8 @@ class Canvas {
     this.totalX = 0;
     this.totalY = 0;
     this.textElement = false;
+
+    this.layers = [];
 
     this.fillBlank();
     this.init();
@@ -68,6 +75,10 @@ class Canvas {
   }
 
   handleMouseMove(e: MouseEvent) {
+    canv.moveX = e.offsetX;
+    canv.moveY = e.offsetY;
+    canv.drawCursor(canv.moveX, canv.moveY, e);
+
     if (!canv.mouseDown) return; // Don't run if the mouse isn't being clicked
 
     canv.x = e.offsetX;
@@ -89,6 +100,29 @@ class Canvas {
     else if (properties.currentTool === "eraser") this.handleEraser();
     else if (properties.currentTool === "bucket") this.handleBucket();
     else if (properties.currentTool === "line") this.handleLine();
+  }
+
+  drawCursor(x: number, y: number, e?: MouseEvent) {
+    // Temp code
+    this.ctx.fillStyle = properties.canvasColor;
+    this.ctx.fillRect(0, 0, this.width, this.height);
+
+    if (e && e.target !== document.getElementById("canvas")) return;
+
+    this.ctx.strokeStyle = "black";
+    this.ctx.lineWidth = 1;
+    if (this.brush === "square") {
+      this.ctx!.strokeRect(
+        x - properties.thickness / 2,
+        y - properties.thickness / 2,
+        properties.thickness,
+        properties.thickness
+      );
+    } else if (this.brush === "circle") {
+      this.ctx!.beginPath();
+      this.ctx!.arc(x, y, properties.thickness / 2, 0, 2 * Math.PI);
+      this.ctx!.stroke();
+    }
   }
 
   handlePencil() {

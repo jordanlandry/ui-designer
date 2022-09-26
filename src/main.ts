@@ -17,11 +17,12 @@ const properties = {
   thickness: 10,
   leftPaneSize: 52,
   topPaneSize: 57,
-  rightPaneSize: 100,
-  offset: 20,
+  rightPaneSize: 121,
+  offset: 0,
   typing: false,
   fontSize: 10,
   padding: 20,
+  activeLayer: "l1",
 };
 
 const setColor = (newColor: string) => {
@@ -45,12 +46,20 @@ const updateThickness = (isUp: boolean) => {
   else properties.thickness -= 1;
 
   thicknessElement!.textContent = properties.thickness.toString();
+
+  canv.drawCursor(canv.moveX, canv.moveY);
 };
 
 const updateFontSize = (isUp: boolean, ctrl: boolean, shift: boolean) => {
   if (!ctrl || !shift) return;
   if (isUp) properties.fontSize++;
   else properties.fontSize--;
+};
+
+const setActiveLayer = (el: Element) => {
+  document.getElementById(properties.activeLayer)!.className = "layer-preview";
+  properties.activeLayer = el.id;
+  document.getElementById(el.id)!.className += " active";
 };
 
 const keybindsDown: any = {

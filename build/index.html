@@ -72,11 +72,46 @@
         </div>
         <canvas id="canvas"></canvas>
         <div class="right-pane">
-          <div class="layer">Layer5</div>
-          <div class="layer">Layer4</div>
-          <div class="layer">Layer3</div>
-          <div class="layer">Layer2</div>
-          <div class="layer">Layer1</div>
+          <div class="layer">
+            <span
+              class="layer-preview"
+              id="l5"
+              onClick="setActiveLayer(l5)"
+            ></span
+            >Layer5
+          </div>
+          <div class="layer">
+            <span
+              class="layer-preview"
+              id="l4"
+              onClick="setActiveLayer(l4)"
+            ></span
+            >Layer4
+          </div>
+          <div class="layer">
+            <span
+              class="layer-preview"
+              id="l3"
+              onClick="setActiveLayer(l3)"
+            ></span
+            >Layer3
+          </div>
+          <div class="layer">
+            <span
+              class="layer-preview"
+              id="l2"
+              onClick="setActiveLayer(l2)"
+            ></span
+            >Layer2
+          </div>
+          <div class="layer">
+            <span
+              class="layer-preview active"
+              id="l1"
+              onClick="setActiveLayer(l1)"
+            ></span
+            >Layer1
+          </div>
 
           <div
             onClick="colorWheel.toggleShown()"
