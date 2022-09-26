@@ -7,6 +7,10 @@ class ColorWheel {
   b: number;
   x: number;
   y: number;
+  huePosition: number;
+  colorX: number;
+  colorY: number;
+
   changingHue: boolean;
   setColor: (c: string) => void;
   mouseDown: boolean;
@@ -18,9 +22,6 @@ class ColorWheel {
     this.g = 0;
     this.b = 0;
 
-    this.init();
-    this.hide();
-
     this.setColor = setColor;
     this.mouseDown = false;
 
@@ -28,6 +29,11 @@ class ColorWheel {
     this.y = 0;
 
     this.changingHue = false;
+    this.huePosition = 0;
+    this.colorX = 0;
+    this.colorY = 0;
+    this.init();
+    this.hide();
   }
 
   init() {
@@ -71,6 +77,25 @@ class ColorWheel {
     grd.addColorStop(6 / 6, "rgb(255, 0, 0)");
     this.ctx!.fillStyle = grd;
     this.ctx!.fillRect(0, 255, 255, this.canvas.height - 255);
+
+    // Drawing the hue slider
+    this.ctx!.fillStyle = "white";
+    this.ctx!.strokeStyle = "white";
+    this.ctx!.lineWidth = 2;
+    this.ctx?.strokeRect(this.huePosition, 256, 6, this.canvas.height - 257);
+
+    // Drawing the color selector circle
+    this.ctx!.lineWidth = 1;
+    this.ctx!.strokeStyle = "white";
+    this.ctx!.beginPath();
+    this.ctx!.arc(
+      clamp(this.colorX, 0, 255),
+      clamp(this.colorY, 0, 255),
+      5,
+      0,
+      2 * Math.PI
+    );
+    this.ctx!.stroke();
   }
 
   handleMouseDown(e: MouseEvent) {
@@ -83,35 +108,15 @@ class ColorWheel {
 
   handleMouseMove(e: MouseEvent) {
     if (!colorWheel.mouseDown) return;
-
     if (!colorWheel.changingHue) {
-      // Draw circle
-      colorWheel.draw();
-      colorWheel.ctx!.lineWidth = 1;
-      colorWheel.ctx!.strokeStyle = "white";
-      colorWheel.ctx!.beginPath();
-      colorWheel.ctx!.arc(
-        clamp(e.offsetX, 0, 255),
-        clamp(e.offsetY, 0, 255),
-        5,
-        0,
-        2 * Math.PI
-      );
-      colorWheel.ctx!.stroke();
-
-      // Change the color state
+      colorWheel.colorX = e.offsetX;
+      colorWheel.colorY = e.offsetY;
       colorWheel.handleColorChange(e.offsetX, e.offsetY);
     } else {
-      // Creating the line selector for the hues
-      let x = clamp(e.offsetX, 0, 255);
-
-      colorWheel.draw();
-      colorWheel.ctx!.fillStyle = "white";
-      colorWheel.ctx!.strokeStyle = "white";
-      colorWheel.ctx!.lineWidth = 2;
-      colorWheel.ctx?.strokeRect(x, 256, 6, colorWheel.canvas.height - 257);
-      colorWheel.handleHueChange(x);
+      colorWheel.huePosition = clamp(e.offsetX, 0, 255);
+      colorWheel.handleHueChange(colorWheel.huePosition);
     }
+    colorWheel.draw();
   }
 
   handleMouseUp(e: MouseEvent) {
