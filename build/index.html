@@ -32,44 +32,53 @@
       </span>
     </div>
 
-    <div class="container flex">
-      <div class="tool-wrapper">
-        <img
-          src="../assets/pencil-svgrepo-com.svg"
-          onClick="setTool('pencil')"
-          id="pencil"
-          class="tool active"
-        />
+    <div class="flex">
+      <div class="left-pane">
+        <div class="tool-wrapper">
+          <img
+            src="../assets/pencil-svgrepo-com.svg"
+            onClick="setTool('pencil')"
+            id="pencil"
+            class="tool active"
+          />
 
-        <img
-          src="../assets/eraser-svgrepo-com.svg"
-          onClick="setTool('eraser')"
-          id="eraser"
-          class="tool"
-        />
+          <img
+            src="../assets/eraser-svgrepo-com.svg"
+            onClick="setTool('eraser')"
+            id="eraser"
+            class="tool"
+          />
 
-        <img
-          src="../assets/text-svgrepo-com.svg"
-          onClick="setTool('text')"
-          id="text"
-          class="tool"
-        />
+          <img
+            src="../assets/text-svgrepo-com.svg"
+            onClick="setTool('text')"
+            id="text"
+            class="tool"
+          />
 
-        <img
-          src="../assets/line-svgrepo-com.svg"
-          onClick="setTool('line')"
-          id="line"
-          class="tool"
-        />
+          <img
+            src="../assets/line-svgrepo-com.svg"
+            onClick="setTool('line')"
+            id="line"
+            class="tool"
+          />
 
-        <img
-          src="../assets/bucket-svgrepo-com.svg"
-          onClick="setTool('bucket')"
-          id="bucket"
-          class="tool"
-        />
+          <img
+            src="../assets/bucket-svgrepo-com.svg"
+            onClick="setTool('bucket')"
+            id="bucket"
+            class="tool"
+          />
+        </div>
+        <canvas id="canvas"></canvas>
+        <div class="right-pane">
+          <div class="layer">Layer5</div>
+          <div class="layer">Layer4</div>
+          <div class="layer">Layer3</div>
+          <div class="layer">Layer2</div>
+          <div class="layer">Layer1</div>
+        </div>
       </div>
-      <canvas id="canvas"></canvas>
     </div>
 
     <div class="flex">

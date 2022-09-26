@@ -17,8 +17,8 @@ const properties = {
   thickness: 10,
   leftPaneSize: 52,
   topPaneSize: 21,
-  rightPaneSize: 52,
-  offset: 10,
+  rightPaneSize: 100,
+  offset: 20,
   typing: false,
   fontSize: 10,
 };
@@ -82,7 +82,18 @@ const handleKeydown = (e: KeyboardEvent) => {
   }
 };
 
+const handleScroll = (e: WheelEvent) => {
+  if (e.ctrlKey) {
+    e.preventDefault();
+
+    canv.handleZoom(e);
+  } else if (e.shiftKey) {
+    e.preventDefault();
+    canv.handleSlide(e);
+  }
+};
 // Event Listeners
+document.addEventListener("wheel", handleScroll, { passive: false });
 // Keyboard
 document.addEventListener("keydown", handleKeydown);
 

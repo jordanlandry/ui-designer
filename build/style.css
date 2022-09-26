@@ -43,6 +43,16 @@
   height: 47px;
 }
 
+.left-pane {
+  display: flex;
+}
+
+.right-pane {
+  background-color: rgb(225, 230, 235);
+  width: 98px;
+  padding: 2px;
+}
+
 .tool {
   border: 1px solid black;
   padding: 3px;

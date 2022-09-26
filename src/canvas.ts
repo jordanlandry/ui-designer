@@ -135,4 +135,23 @@ class Canvas {
     this.brush = brush;
     document.getElementById(brush)!.className += " active";
   }
+
+  handleZoom(e: WheelEvent) {
+    // Mouse wheel down
+    if (e.deltaY > 0) {
+      console.log("Zooming Out");
+    } else {
+      console.log("Zooming In");
+    }
+    return;
+  }
+
+  handleSlide(e: WheelEvent) {
+    if (e.deltaY > 0) {
+      console.log("Scrolling Left");
+    } else {
+      console.log("Scrolling Right");
+    }
+    return;
+  }
 }
