@@ -17,6 +17,8 @@ const properties = {
   thickness: 10,
   leftPaneSize: 52,
   topPaneSize: 21,
+  rightPaneSize: 52,
+  offset: 10,
   typing: false,
   fontSize: 10,
 };
@@ -48,7 +50,6 @@ const updateFontSize = (isUp: boolean, ctrl: boolean, shift: boolean) => {
   if (!ctrl || !shift) return;
   if (isUp) properties.fontSize++;
   else properties.fontSize--;
-  console.log("asdasdasdA");
 };
 
 const keybindsDown: any = {

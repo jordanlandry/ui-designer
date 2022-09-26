@@ -16,7 +16,11 @@ class Canvas {
   constructor() {
     this.canvas = document.getElementById("canvas") as HTMLCanvasElement;
     this.ctx = this.canvas.getContext("2d")!;
-    this.width = width;
+    this.width =
+      window.innerWidth -
+      properties.leftPaneSize -
+      properties.rightPaneSize -
+      properties.offset;
     this.height = height;
     this.brush = "square";
 
@@ -44,8 +48,6 @@ class Canvas {
   }
 
   handleMouseDown(e: MouseEvent) {
-    // Hide the colour wheel
-    colorWheel.hide();
     canv.mouseDown = true;
 
     // Set the click positions
@@ -55,7 +57,9 @@ class Canvas {
     canv.y = e.offsetY;
     canv.totalX = e.x;
     canv.totalY = e.y;
-    canv.draw(true);
+
+    if (colorWheel.isShowing) colorWheel.hide();
+    else canv.draw(true);
   }
 
   handleMouseMove(e: MouseEvent) {
@@ -127,8 +131,8 @@ class Canvas {
   }
 
   setBrush(brush: string) {
-    document.getElementById(this.brush)!.className = "";
+    document.getElementById(this.brush)!.className = "brush";
     this.brush = brush;
-    document.getElementById(brush)!.className = "active";
+    document.getElementById(brush)!.className += " active";
   }
 }

@@ -35,6 +35,14 @@
   color: white;
 }
 
+.top-pane {
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  background-color: rgb(225, 230, 235);
+  height: 47px;
+}
+
 .tool {
   border: 1px solid black;
   padding: 3px;
@@ -54,4 +62,19 @@
 
 * {
   user-select: none;
+}
+
+.brush {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+#circle {
+  border-radius: 50%;
+}
+
+#square {
 }

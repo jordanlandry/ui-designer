@@ -13,14 +13,23 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body id="body">
-    <div class="">
+    <div class="top-pane">
       <button onClick="updateThickness(false)">-</button>
       <span id="thickness">10</span>
       <button onClick="updateThickness(true)">+</button>
-      <span class="active" id="square" onClick="canv.setBrush('square')"
-        >Square</span
-      >
-      <span class="" id="circle" onClick="canv.setBrush('circle')">Circle</span>
+      <span>
+        Brush type:
+        <span
+          class="active brush"
+          id="square"
+          onClick="canv.setBrush('square')"
+        ></span>
+        <span
+          class="brush"
+          id="circle"
+          onClick="canv.setBrush('circle')"
+        ></span>
+      </span>
     </div>
 
     <div class="container flex">

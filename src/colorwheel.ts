@@ -10,6 +10,7 @@ class ColorWheel {
   huePosition: number;
   colorX: number;
   colorY: number;
+  isShowing: boolean;
 
   changingHue: boolean;
   setColor: (c: string) => void;
@@ -32,6 +33,8 @@ class ColorWheel {
     this.huePosition = 0;
     this.colorX = 0;
     this.colorY = 0;
+    this.isShowing = false;
+
     this.init();
     this.hide();
   }
@@ -182,9 +185,11 @@ class ColorWheel {
 
   show() {
     this.canvas.style.display = "block";
+    this.isShowing = true;
   }
 
   hide() {
     this.canvas.style.display = "none";
+    this.isShowing = false;
   }
 }
