@@ -7,44 +7,121 @@
     <title>UI Designer</title>
     <script src="./interfaces.js" defer></script>
     <script src="./colorwheel.js" defer></script>
-    <script src="./main.js" defer></script>
-    <script src="./helpers.js"></script>
     <script src="./canvas.js" defer></script>
+    <script src="./helpers.js"></script>
+    <script src="./main.js" defer></script>
     <link rel="stylesheet" href="style.css" />
   </head>
   <body id="body">
-    <div class="">
+    <div class="top-pane">
       <button onClick="updateThickness(false)">-</button>
       <span id="thickness">10</span>
       <button onClick="updateThickness(true)">+</button>
-    </div>
-
-    <div class="container flex">
-      <div class="tool-wrapper">
-        <img
-          src="../assets/eraser-svgrepo-com.svg"
-          onClick="setTool('eraser')"
-          id="eraser"
-          class="tool"
-        />
-
-        <img
-          src="../assets/pencil-svgrepo-com.svg"
-          onClick="setTool('pencil')"
-          id="pencil"
-          class="tool active"
-        />
-      </div>
-      <canvas id="canvas"></canvas>
+      <span>
+        Brush type:
+        <span
+          class="active brush"
+          id="square"
+          onClick="canv.setBrush('square')"
+        ></span>
+        <span
+          class="brush"
+          id="circle"
+          onClick="canv.setBrush('circle')"
+        ></span>
+      </span>
     </div>
 
     <div class="flex">
-      <div onClick="colorWheel.toggleShown()" class="color" id="color"></div>
-      <!-- <div onClick="setColor('green')" class="color" id="green"></div>
-      <div onClick="setColor('blue')" class="color" id="blue"></div>
-      <div onClick="setColor('red')" class="color" id="red"></div>
-      <div onClick="setColor('yellow')" class="color" id="yellow"></div>
-      <div onClick="setColor('orange')" class="color" id="orange"></div> -->
+      <div class="left-pane">
+        <div class="tool-wrapper">
+          <img
+            src="../assets/pencil-svgrepo-com.svg"
+            onClick="setTool('pencil')"
+            id="pencil"
+            class="tool active"
+          />
+
+          <img
+            src="../assets/eraser-svgrepo-com.svg"
+            onClick="setTool('eraser')"
+            id="eraser"
+            class="tool"
+          />
+
+          <img
+            src="../assets/text-svgrepo-com.svg"
+            onClick="setTool('text')"
+            id="text"
+            class="tool"
+          />
+
+          <img
+            src="../assets/line-svgrepo-com.svg"
+            onClick="setTool('line')"
+            id="line"
+            class="tool"
+          />
+
+          <img
+            src="../assets/bucket-svgrepo-com.svg"
+            onClick="setTool('bucket')"
+            id="bucket"
+            class="tool"
+          />
+        </div>
+        <canvas id="canvas"></canvas>
+        <div class="right-pane">
+          <div class="layer">
+            <span
+              class="layer-preview"
+              id="l5"
+              onClick="setActiveLayer(l5)"
+            ></span
+            >Layer5
+          </div>
+          <div class="layer">
+            <span
+              class="layer-preview"
+              id="l4"
+              onClick="setActiveLayer(l4)"
+            ></span
+            >Layer4
+          </div>
+          <div class="layer">
+            <span
+              class="layer-preview"
+              id="l3"
+              onClick="setActiveLayer(l3)"
+            ></span
+            >Layer3
+          </div>
+          <div class="layer">
+            <span
+              class="layer-preview"
+              id="l2"
+              onClick="setActiveLayer(l2)"
+            ></span
+            >Layer2
+          </div>
+          <div class="layer">
+            <span
+              class="layer-preview active"
+              id="l1"
+              onClick="setActiveLayer(l1)"
+            ></span
+            >Layer1
+          </div>
+
+          <div
+            onClick="colorWheel.toggleShown()"
+            class="color"
+            id="color"
+          ></div>
+        </div>
+      </div>
     </div>
+
+    <div class="flex"></div>
   </body>
 </html>

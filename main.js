@@ -13,6 +13,14 @@ const properties = {
     canvasColor: defaultCanvasColor,
     currentTool: "pencil",
     thickness: 10,
+    leftPaneSize: 52,
+    topPaneSize: 57,
+    rightPaneSize: 121,
+    offset: 0,
+    typing: false,
+    fontSize: 10,
+    padding: 20,
+    activeLayer: "l1",
 };
 const setColor = (newColor) => {
     colorElement.style.backgroundColor = newColor;
@@ -20,6 +28,7 @@ const setColor = (newColor) => {
 };
 setColor(defaultColor);
 const colorWheel = new ColorWheel(properties, setColor);
+const canv = new Canvas();
 const setTool = (newTool) => {
     document.getElementById(properties.currentTool).className = "tool";
     document.getElementById(newTool).className += " active";
@@ -33,22 +42,60 @@ const updateThickness = (isUp) => {
     else
         properties.thickness -= 1;
     thicknessElement.textContent = properties.thickness.toString();
+    canv.drawCursor(canv.moveX, canv.moveY);
+};
+const updateFontSize = (isUp, ctrl, shift) => {
+    if (!ctrl || !shift)
+        return;
+    if (isUp)
+        properties.fontSize++;
+    else
+        properties.fontSize--;
+};
+const setActiveLayer = (el) => {
+    document.getElementById(properties.activeLayer).className = "layer-preview";
+    properties.activeLayer = el.id;
+    document.getElementById(el.id).className += " active";
 };
 const keybindsDown = {
     "]": () => updateThickness(true),
     "[": () => updateThickness(false),
     e: () => setTool("eraser"),
     p: () => setTool("pencil"),
-    escape: () => colorWheel.hide(),
+    g: () => setTool("bucket"),
+    l: () => setTool("line"),
+    t: () => setTool("text"),
+    escape: () => handleEscape(),
+};
+const handleEscape = () => {
+    colorWheel.hide();
+    properties.typing = false;
 };
 const handleKeydown = (e) => {
     logGlobals(); // Temp
+    if (properties.typing) {
+        if (e.key === ">")
+            updateFontSize(true, e.ctrlKey, e.shiftKey);
+        else if (e.key === "<")
+            updateFontSize(false, e.ctrlKey, e.shiftKey);
+    }
     let key = e.key.toLowerCase();
     if (keybindsDown[key]) {
         keybindsDown[key]();
     }
 };
+const handleScroll = (e) => {
+    if (e.ctrlKey) {
+        e.preventDefault();
+        canv.handleZoom(e);
+    }
+    else if (e.shiftKey) {
+        e.preventDefault();
+        canv.handleSlide(e);
+    }
+};
 // Event Listeners
+document.addEventListener("wheel", handleScroll, { passive: false });
 // Keyboard
 document.addEventListener("keydown", handleKeydown);
 const logGlobals = () => {
