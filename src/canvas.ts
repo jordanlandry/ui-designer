@@ -11,9 +11,11 @@ ctx?.fillRect(0, 0, width, height);
 // Mouse Functions
 const handleMouseDown = (e: MouseEvent) => {
   logGlobals(); // Temp
-  mouseDown = true;
-  handleMouseMove(e);
 
+  // Update global variables
+  mouseDown = true;
+
+  handleMouseMove(e);
   colorWheel.hide();
 };
 
@@ -24,12 +26,17 @@ const handleMouseUp = () => {
 };
 
 const handleMouseMove = (e: MouseEvent) => {
+  // Update global variables
+
   if (!mouseDown) return;
+  let x = e.x;
+  let y = e.y;
+
   logGlobals(); //
 
   drawRect(
-    e.x - properties.thickness / 2,
-    e.y - properties.thickness / 2,
+    x - properties.thickness / 2,
+    y - properties.thickness / 2,
     properties.thickness,
     properties.thickness,
     properties.color

@@ -39,7 +39,7 @@ const updateThickness = (isUp: boolean) => {
   thicknessElement!.textContent = properties.thickness.toString();
 };
 
-const keybinds: any = {
+const keybindsDown: any = {
   "]": () => updateThickness(true),
   "[": () => updateThickness(false),
   e: () => setTool("eraser"),
@@ -50,17 +50,9 @@ const keybinds: any = {
 const handleKeydown = (e: KeyboardEvent) => {
   logGlobals(); // Temp
   let key = e.key.toLowerCase();
-  if (keybinds[key]) {
-    keybinds[key]();
+  if (keybindsDown[key]) {
+    keybindsDown[key]();
   }
-
-  // if (key === "]") properties.thickness += 1;
-  // if (key === "[") properties.thickness -= 1;
-  // if (key === "e") properties.currentTool = "eraser";
-  // if (key === "p") properties.currentTool = "pencil";
-  // if (key === "z" && e.ctrlKey) {
-  //   popHistory();
-  // }
 };
 
 // Event Listeners
