@@ -51,6 +51,8 @@ class Canvas {
   }
 
   handleMouseDown(e: MouseEvent) {
+    if (e.button !== 0) return;
+
     canv.mouseDown = true;
 
     // Set the click positions

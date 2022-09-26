@@ -102,6 +102,8 @@ class ColorWheel {
   }
 
   handleMouseDown(e: MouseEvent) {
+    if (e.button !== 0) return;
+
     // Use the same code that handleMouseMove uses to avoid "copy paste" code
     colorWheel.mouseDown = true;
 
