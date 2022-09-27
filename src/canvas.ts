@@ -118,11 +118,12 @@ class Canvas {
     s1.id = newLayer.id;
     s1.onclick = () => setActiveLayer(newLayer.id);
 
-    let s2 = document.createElement("span");
+    let s2 = document.createElement("input");
+    s2.type = "text";
     s2.onclick = () => this.handleRenameLayer(0);
     s2.className = "layer-name";
     s2.id = newLayer.id + "-name";
-    s2.textContent = newLayer.name;
+    s2.value = newLayer.name;
 
     d.appendChild(s1);
     d.appendChild(s2);
@@ -131,8 +132,13 @@ class Canvas {
   }
 
   handleRenameLayer(i: number) {
-    document.getElementById(this.layers[i].id + "-name")!.textContent = "Test";
-    this.layers[i].name = "Test";
+    let newText = "";
+    // document.addEventListener("keydown", (e: KeyboardEvent) => {
+    //   document.getElementById(this.layers[i].id + "-name")!.textContent +=
+    //     e.key;
+    // });
+
+    this.layers[i].name = newText;
   }
 
   removeActiveLayer() {
