@@ -7,6 +7,7 @@
     <title>UI Designer</title>
     <script src="./interfaces.js" defer></script>
     <script src="./colorwheel.js" defer></script>
+    <script src="./layer.js" defer></script>
     <script src="./canvas.js" defer></script>
     <script src="./helpers.js"></script>
     <script src="./main.js" defer></script>
@@ -36,81 +37,52 @@
       <div class="left-pane">
         <div class="tool-wrapper">
           <img
-            src="./assets/pencil-svgrepo-com.svg"
+            src="../assets/pencil-svgrepo-com.svg"
             onClick="setTool('pencil')"
             id="pencil"
             class="tool active"
           />
 
           <img
-            src="./assets/eraser-svgrepo-com.svg"
+            src="../assets/eraser-svgrepo-com.svg"
             onClick="setTool('eraser')"
             id="eraser"
             class="tool"
           />
 
           <img
-            src="./assets/text-svgrepo-com.svg"
+            src="../assets/text-svgrepo-com.svg"
             onClick="setTool('text')"
             id="text"
             class="tool"
           />
 
           <img
-            src="./assets/line-svgrepo-com.svg"
+            src="../assets/line-svgrepo-com.svg"
             onClick="setTool('line')"
             id="line"
             class="tool"
           />
 
           <img
-            src="./assets/bucket-svgrepo-com.svg"
+            src="../assets/bucket-svgrepo-com.svg"
             onClick="setTool('bucket')"
             id="bucket"
             class="tool"
           />
         </div>
-        <canvas id="canvas"></canvas>
+        <div id="canvas-wrapper"></div>
         <div class="right-pane">
-          <div class="layer">
-            <span
-              class="layer-preview"
-              id="l5"
-              onClick="setActiveLayer(l5)"
-            ></span
-            >Layer5
-          </div>
-          <div class="layer">
-            <span
-              class="layer-preview"
-              id="l4"
-              onClick="setActiveLayer(l4)"
-            ></span
-            >Layer4
-          </div>
-          <div class="layer">
-            <span
-              class="layer-preview"
-              id="l3"
-              onClick="setActiveLayer(l3)"
-            ></span
-            >Layer3
-          </div>
-          <div class="layer">
-            <span
-              class="layer-preview"
-              id="l2"
-              onClick="setActiveLayer(l2)"
-            ></span
-            >Layer2
-          </div>
-          <div class="layer">
-            <span
-              class="layer-preview active"
-              id="l1"
-              onClick="setActiveLayer(l1)"
-            ></span
-            >Layer1
+          <div id="layer-wrapper">
+            <div class="layer"></div>
+            <div class="layer-btn-wrapper">
+              <span onClick="canv.createNewLayer()" class="add-layer-btn"
+                >+</span
+              >
+              <span onClick="canv.removeActiveLayer()" class="rmv-layer-btn"
+                >-</span
+              >
+            </div>
           </div>
 
           <div

@@ -20,7 +20,7 @@ const properties = {
     typing: false,
     fontSize: 10,
     padding: 20,
-    activeLayer: "l1",
+    activeLayer: "l0",
 };
 const setColor = (newColor) => {
     colorElement.style.backgroundColor = newColor;
@@ -42,7 +42,7 @@ const updateThickness = (isUp) => {
     else
         properties.thickness -= 1;
     thicknessElement.textContent = properties.thickness.toString();
-    canv.drawCursor(canv.moveX, canv.moveY);
+    // canv.drawCursor(canv.moveX, canv.moveY);
 };
 const updateFontSize = (isUp, ctrl, shift) => {
     if (!ctrl || !shift)
@@ -52,11 +52,15 @@ const updateFontSize = (isUp, ctrl, shift) => {
     else
         properties.fontSize--;
 };
-const setActiveLayer = (el) => {
-    document.getElementById(properties.activeLayer).className = "layer-preview";
-    properties.activeLayer = el.id;
-    document.getElementById(el.id).className += " active";
+const setActiveLayer = (id) => {
+    if (document.getElementById(properties.activeLayer)) {
+        document.getElementById(properties.activeLayer).className =
+            "layer-preview";
+    }
+    properties.activeLayer = id;
+    document.getElementById(id).className += " active";
 };
+canv.createNewLayer();
 const keybindsDown = {
     "]": () => updateThickness(true),
     "[": () => updateThickness(false),
@@ -87,11 +91,11 @@ const handleKeydown = (e) => {
 const handleScroll = (e) => {
     if (e.ctrlKey) {
         e.preventDefault();
-        canv.handleZoom(e);
+        // canv.handleZoom(e);
     }
     else if (e.shiftKey) {
         e.preventDefault();
-        canv.handleSlide(e);
+        // canv.handleSlide(e);
     }
 };
 // Event Listeners
