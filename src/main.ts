@@ -24,6 +24,7 @@ const colorWheel = new ColorWheel(properties, setColor);
 const canv = new Canvas();
 
 canv.createNewLayer();
+const cursorLayer = canv.createNewLayer(true);
 
 const handleEscape = () => {
   colorWheel.hide();
@@ -63,10 +64,17 @@ const handleMouseup = (e: MouseEvent) => {
 const handleMousemove = (e: MouseEvent) => {
   colorWheel.handleMouseMove(e);
   canv.handleMouseMove(e);
+  cursorLayer.handleMouseMove(e);
 };
 
 const handleResize = (e: any) => {
   canv.handleResize(e);
+};
+
+const save = () => {
+  for (const layer of canv.layers) {
+    console.log(layer.data);
+  }
 };
 
 document.addEventListener("keydown", handleKeydown);

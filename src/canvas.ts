@@ -38,6 +38,8 @@ class Canvas {
     this.brushSize += isIncreasing ? 1 : -1;
     document.getElementById("thickness-value")!.textContent =
       this.brushSize.toString();
+
+    cursorLayer.handleMouseMove();
   }
 
   handleResize(e: any) {
@@ -115,15 +117,18 @@ class Canvas {
     }
   }
 
-  createNewLayer() {
+  createNewLayer(isCursor = false) {
     this.layers.push(
       new Layer(
         this.width,
         this.height,
         `Layer ${this.layers.length}`,
-        this.layers.length
+        this.layers.length,
+        isCursor
       )
     );
-    this.activeLayer++;
+    if (!isCursor) this.activeLayer++;
+
+    return this.layers[this.layers.length - 1];
   }
 }

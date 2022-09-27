@@ -7,14 +7,27 @@ class Layer {
   ctx: CanvasRenderingContext2D;
   changes: changeType[];
   data: any;
-  constructor(width: number, height: number, name: string, order: number) {
+  isCursor: boolean;
+  prevX: number;
+  prevY: number;
+  constructor(
+    width: number,
+    height: number,
+    name: string,
+    order: number,
+    isCursor: boolean
+  ) {
     // Initialize variables
     this.width = width;
     this.height = height;
     this.name = name;
-    this.order = order + 1;
+    this.order = isCursor ? Infinity : order + 1;
     this.canv = document.createElement("canvas");
     this.ctx = this.canv!.getContext("2d")!;
+
+    this.prevX = 0;
+    this.prevY = 0;
+    this.isCursor = isCursor;
 
     this.changes = [];
     this.data = this.initData();
@@ -31,6 +44,34 @@ class Layer {
       }
     }
     return d;
+  }
+
+  handleMouseMove(e?: MouseEvent) {
+    if (!this.isCursor) return;
+    let c = canv;
+
+    this.ctx.fillStyle = defaultValues.background;
+    this.ctx.fillRect(0, 0, this.width, this.height);
+    let x = e ? e.offsetX : this.prevX;
+    let y = e ? e.offsetY : this.prevY;
+
+    this.ctx.strokeStyle = "white";
+    this.ctx.strokeRect(
+      x - c.brushSize / 2,
+      y - c.brushSize / 2,
+      c.brushSize,
+      c.brushSize
+    );
+    this.ctx.strokeStyle = "black";
+    this.ctx.strokeRect(
+      x - c.brushSize / 2 - 1,
+      y - c.brushSize / 2 - 1,
+      c.brushSize + 2,
+      c.brushSize + 2
+    );
+
+    this.prevX = x;
+    this.prevY = y;
   }
 
   // Handle all of the inline styling
@@ -53,6 +94,8 @@ class Layer {
     document.getElementById("canvas-wrapper")!.appendChild(this.canv);
 
     // Make dom elements for layer tab
+    if (this.isCursor) return;
+
     let d = document.createElement("div");
     let s = document.createElement("span");
     let i = document.createElement("input");
