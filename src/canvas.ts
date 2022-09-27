@@ -24,8 +24,6 @@ class Canvas {
     this.mouseDown = false;
     this.x = 0;
     this.y = 0;
-
-    this.onMount();
   }
 
   handleResize(e: any) {
@@ -42,12 +40,17 @@ class Canvas {
   }
 
   handleMouseDown(e: MouseEvent) {
-    this.mouseDown = true;
-    this.x = e.offsetX;
-    this.y = e.offsetY;
+    // Make sure you are clicking on one of the layers
+    for (const layer of this.layers) {
+      if (e.target === layer.canv) {
+        this.mouseDown = true;
+        this.x = e.offsetX;
+        this.y = e.offsetY;
 
-    this.handleDraw();
-    this.update();
+        this.handleDraw();
+        this.update();
+      }
+    }
   }
 
   handleMouseUp(e: MouseEvent) {
@@ -59,13 +62,6 @@ class Canvas {
     this.y = e.offsetY;
     this.handleDraw();
     this.update();
-  }
-
-  onMount() {
-    window.addEventListener("resize", (e) => this.handleResize(e));
-    document.addEventListener("mousedown", (e) => this.handleMouseDown(e));
-    document.addEventListener("mouseup", (e) => this.handleMouseUp(e));
-    document.addEventListener("mousemove", (e) => this.handleMouseMove(e));
   }
 
   update() {
