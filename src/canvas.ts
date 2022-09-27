@@ -33,6 +33,8 @@ class Canvas {
   popHistory() {}
 
   updateThickness(isIncreasing: boolean) {
+    if (this.brushSize === 1 && !isIncreasing) return;
+
     this.brushSize += isIncreasing ? 1 : -1;
     document.getElementById("thickness-value")!.textContent =
       this.brushSize.toString();
