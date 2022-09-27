@@ -8,6 +8,7 @@ class Canvas {
   mouseDown: boolean;
   x: number;
   y: number;
+  history: any;
 
   constructor() {
     this.width =
@@ -24,6 +25,17 @@ class Canvas {
     this.mouseDown = false;
     this.x = 0;
     this.y = 0;
+    this.history = [];
+  }
+
+  pushHistory() {}
+
+  popHistory() {}
+
+  updateThickness(isIncreasing: boolean) {
+    this.brushSize += isIncreasing ? 1 : -1;
+    document.getElementById("thickness-value")!.textContent =
+      this.brushSize.toString();
   }
 
   handleResize(e: any) {

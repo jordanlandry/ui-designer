@@ -35,6 +35,8 @@ const logGlobals = () => {
 
 const keybindsDown: any = {
   escape: () => handleEscape(),
+  "]": () => canv.updateThickness(true),
+  "[": () => canv.updateThickness(false),
 };
 
 const keybindsUp: any = {};
