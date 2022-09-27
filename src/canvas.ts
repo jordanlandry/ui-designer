@@ -18,7 +18,7 @@ class Canvas {
     this.height = window.innerHeight - properties.topPaneSize - 25;
 
     this.layers = [];
-    this.activeLayer = 0;
+    this.activeLayer = -1;
     this.brush = "pencil";
     this.brushSize = 10;
     this.mouseDown = false;
@@ -99,5 +99,6 @@ class Canvas {
         this.layers.length
       )
     );
+    this.activeLayer++;
   }
 }

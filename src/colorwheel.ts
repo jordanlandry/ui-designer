@@ -102,7 +102,12 @@ class ColorWheel {
   }
 
   handleMouseDown(e: MouseEvent) {
-    if (e.button !== 0 || e.target !== this.canvas) return;
+    if (e.button !== 0) return;
+
+    if (e.target !== this.canvas) {
+      if (this.isShowing) this.hide();
+      return;
+    }
 
     // Use the same code that handleMouseMove uses to avoid "copy paste" code
     colorWheel.mouseDown = true;

@@ -14,7 +14,8 @@ class Layer {
     this.order = order + 1;
     this.canv = document.createElement("canvas");
     this.ctx = this.canv!.getContext("2d")!;
-    this.changes = [{ r: 0, g: 0, b: 0, a: 0, x: -1, y: -1 }];
+
+    this.changes = [];
 
     this.makeLayer();
   }
@@ -50,6 +51,9 @@ class Layer {
     i.className = "layer-name";
     i.value = this.name;
 
+    // Set properties of div (Wrapper)
+    d.id = this.order.toString();
+
     // Append to the div wrapper
     d.className = "layer";
     d.appendChild(s);
@@ -60,7 +64,7 @@ class Layer {
   }
 
   handleChanges() {
-    if (this.changes.length === 1) return;
+    if (!this.changes.length) return;
 
     // console.log(this.changes); // Temp
     for (const change of this.changes) {
@@ -71,7 +75,8 @@ class Layer {
       this.ctx!.fillStyle = newCol;
       this.ctx!.fillRect(x, y, 1, 1);
     }
-    this.changes = [{ r: 0, g: 0, b: 0, a: 0, x: -1, y: -1 }];
+
+    this.changes = [];
   }
 
   hide() {
