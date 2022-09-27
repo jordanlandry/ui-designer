@@ -8,13 +8,23 @@ class Canvas {
                 25;
         this.height = window.innerHeight - properties.topPaneSize - 25;
         this.layers = [];
-        this.activeLayer = 0;
+        this.activeLayer = -1;
         this.brush = "pencil";
         this.brushSize = 10;
         this.mouseDown = false;
         this.x = 0;
         this.y = 0;
-        this.onMount();
+        this.history = [];
+    }
+    pushHistory() { }
+    popHistory() { }
+    updateThickness(isIncreasing) {
+        if (this.brushSize === 1 && !isIncreasing)
+            return;
+        this.brushSize += isIncreasing ? 1 : -1;
+        document.getElementById("thickness-value").textContent =
+            this.brushSize.toString();
+        cursorLayer.handleMouseMove();
     }
     handleResize(e) {
         this.width =
@@ -27,11 +37,16 @@ class Canvas {
         // TODO
     }
     handleMouseDown(e) {
-        this.mouseDown = true;
-        this.x = e.offsetX;
-        this.y = e.offsetY;
-        this.handleDraw();
-        this.update();
+        // Make sure you are clicking on one of the layers
+        for (const layer of this.layers) {
+            if (e.target === layer.canv) {
+                this.mouseDown = true;
+                this.x = e.offsetX;
+                this.y = e.offsetY;
+                this.handleDraw();
+                this.update();
+            }
+        }
     }
     handleMouseUp(e) {
         this.mouseDown = false;
@@ -41,12 +56,6 @@ class Canvas {
         this.y = e.offsetY;
         this.handleDraw();
         this.update();
-    }
-    onMount() {
-        window.addEventListener("resize", (e) => this.handleResize(e));
-        document.addEventListener("mousedown", (e) => this.handleMouseDown(e));
-        document.addEventListener("mouseup", (e) => this.handleMouseUp(e));
-        document.addEventListener("mousemove", (e) => this.handleMouseMove(e));
     }
     update() {
         for (const layer of this.layers) {
@@ -60,6 +69,13 @@ class Canvas {
             let offset = this.brushSize / 2;
             for (let i = this.x - offset; i < this.x + offset; i++) {
                 for (let j = this.y - offset; j < this.y + offset; j++) {
+                    if (i < 0 || i >= this.width || j < 0 || j >= this.height)
+                        continue;
+                    let dat = this.layers[this.activeLayer].data[Math.floor(i)][Math.floor(j)];
+                    if (dat.r === colorWheel.r &&
+                        dat.g === colorWheel.g &&
+                        dat.b === colorWheel.b)
+                        continue;
                     this.layers[this.activeLayer].changes.push({
                         r: colorWheel.r,
                         g: colorWheel.g,
@@ -72,7 +88,10 @@ class Canvas {
             }
         }
     }
-    createNewLayer() {
-        this.layers.push(new Layer(this.width, this.height, `Layer ${this.layers.length}`, this.layers.length));
+    createNewLayer(isCursor = false) {
+        this.layers.push(new Layer(this.width, this.height, `Layer ${this.layers.length}`, this.layers.length, isCursor));
+        if (!isCursor)
+            this.activeLayer++;
+        return this.layers[this.layers.length - 1];
     }
 }

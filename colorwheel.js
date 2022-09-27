@@ -71,7 +71,7 @@ class ColorWheel {
         this.canvas.style.right = `${properties.rightPaneSize + 15}px`;
         this.canvas.style.zIndex = "100";
         this.canvas.style.border = "1px solid black";
-        this.ctx.fillStyle = properties.color;
+        this.ctx.fillStyle = defaultValues.color;
         // this.ctx?.fillRect(0, 0, this.canvas.width, this.canvas.height);
         this.draw();
         this.canvas.addEventListener("mousedown", this.handleMouseDown);
@@ -114,6 +114,11 @@ class ColorWheel {
     handleMouseDown(e) {
         if (e.button !== 0)
             return;
+        if (e.target !== this.canvas) {
+            if (this.isShowing)
+                this.hide();
+            return;
+        }
         // Use the same code that handleMouseMove uses to avoid "copy paste" code
         colorWheel.mouseDown = true;
         colorWheel.changingHue = e.offsetX > 255 || e.offsetY > 255;

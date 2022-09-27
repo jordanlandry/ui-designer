@@ -3,105 +3,68 @@
 const thicknessElement = document.getElementById("thickness");
 const colorElement = document.getElementById("color");
 // Global variables
-const width = 500;
-const height = 500;
-const defaultColor = "black";
-const defaultCanvasColor = "white";
-let mouseDown = false;
+const defaultValues = {
+    color: "black",
+    background: "white",
+};
 const properties = {
-    color: defaultColor,
-    canvasColor: defaultCanvasColor,
-    currentTool: "pencil",
-    thickness: 10,
     leftPaneSize: 52,
     topPaneSize: 57,
     rightPaneSize: 121,
     offset: 0,
-    typing: false,
-    fontSize: 10,
-    padding: 20,
-    activeLayer: "l0",
 };
 const setColor = (newColor) => {
     colorElement.style.backgroundColor = newColor;
-    properties.color = newColor;
 };
-setColor(defaultColor);
 const colorWheel = new ColorWheel(properties, setColor);
 const canv = new Canvas();
-const setTool = (newTool) => {
-    document.getElementById(properties.currentTool).className = "tool";
-    document.getElementById(newTool).className += " active";
-    properties.currentTool = newTool;
-};
-const updateThickness = (isUp) => {
-    if (isUp)
-        properties.thickness += 1;
-    else if (properties.thickness === 1)
-        return;
-    else
-        properties.thickness -= 1;
-    thicknessElement.textContent = properties.thickness.toString();
-    // canv.drawCursor(canv.moveX, canv.moveY);
-};
-const updateFontSize = (isUp, ctrl, shift) => {
-    if (!ctrl || !shift)
-        return;
-    if (isUp)
-        properties.fontSize++;
-    else
-        properties.fontSize--;
-};
-const setActiveLayer = (id) => {
-    if (document.getElementById(properties.activeLayer)) {
-        document.getElementById(properties.activeLayer).className =
-            "layer-preview";
-    }
-    properties.activeLayer = id;
-    document.getElementById(id).className += " active";
-};
 canv.createNewLayer();
-const keybindsDown = {
-    "]": () => updateThickness(true),
-    "[": () => updateThickness(false),
-    e: () => setTool("eraser"),
-    p: () => setTool("pencil"),
-    g: () => setTool("bucket"),
-    l: () => setTool("line"),
-    t: () => setTool("text"),
-    escape: () => handleEscape(),
-};
+const cursorLayer = canv.createNewLayer(true);
 const handleEscape = () => {
     colorWheel.hide();
-    properties.typing = false;
 };
-const handleKeydown = (e) => {
-    logGlobals(); // Temp
-    if (properties.typing) {
-        if (e.key === ">")
-            updateFontSize(true, e.ctrlKey, e.shiftKey);
-        else if (e.key === "<")
-            updateFontSize(false, e.ctrlKey, e.shiftKey);
-    }
-    let key = e.key.toLowerCase();
-    if (keybindsDown[key]) {
-        keybindsDown[key]();
-    }
-};
-const handleScroll = (e) => {
-    if (e.ctrlKey) {
-        e.preventDefault();
-        // canv.handleZoom(e);
-    }
-    else if (e.shiftKey) {
-        e.preventDefault();
-        // canv.handleSlide(e);
-    }
-};
-// Event Listeners
-document.addEventListener("wheel", handleScroll, { passive: false });
-// Keyboard
-document.addEventListener("keydown", handleKeydown);
 const logGlobals = () => {
     // console.log(properties);
 };
+const keybindsDown = {
+    escape: () => handleEscape(),
+    "]": () => canv.updateThickness(true),
+    "[": () => canv.updateThickness(false),
+};
+const keybindsUp = {};
+// Event listeners
+const handleKeydown = (e) => {
+    if (keybindsDown[e.key])
+        keybindsDown[e.key]();
+};
+const handleKeyup = (e) => {
+    if (keybindsUp[e.key])
+        keybindsUp[e.key]();
+};
+const handleMousedown = (e) => {
+    colorWheel.handleMouseDown(e);
+    canv.handleMouseDown(e);
+};
+const handleMouseup = (e) => {
+    colorWheel.handleMouseUp(e);
+    canv.handleMouseUp(e);
+};
+const handleMousemove = (e) => {
+    colorWheel.handleMouseMove(e);
+    canv.handleMouseMove(e);
+    cursorLayer.handleMouseMove(e);
+};
+const handleResize = (e) => {
+    canv.handleResize(e);
+};
+const save = () => {
+    for (const layer of canv.layers) {
+        console.log(layer.data);
+    }
+};
+document.addEventListener("keydown", handleKeydown);
+document.addEventListener("keyup", handleKeyup);
+document.addEventListener("mouseup", handleMouseup);
+document.addEventListener("mousedown", handleMousedown);
+document.addEventListener("mousemove", handleMousemove);
+window.addEventListener("resize", (e) => handleResize(e));
