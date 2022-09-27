@@ -6,6 +6,7 @@ class Layer {
   canv: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   changes: changeType[];
+  data: any;
   constructor(width: number, height: number, name: string, order: number) {
     // Initialize variables
     this.width = width;
@@ -16,8 +17,20 @@ class Layer {
     this.ctx = this.canv!.getContext("2d")!;
 
     this.changes = [];
+    this.data = this.initData();
 
     this.makeLayer();
+  }
+
+  initData() {
+    let d: any = [];
+    for (let i = 0; i < this.width; i++) {
+      d.push([]);
+      for (let j = 0; j < this.height; j++) {
+        d[i][j] = { r: 255, g: 255, b: 255 };
+      }
+    }
+    return d;
   }
 
   // Handle all of the inline styling
@@ -69,6 +82,17 @@ class Layer {
     // console.log(this.changes); // Temp
     for (const change of this.changes) {
       let { r, g, b, a, x, y } = change;
+      if (x < 0 || x >= this.width || y < 0 || y >= this.height) continue;
+      if (
+        this.data[Math.floor(x)][Math.floor(y)].r === r &&
+        this.data[Math.floor(x)][Math.floor(y)].g === g &&
+        this.data[Math.floor(x)][Math.floor(y)] === b
+      )
+        continue;
+
+      this.data[Math.floor(x)][Math.floor(y)].r = r;
+      this.data[Math.floor(x)][Math.floor(y)].g = g;
+      this.data[Math.floor(x)][Math.floor(y)].b = b;
 
       let newCol = "rgb(" + r + "," + g + "," + b + ")";
 

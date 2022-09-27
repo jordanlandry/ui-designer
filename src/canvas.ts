@@ -91,6 +91,17 @@ class Canvas {
 
       for (let i = this.x - offset; i < this.x + offset; i++) {
         for (let j = this.y - offset; j < this.y + offset; j++) {
+          if (i < 0 || i >= this.width || j < 0 || j >= this.height) continue;
+
+          let dat =
+            this.layers[this.activeLayer].data[Math.floor(i)][Math.floor(j)];
+          if (
+            dat.r === colorWheel.r &&
+            dat.g === colorWheel.g &&
+            dat.b === colorWheel.b
+          )
+            continue;
+
           this.layers[this.activeLayer].changes.push({
             r: colorWheel.r,
             g: colorWheel.g,
