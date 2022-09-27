@@ -56,11 +56,15 @@ const updateFontSize = (isUp: boolean, ctrl: boolean, shift: boolean) => {
   else properties.fontSize--;
 };
 
-const setActiveLayer = (el: Element) => {
-  document.getElementById(properties.activeLayer)!.className = "layer-preview";
-  properties.activeLayer = el.id;
-  document.getElementById(el.id)!.className += " active";
+const setActiveLayer = (id: string) => {
+  if (document.getElementById(properties.activeLayer)) {
+    document.getElementById(properties.activeLayer)!.className =
+      "layer-preview";
+  }
+  properties.activeLayer = id;
+  document.getElementById(id)!.className += " active";
 };
+canv.createNewLayer();
 
 const keybindsDown: any = {
   "]": () => updateThickness(true),

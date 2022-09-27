@@ -10,6 +10,7 @@
 
 body {
   margin: 0;
+  overflow-x: hidden;
 }
 
 #white {
@@ -94,11 +95,19 @@ body {
   border-radius: 50%;
 }
 
+#layer-wrapper {
+  display: flex;
+  flex-wrap: wrap-reverse;
+  position: absolute;
+  bottom: 150px;
+}
+
 .layer {
   display: flex;
   align-items: center;
-  gap: 5px;
   margin: 5px;
+  width: 115px;
+  gap: 7px;
 }
 
 .layer-preview {
@@ -107,4 +116,25 @@ body {
   width: 50px;
   height: 50px;
   cursor: pointer;
+}
+
+.layer-btn-wrapper {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+
+.layer-btn-wrapper * {
+  cursor: pointer;
+  margin: 10px;
+  width: 25px;
+  height: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid black;
+}
+
+.add-layer-btn {
+  width: 25px;
 }

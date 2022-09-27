@@ -15,7 +15,7 @@ class Canvas {
   mouseDown: boolean;
   fontSize: number;
   textElement: any;
-  layers: any;
+  layers: layer[];
   constructor() {
     this.canvas = document.getElementById("canvas") as HTMLCanvasElement;
     this.ctx = this.canvas.getContext("2d")!;
@@ -88,6 +88,55 @@ class Canvas {
 
   handleMouseUp(e: MouseEvent) {
     canv.mouseDown = false;
+  }
+
+  createNewLayer() {
+    let data: [pixel[]] = [[]];
+    for (let i = 0; i < this.width; i++) {
+      data.push([]);
+      for (let j = 0; j < this.height; j++) {
+        data[i].push({ r: 0, g: 0, b: 0, a: 1 });
+      }
+    }
+
+    let newLayer: layer = {
+      name: "Layer " + this.layers.length,
+      id: "l" + this.layers.length,
+      isVisible: true,
+      pos: this.layers.length,
+      data: data!,
+    };
+
+    this.layers.push(newLayer);
+
+    // Creating the DOM element
+    let d = document.createElement("div");
+    d.className = "layer";
+
+    let s1 = document.createElement("span");
+    s1.className = "layer-preview";
+    s1.id = newLayer.id;
+    s1.onclick = () => setActiveLayer(newLayer.id);
+
+    let s2 = document.createElement("span");
+    s2.onclick = () => this.handleRenameLayer(0);
+    s2.className = "layer-name";
+    s2.id = newLayer.id + "-name";
+    s2.textContent = newLayer.name;
+
+    d.appendChild(s1);
+    d.appendChild(s2);
+    document.getElementById("layer-wrapper")?.appendChild(d);
+    setActiveLayer(newLayer.id);
+  }
+
+  handleRenameLayer(i: number) {
+    document.getElementById(this.layers[i].id + "-name")!.textContent = "Test";
+    this.layers[i].name = "Test";
+  }
+
+  removeActiveLayer() {
+    return;
   }
 
   fillBlank() {

@@ -72,45 +72,16 @@
         </div>
         <canvas id="canvas"></canvas>
         <div class="right-pane">
-          <div class="layer">
-            <span
-              class="layer-preview"
-              id="l5"
-              onClick="setActiveLayer(l5)"
-            ></span
-            >Layer5
-          </div>
-          <div class="layer">
-            <span
-              class="layer-preview"
-              id="l4"
-              onClick="setActiveLayer(l4)"
-            ></span
-            >Layer4
-          </div>
-          <div class="layer">
-            <span
-              class="layer-preview"
-              id="l3"
-              onClick="setActiveLayer(l3)"
-            ></span
-            >Layer3
-          </div>
-          <div class="layer">
-            <span
-              class="layer-preview"
-              id="l2"
-              onClick="setActiveLayer(l2)"
-            ></span
-            >Layer2
-          </div>
-          <div class="layer">
-            <span
-              class="layer-preview active"
-              id="l1"
-              onClick="setActiveLayer(l1)"
-            ></span
-            >Layer1
+          <div id="layer-wrapper">
+            <div class="layer"></div>
+            <div class="layer-btn-wrapper">
+              <span onClick="canv.createNewLayer()" class="add-layer-btn"
+                >+</span
+              >
+              <span onClick="canv.removeActiveLayer()" class="rmv-layer-btn"
+                >-</span
+              >
+            </div>
           </div>
 
           <div
