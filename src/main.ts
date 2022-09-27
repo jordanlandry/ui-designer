@@ -22,7 +22,7 @@ const properties = {
   typing: false,
   fontSize: 10,
   padding: 20,
-  activeLayer: "l1",
+  activeLayer: "l0",
 };
 
 const setColor = (newColor: string) => {
@@ -47,7 +47,7 @@ const updateThickness = (isUp: boolean) => {
 
   thicknessElement!.textContent = properties.thickness.toString();
 
-  canv.drawCursor(canv.moveX, canv.moveY);
+  // canv.drawCursor(canv.moveX, canv.moveY);
 };
 
 const updateFontSize = (isUp: boolean, ctrl: boolean, shift: boolean) => {
@@ -100,10 +100,10 @@ const handleScroll = (e: WheelEvent) => {
   if (e.ctrlKey) {
     e.preventDefault();
 
-    canv.handleZoom(e);
+    // canv.handleZoom(e);
   } else if (e.shiftKey) {
     e.preventDefault();
-    canv.handleSlide(e);
+    // canv.handleSlide(e);
   }
 };
 // Event Listeners

@@ -17,3 +17,8 @@ interface layer {
   isVisible: boolean;
   data: [pixel[]];
 }
+
+interface changeType extends pixel {
+  x: number;
+  y: number;
+}

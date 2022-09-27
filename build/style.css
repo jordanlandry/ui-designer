@@ -1,3 +1,20 @@
+:root {
+  --right-pane-size: 125px;
+  --left-pane-size: 50px;
+  --top-pane-size: 50px;
+
+  --bg: rgb(225, 230, 235);
+}
+
+* {
+  user-select: none;
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
 .color {
   box-shadow: 0 0 3px black;
   width: 25px;
@@ -8,47 +25,12 @@
   top: calc(100vh - 86px);
 }
 
-body {
-  margin: 0;
-  overflow-x: hidden;
-}
-
-#white {
-  background-color: white;
-}
-#green {
-  background-color: green;
-}
-#blue {
-  background-color: blue;
-}
-#red {
-  background-color: red;
-}
-#yellow {
-  background-color: yellow;
-}
-#orange {
-  background-color: orange;
-}
-
-.flex {
-  display: flex;
-}
-
-.tool-wrapper {
-  padding: 5px;
-  background-color: rgb(30, 35, 40);
-  background-color: rgb(225, 230, 235);
-  color: white;
-}
-
 .top-pane {
   display: flex;
   align-items: center;
   padding: 5px;
-  background-color: rgb(225, 230, 235);
-  height: 47px;
+  background-color: var(--bg);
+  height: var(--top-pane-size);
 }
 
 .left-pane {
@@ -61,6 +43,21 @@ body {
   padding: 2px;
 }
 
+#canvas-wrapper {
+  box-shadow: 0 0 2px black;
+  margin: 10px;
+  width: calc(100vw - var(--left-pane-size) - var(--right-pane-size));
+  height: calc(100vh - var(--top-pane-size) - 35px);
+}
+
+/* Tools */
+.tool-wrapper {
+  padding: 5px;
+  background-color: rgb(30, 35, 40);
+  background-color: rgb(225, 230, 235);
+  color: white;
+}
+
 .tool {
   border: 1px solid black;
   padding: 3px;
@@ -70,19 +67,7 @@ body {
   cursor: pointer;
 }
 
-.active {
-  box-shadow: 0 0 5px rgb(0, 20, 20);
-}
-
-#canvas {
-  box-shadow: 0 0 2px black;
-  margin: 10px;
-}
-
-* {
-  user-select: none;
-}
-
+/* Brushes */
 .brush {
   display: inline-block;
   width: 12px;
@@ -95,6 +80,7 @@ body {
   border-radius: 50%;
 }
 
+/* Layers */
 #layer-wrapper {
   display: flex;
   flex-wrap: wrap-reverse;
@@ -157,4 +143,9 @@ body {
 
 .add-layer-btn {
   width: 25px;
+}
+
+/* Misc */
+.active {
+  box-shadow: 0 0 5px rgb(0, 20, 20);
 }
