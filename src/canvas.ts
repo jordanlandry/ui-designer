@@ -39,6 +39,11 @@ class Canvas {
 
   useTool() {
     if (this.tool === "text") {
+      if (this.activeElement) {
+        this.activeElement.style.display = "none";
+        this.activeElement = null;
+      }
+
       let t = document.createElement("textarea");
       t.style.position = "absolute";
       t.style.left = `${this.clickPos?.x! + 75}px`;
@@ -81,7 +86,6 @@ class Canvas {
     if (this.clickPos === null) return;
 
     this.useTool();
-    // this.clickPos = null;
   }
 
   handleMouseMove(e: MouseEvent) {
