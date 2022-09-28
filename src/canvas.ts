@@ -1,177 +1,90 @@
 class Canvas {
+  tool: string;
+  clickPos: { x: number; y: number } | null;
+  unclickPos: { x: number; y: number } | null;
+  canvas: HTMLCanvasElement;
+  ctx: CanvasRenderingContext2D;
   width: number;
   height: number;
-  layers: Layer[];
-  activeLayer: number;
-  brush: string;
-  brushSize: number;
-  mouseDown: boolean;
-  x: number;
-  y: number;
-  prevX: number | null;
-  prevY: number | null;
-  history: any;
+
+  activeElement: any;
 
   constructor() {
-    this.width =
-      window.innerWidth -
-      properties.rightPaneSize -
-      properties.leftPaneSize -
-      25;
-    this.height = window.innerHeight - properties.topPaneSize - 25;
+    // Default values
+    this.tool = "text";
+    this.clickPos = null;
+    this.unclickPos = null;
+    this.width = 500;
+    this.height = 500;
 
-    this.layers = [];
-    this.activeLayer = -1;
-    this.brush = "pencil";
-    this.brushSize = 20;
-    this.mouseDown = false;
-    this.x = 0;
-    this.y = 0;
-    this.prevX = null;
-    this.prevY = null;
-    this.history = [];
+    this.activeElement = null;
+
+    // Canvas properties
+    this.canvas = document.createElement("canvas");
+    this.ctx = this.canvas.getContext("2d")!;
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
+    this.canvas.style.position = "absolute";
+    this.canvas.style.top = "75px";
+    this.canvas.style.left = "75px";
+    this.canvas.style.border = "1px solid black";
+    document.getElementById("body")?.appendChild(this.canvas);
   }
 
-  pushHistory() {}
-
-  popHistory() {}
-
-  updateThickness(isIncreasing: boolean) {
-    if (this.brushSize === 1 && !isIncreasing) return;
-
-    this.brushSize += isIncreasing ? 1 : -1;
-    document.getElementById("thickness-value")!.textContent =
-      this.brushSize.toString();
-
-    cursorLayer.handleMouseMove();
+  setTool(e: HTMLElement) {
+    document.getElementById(this.tool)!.className = "tool";
+    document.getElementById(e.id)!.className += " active";
+    this.tool = e.id;
   }
 
-  handleResize(e: any) {
-    this.width =
-      window.innerWidth -
-      properties.rightPaneSize -
-      properties.leftPaneSize -
-      25;
+  useTool() {
+    if (this.tool === "text") {
+      let t = document.createElement("textarea");
+      t.style.position = "absolute";
+      t.style.left = `${this.clickPos?.x! + 75}px`;
+      t.style.top = `${this.clickPos?.y! + 75}px`;
 
-    this.height = window.innerHeight - properties.topPaneSize - 25;
+      t.style.width = this.unclickPos!.x - this.clickPos!.x + "px";
+      t.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
+      t.style.backgroundColor = "transparent";
 
-    // Resize all of the layers
-    // TODO
+      document.getElementById("body")?.appendChild(t);
+      this.activeElement = t;
+    }
+  }
+
+  finishElement() {
+    let p = document.createElement("p");
+    p.textContent = this.activeElement.value;
+    p.style.position = "absolute";
+    p.style.left = `${this.clickPos?.x! + 75}px`;
+    p.style.top = `${this.clickPos?.y! + 75}px`;
+    p.style.width = this.unclickPos!.x - this.clickPos!.x + "px";
+    p.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
+    p.style.margin = "0";
+
+    document.getElementById("body")?.appendChild(p);
+
+    this.activeElement.style.display = "none";
+    this.activeElement = null;
   }
 
   handleMouseDown(e: MouseEvent) {
-    // Make sure you are clicking on one of the layers
-    for (const layer of this.layers) {
-      if (e.target === layer.canv) {
-        this.mouseDown = true;
-        this.x = e.offsetX;
-        this.y = e.offsetY;
-
-        this.handleDraw();
-        this.update();
-      }
-    }
+    if (e.target !== this.canvas) return;
+    this.clickPos = { x: e.offsetX, y: e.offsetY };
   }
 
   handleMouseUp(e: MouseEvent) {
-    this.mouseDown = false;
+    if (e.target !== this.canvas) return;
+
+    this.unclickPos = { x: e.offsetX, y: e.offsetY };
+    if (this.clickPos === null) return;
+
+    this.useTool();
+    // this.clickPos = null;
   }
 
   handleMouseMove(e: MouseEvent) {
-    this.x = e.offsetX;
-    this.y = e.offsetY;
-    this.handleDraw();
-    this.fillInGaps();
-    this.update();
-
-    this.prevX = e.offsetX;
-    this.prevY = e.offsetY;
-  }
-
-  update() {
-    for (const layer of this.layers) {
-      layer.handleChanges();
-    }
-  }
-
-  fillInGaps() {
-    // This is to help fill in when the mouse is moved too quickly
-    if (this.prevX === this.x && this.prevY === this.y) return;
-    if (!this.mouseDown) return;
-
-    let xDifference = this.x - this.prevX!;
-    let yDifference = this.y - this.prevY!;
-    let distance = Math.sqrt(
-      xDifference * xDifference + yDifference * yDifference
-    );
-
-    for (let i = 0; i < distance; i++) {
-      let x = (i / distance) * xDifference;
-      let y = (i / distance) * yDifference;
-
-      this.handleDraw(Math.floor(this.x + x), Math.floor(this.y + y));
-    }
-
-    return;
-    for (let i = 0; i < this.prevX! - this.x; i++) {
-      this.handleDraw(this.prevX! + i, this.y);
-    }
-    for (let i = 0; i < this.prevY! - this.y; i++) {
-      this.handleDraw(this.x, this.y + i);
-    }
-    for (let i = 0; i < this.prevX! - this.x; i++) {
-      this.handleDraw(this.prevX! + i, this.y);
-    }
-    for (let i = 0; i < this.prevX! - this.x; i++) {
-      this.handleDraw(this.prevX! + i, this.y);
-    }
-  }
-
-  handleDraw(xPos?: number, yPos?: number) {
-    if (!this.mouseDown) return;
-    if (this.brush === "pencil") {
-      let x = xPos ?? this.x;
-      let y = yPos ?? this.y;
-      let offset = this.brushSize / 2;
-
-      for (let i = x - offset; i < x + offset; i++) {
-        for (let j = y - offset; j < y + offset; j++) {
-          if (i < 0 || i >= this.width || j < 0 || j >= this.height) continue;
-
-          let dat =
-            this.layers[this.activeLayer].data[Math.floor(i)][Math.floor(j)];
-          if (
-            dat.r === colorWheel.r &&
-            dat.g === colorWheel.g &&
-            dat.b === colorWheel.b
-          )
-            continue;
-
-          this.layers[this.activeLayer].changes.push({
-            r: colorWheel.r,
-            g: colorWheel.g,
-            b: colorWheel.b,
-            a: 1,
-            x: i,
-            y: j,
-          });
-        }
-      }
-    }
-  }
-
-  createNewLayer(isCursor = false) {
-    this.layers.push(
-      new Layer(
-        this.width,
-        this.height,
-        `Layer ${this.layers.length}`,
-        this.layers.length,
-        isCursor
-      )
-    );
-    if (!isCursor) this.activeLayer++;
-
-    return this.layers[this.layers.length - 1];
+    if (e.target !== this.canvas) return;
   }
 }

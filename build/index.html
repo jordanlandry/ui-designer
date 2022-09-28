@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body id="body">
-    <div class="top-pane">
+    <!-- <div class="top-pane">
       <button onClick="save()">Save</button>
       <button onClick="canv.updateThickness(false)">-</button>
       <span id="thickness-value">10</span>
@@ -31,10 +31,22 @@
           id="circle"
           onClick="canv.setBrush('circle')"
         ></span>
-      </span>
+      </span> -->
+    </div>
+    <div>
+      <div id="top-pane">Properties <button onClick="canv.finishElement()">Finish</button></div>
+      <div id="left-pane">
+        <div class="tool" id="text" onClick="canv.setTool(this)">Text</div>
+        <div class="tool" id="input" onClick="canv.setTool(this)">Input</div>
+        <div class="tool" id="section" onClick="canv.setTool(this)">Section</div>
+        <div class="tool" id="line" onClick="canv.setTool(this)">Line</div>
+      </div>
+      <div id="right-pane">
+        Elements
+      </div>
     </div>
 
-    <div class="flex">
+    <!-- <div class="flex">
       <div class="left-pane">
         <div class="tool-wrapper">
           <img
@@ -93,7 +105,7 @@
           ></div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="flex"></div>
   </body>

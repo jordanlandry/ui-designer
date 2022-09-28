@@ -48,7 +48,7 @@ class Layer {
 
   handleMouseMove(e?: MouseEvent) {
     if (!this.isCursor) return;
-    let c = canv;
+    let c = canv2;
 
     this.ctx.fillStyle = defaultValues.background;
     this.ctx.fillRect(0, 0, this.width, this.height);

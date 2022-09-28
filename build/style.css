@@ -15,137 +15,42 @@ body {
   overflow-x: hidden;
 }
 
-.color {
-  box-shadow: 0 0 3px black;
-  width: 25px;
-  height: 25px;
-  cursor: pointer;
-
-  position: absolute;
-  top: calc(100vh - 86px);
-}
-
-.top-pane {
-  display: flex;
-  align-items: center;
-  padding: 5px;
+#top-pane {
+  height: 75px;
   background-color: var(--bg);
-  height: var(--top-pane-size);
 }
 
-.left-pane {
-  display: flex;
+#left-pane {
+  position: absolute;
+  top: 75px;
+  left: 0;
+  width: 75px;
+  height: calc(100vh - 75px);
+  background-color: var(--bg);
 }
 
-.right-pane {
-  background-color: rgb(225, 230, 235);
-  width: 125px;
-  padding: 2px;
-}
-
-#canvas-wrapper {
-  box-shadow: 0 0 2px black;
-  margin: 10px;
-  width: calc(100vw - var(--left-pane-size) - var(--right-pane-size));
-  height: calc(100vh - var(--top-pane-size) - 35px);
-}
-
-/* Tools */
-.tool-wrapper {
-  padding: 5px;
-  background-color: rgb(30, 35, 40);
-  background-color: rgb(225, 230, 235);
-  color: white;
+#right-pane {
+  position: absolute;
+  right: 0;
+  top: 75px;
+  width: 150px;
+  height: calc(100vh - 75px);
+  background-color: var(--bg);
+  float: right;
 }
 
 .tool {
-  border: 1px solid black;
+  display: flex;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+  width: 45px;
+  height: 45px;
+  cursor: pointer;
+  outline: 1px solid black;
   padding: 3px;
-  margin: 5px;
-  display: block;
-  width: 24px;
-  cursor: pointer;
 }
 
-/* Brushes */
-.brush {
-  display: inline-block;
-  width: 12px;
-  height: 12px;
-  border: 1px solid black;
-  cursor: pointer;
-}
-
-#circle {
-  border-radius: 50%;
-}
-
-/* Layers */
-#layer-wrapper {
-  display: flex;
-  flex-wrap: wrap-reverse;
-  position: absolute;
-  bottom: 150px;
-}
-
-.layer {
-  display: flex;
-  align-items: center;
-  margin: 5px;
-  width: 115px;
-  gap: 7px;
-}
-
-.layer-preview {
-  display: inline-block;
-  border: 1px solid black;
-  width: 40px;
-  height: 40px;
-  cursor: pointer;
-}
-
-.layer-btn-wrapper {
-  text-align: center;
-  display: flex;
-  justify-content: center;
-}
-
-.layer-btn-wrapper * {
-  cursor: pointer;
-  margin: 10px;
-  width: 25px;
-  height: 25px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid black;
-}
-
-.layer-name {
-  transition: 100ms;
-  cursor: text;
-  padding: 2px;
-  width: fit-content;
-  max-width: 55px;
-  background-color: transparent;
-  border: none;
-}
-
-.layer-name:hover {
-  outline: 1px solid black;
-  background-color: rgba(50, 100, 255, 0.05);
-  border-radius: 0%;
-}
-
-.layer-name:focus {
-  outline: 1px solid black;
-}
-
-.add-layer-btn {
-  width: 25px;
-}
-
-/* Misc */
 .active {
-  box-shadow: 0 0 5px rgb(0, 20, 20);
+  box-shadow: 0 0 5px black;
 }
