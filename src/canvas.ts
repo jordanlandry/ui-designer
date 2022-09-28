@@ -8,6 +8,8 @@ class Canvas {
   mouseDown: boolean;
   x: number;
   y: number;
+  prevX: number | null;
+  prevY: number | null;
   history: any;
 
   constructor() {
@@ -21,10 +23,12 @@ class Canvas {
     this.layers = [];
     this.activeLayer = -1;
     this.brush = "pencil";
-    this.brushSize = 10;
+    this.brushSize = 20;
     this.mouseDown = false;
     this.x = 0;
     this.y = 0;
+    this.prevX = null;
+    this.prevY = null;
     this.history = [];
   }
 
@@ -77,7 +81,11 @@ class Canvas {
     this.x = e.offsetX;
     this.y = e.offsetY;
     this.handleDraw();
+    this.fillInGaps();
     this.update();
+
+    this.prevX = e.offsetX;
+    this.prevY = e.offsetY;
   }
 
   update() {
@@ -86,13 +94,48 @@ class Canvas {
     }
   }
 
-  handleDraw() {
+  fillInGaps() {
+    // This is to help fill in when the mouse is moved too quickly
+    if (this.prevX === this.x && this.prevY === this.y) return;
+    if (!this.mouseDown) return;
+
+    let xDifference = this.x - this.prevX!;
+    let yDifference = this.y - this.prevY!;
+    let distance = Math.sqrt(
+      xDifference * xDifference + yDifference * yDifference
+    );
+
+    for (let i = 0; i < distance; i++) {
+      let x = (i / distance) * xDifference;
+      let y = (i / distance) * yDifference;
+
+      this.handleDraw(Math.floor(this.x + x), Math.floor(this.y + y));
+    }
+
+    return;
+    for (let i = 0; i < this.prevX! - this.x; i++) {
+      this.handleDraw(this.prevX! + i, this.y);
+    }
+    for (let i = 0; i < this.prevY! - this.y; i++) {
+      this.handleDraw(this.x, this.y + i);
+    }
+    for (let i = 0; i < this.prevX! - this.x; i++) {
+      this.handleDraw(this.prevX! + i, this.y);
+    }
+    for (let i = 0; i < this.prevX! - this.x; i++) {
+      this.handleDraw(this.prevX! + i, this.y);
+    }
+  }
+
+  handleDraw(xPos?: number, yPos?: number) {
     if (!this.mouseDown) return;
     if (this.brush === "pencil") {
+      let x = xPos ?? this.x;
+      let y = yPos ?? this.y;
       let offset = this.brushSize / 2;
 
-      for (let i = this.x - offset; i < this.x + offset; i++) {
-        for (let j = this.y - offset; j < this.y + offset; j++) {
+      for (let i = x - offset; i < x + offset; i++) {
+        for (let j = y - offset; j < y + offset; j++) {
           if (i < 0 || i >= this.width || j < 0 || j >= this.height) continue;
 
           let dat =
