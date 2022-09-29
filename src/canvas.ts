@@ -2,21 +2,27 @@ class Canvas {
   tool: string;
   clickPos: { x: number; y: number } | null;
   unclickPos: { x: number; y: number } | null;
+  mousePos: { x: number; y: number } | null;
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   width: number;
   height: number;
   activeElement: any;
   elements: any;
+  mouseDown: boolean;
+  clickedElement: any;
 
   constructor() {
     // Default values
-    this.tool = "text";
+    this.tool = "cursor";
     this.clickPos = null;
     this.unclickPos = null;
+    this.mousePos = null;
     this.width = window.innerWidth - 75 - 150;
     this.height = window.innerHeight - 75 - 2;
     this.elements = [];
+    this.mouseDown = false;
+    this.clickedElement = null;
 
     this.activeElement = null;
 
@@ -60,8 +66,14 @@ class Canvas {
       this.activeElement = t;
     }
 
-    if (this.tool === "cursor") {
-    }
+    if (this.tool === "cursor") this.handleCursorTool();
+  }
+
+  handleCursorTool() {
+    if (!this.mouseDown || this.clickedElement === this.canvas) return;
+    this.clickedElement.style.border = "1px solid black";
+    this.clickedElement.style.left = this.mousePos!.x + "px";
+    this.clickedElement.style.top = this.mousePos!.y + "px";
   }
 
   finishElement() {
@@ -88,15 +100,7 @@ class Canvas {
         p.style.margin = "0";
       } else p.textContent += this.activeElement.value[i];
     }
-
-    // // let p = document.createElement("p");
-    // p.textContent = this.activeElement.value;
-    // p.style.position = "absolute";
-    // p.style.left = `${this.clickPos?.x! + 75}px`;
-    // p.style.top = `${this.clickPos?.y! + 75}px`;
-    // p.style.width = this.unclickPos!.x - this.clickPos!.x + "px";
-    // p.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
-    // p.style.margin = "0";
+    d.style.height = "fit-content";
 
     document.getElementById("body")?.appendChild(d);
     this.elements.push(d);
@@ -106,15 +110,23 @@ class Canvas {
   }
 
   handleMouseDown(e: MouseEvent) {
+    this.clickedElement = e.target;
+    this.clickedElement = this.clickedElement.parentNode;
+    this.mouseDown = true;
+    if (this.tool === "cursor") this.useTool();
+
     if (e.target !== this.canvas) return;
     this.clickPos = { x: e.offsetX, y: e.offsetY };
-
-    if (this.tool === "cursor") this.useTool();
   }
 
   handleMouseUp(e: MouseEvent) {
-    if (e.target !== this.canvas) return;
+    this.mouseDown = false;
+    if (this.clickedElement) {
+      this.clickedElement.style.border = "";
+      this.clickedElement = null;
+    }
 
+    if (e.target !== this.canvas) return;
     this.unclickPos = { x: e.offsetX, y: e.offsetY };
     if (this.clickPos === null) return;
 
@@ -122,6 +134,9 @@ class Canvas {
   }
 
   handleMouseMove(e: MouseEvent) {
+    this.mousePos = { x: e.x, y: e.y };
+    if (this.tool === "cursor" && this.mouseDown) this.handleCursorTool();
+
     if (e.target !== this.canvas) return;
   }
 }
