@@ -6,16 +6,17 @@ class Canvas {
   ctx: CanvasRenderingContext2D;
   width: number;
   height: number;
-
   activeElement: any;
+  elements: any;
 
   constructor() {
     // Default values
     this.tool = "text";
     this.clickPos = null;
     this.unclickPos = null;
-    this.width = 500;
-    this.height = 500;
+    this.width = window.innerWidth - 75 - 150;
+    this.height = window.innerHeight - 75 - 2;
+    this.elements = [];
 
     this.activeElement = null;
 
@@ -48,6 +49,8 @@ class Canvas {
       t.style.position = "absolute";
       t.style.left = `${this.clickPos?.x! + 75}px`;
       t.style.top = `${this.clickPos?.y! + 75}px`;
+      t.style.margin = "0";
+      t.style.padding = "0";
 
       t.style.width = this.unclickPos!.x - this.clickPos!.x + "px";
       t.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
@@ -56,19 +59,47 @@ class Canvas {
       document.getElementById("body")?.appendChild(t);
       this.activeElement = t;
     }
+
+    if (this.tool === "cursor") {
+    }
   }
 
   finishElement() {
+    // Create a wrapper for the text element
+    let d = document.createElement("div");
+    d.style.position = "absolute";
+    d.style.left = `${this.clickPos?.x! + 75}px`;
+    d.style.top = `${this.clickPos?.y! + 75}px`;
+    d.style.width = this.activeElement.style.width;
+    d.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
+    d.style.margin = "0";
+
+    let l = this.activeElement.value.length;
     let p = document.createElement("p");
-    p.textContent = this.activeElement.value;
-    p.style.position = "absolute";
-    p.style.left = `${this.clickPos?.x! + 75}px`;
-    p.style.top = `${this.clickPos?.y! + 75}px`;
-    p.style.width = this.unclickPos!.x - this.clickPos!.x + "px";
-    p.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
     p.style.margin = "0";
 
-    document.getElementById("body")?.appendChild(p);
+    // Check for new lines
+    for (let i = 0; i < l; i++) {
+      if (this.activeElement.value[i] === "\n" || i === l - 1) {
+        if (i === l - 1) p.textContent += this.activeElement.value[i];
+        else d.append(document.createElement("br"));
+        d.appendChild(p);
+        p = document.createElement("p");
+        p.style.margin = "0";
+      } else p.textContent += this.activeElement.value[i];
+    }
+
+    // // let p = document.createElement("p");
+    // p.textContent = this.activeElement.value;
+    // p.style.position = "absolute";
+    // p.style.left = `${this.clickPos?.x! + 75}px`;
+    // p.style.top = `${this.clickPos?.y! + 75}px`;
+    // p.style.width = this.unclickPos!.x - this.clickPos!.x + "px";
+    // p.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
+    // p.style.margin = "0";
+
+    document.getElementById("body")?.appendChild(d);
+    this.elements.push(d);
 
     this.activeElement.style.display = "none";
     this.activeElement = null;
@@ -77,6 +108,8 @@ class Canvas {
   handleMouseDown(e: MouseEvent) {
     if (e.target !== this.canvas) return;
     this.clickPos = { x: e.offsetX, y: e.offsetY };
+
+    if (this.tool === "cursor") this.useTool();
   }
 
   handleMouseUp(e: MouseEvent) {
