@@ -71,6 +71,8 @@ class Canvas {
 
   handleCursorTool() {
     if (!this.mouseDown || this.clickedElement === this.canvas) return;
+    if (this.clickedElement === document.getElementById("left-pane")) return;
+
     this.clickedElement.style.border = "1px solid black";
     this.clickedElement.style.left = this.mousePos!.x + "px";
     this.clickedElement.style.top = this.mousePos!.y + "px";
