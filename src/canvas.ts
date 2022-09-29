@@ -3,6 +3,7 @@ class Canvas {
   clickPos: { x: number; y: number } | null;
   unclickPos: { x: number; y: number } | null;
   mousePos: { x: number; y: number } | null;
+  prevMouse: { x: number; y: number } | null;
   canvas: HTMLCanvasElement;
   ctx: CanvasRenderingContext2D;
   width: number;
@@ -18,6 +19,7 @@ class Canvas {
     this.clickPos = null;
     this.unclickPos = null;
     this.mousePos = null;
+    this.prevMouse = null;
     this.width = window.innerWidth - 75 - 150;
     this.height = window.innerHeight - 75 - 2;
     this.elements = [];
@@ -73,9 +75,17 @@ class Canvas {
     if (!this.mouseDown || this.clickedElement === this.canvas) return;
     if (this.clickedElement === document.getElementById("left-pane")) return;
 
+    let left = parseInt(this.clickedElement.style.left.replaceAll("px", ""));
+    let top = parseInt(this.clickedElement.style.top.replaceAll("px", ""));
+
+    if (this.prevMouse) {
+      left += this.mousePos!.x - this.prevMouse!.x;
+      top += this.mousePos!.y - this.prevMouse!.y;
+    }
+
     this.clickedElement.style.border = "1px solid black";
-    this.clickedElement.style.left = this.mousePos!.x + "px";
-    this.clickedElement.style.top = this.mousePos!.y + "px";
+    this.clickedElement.style.left = left + "px";
+    this.clickedElement.style.top = top + "px";
   }
 
   finishElement() {
@@ -138,7 +148,7 @@ class Canvas {
   handleMouseMove(e: MouseEvent) {
     this.mousePos = { x: e.x, y: e.y };
     if (this.tool === "cursor" && this.mouseDown) this.handleCursorTool();
-
+    this.prevMouse = { x: e.x, y: e.y };
     if (e.target !== this.canvas) return;
   }
 }

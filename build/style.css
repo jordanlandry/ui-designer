@@ -16,6 +16,10 @@ body {
 }
 
 #top-pane {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+
   height: 75px;
   background-color: var(--bg);
 }
