@@ -66,6 +66,8 @@ class Canvas {
 
   useTool() {
     if (this.tool === "text") {
+      properties.isTyping = true;
+
       if (this.activeElement) {
         this.activeElement.style.display = "none";
         this.activeElement = null;
@@ -145,6 +147,8 @@ class Canvas {
 
     this.activeElement.style.display = "none";
     this.activeElement = null;
+
+    properties.isTyping = false;
   }
 
   updateFontSize(e: HTMLInputElement) {

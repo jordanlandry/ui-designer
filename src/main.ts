@@ -14,6 +14,10 @@ const unclickableElements = [
   canv.canvas,
 ];
 
+const properties = {
+  isTyping: false,
+};
+
 const handleMouseDown = (e: MouseEvent) => {
   canv.handleMouseDown(e);
 };
@@ -25,6 +29,7 @@ const handleMouseMove = (e: MouseEvent) => {
 };
 
 const handleKeydown = (e: KeyboardEvent) => {
+  if (properties.isTyping) return;
   if (keybindsDown[e.key]) keybindsDown[e.key]();
 };
 
