@@ -1,3 +1,18 @@
+const defaultCanv = {
+  tool: "cursor",
+  clickPos: null,
+  unclickPos: null,
+  mousePos: null,
+  prevMouse: null,
+  width: window.innerWidth - 75 - 150,
+  height: window.innerHeight - 75 - 2,
+  elements: [],
+  mouseDown: false,
+  clickedElement: null,
+  fontSize: 12,
+  activeElement: null,
+};
+
 class Canvas {
   tool: string;
   clickPos: { x: number; y: number } | null;
@@ -13,18 +28,21 @@ class Canvas {
   mouseDown: boolean;
   clickedElement: any;
 
+  fontSize: number;
+
   constructor() {
     // Default values
-    this.tool = "cursor";
-    this.clickPos = null;
-    this.unclickPos = null;
-    this.mousePos = null;
-    this.prevMouse = null;
-    this.width = window.innerWidth - 75 - 150;
-    this.height = window.innerHeight - 75 - 2;
-    this.elements = [];
-    this.mouseDown = false;
-    this.clickedElement = null;
+    this.tool = defaultCanv.tool;
+    this.clickPos = defaultCanv.clickPos;
+    this.unclickPos = defaultCanv.unclickPos;
+    this.mousePos = defaultCanv.mousePos;
+    this.prevMouse = defaultCanv.prevMouse;
+    this.width = defaultCanv.width;
+    this.height = defaultCanv.height;
+    this.elements = defaultCanv.elements;
+    this.mouseDown = defaultCanv.mouseDown;
+    this.clickedElement = defaultCanv.clickedElement;
+    this.fontSize = defaultCanv.fontSize;
 
     this.activeElement = null;
 
@@ -57,6 +75,7 @@ class Canvas {
       t.style.position = "absolute";
       t.style.left = `${this.clickPos?.x! + 75}px`;
       t.style.top = `${this.clickPos?.y! + 75}px`;
+      t.style.fontSize = this.fontSize + "px";
       t.style.margin = "0";
       t.style.padding = "0";
 
@@ -72,8 +91,10 @@ class Canvas {
   }
 
   handleCursorTool() {
-    if (!this.mouseDown || this.clickedElement === this.canvas) return;
-    if (this.clickedElement === document.getElementById("left-pane")) return;
+    if (!this.mouseDown) return;
+    for (const el of unclickableElements) {
+      if (this.clickedElement === el) return;
+    }
 
     let left = parseInt(this.clickedElement.style.left.replaceAll("px", ""));
     let top = parseInt(this.clickedElement.style.top.replaceAll("px", ""));
@@ -101,6 +122,8 @@ class Canvas {
     let l = this.activeElement.value.length;
     let p = document.createElement("p");
     p.style.margin = "0";
+    p.style.fontSize = this.fontSize + "px";
+    p.style.display = "inline-block";
 
     // Check for new lines
     for (let i = 0; i < l; i++) {
@@ -110,8 +133,11 @@ class Canvas {
         d.appendChild(p);
         p = document.createElement("p");
         p.style.margin = "0";
+        p.style.display = "inline-block";
+        p.style.fontSize = this.fontSize + "px";
       } else p.textContent += this.activeElement.value[i];
     }
+
     d.style.height = "fit-content";
 
     document.getElementById("body")?.appendChild(d);
@@ -119,6 +145,11 @@ class Canvas {
 
     this.activeElement.style.display = "none";
     this.activeElement = null;
+  }
+
+  updateFontSize(e: HTMLInputElement) {
+    this.fontSize = parseInt(e.value);
+    this.activeElement.style.fontSize = this.fontSize + "px";
   }
 
   handleMouseDown(e: MouseEvent) {

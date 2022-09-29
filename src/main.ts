@@ -5,6 +5,15 @@ const keybindsDown: any = {
   v: () => canv.setTool(document.getElementById("cursor")!),
 };
 
+const unclickableElements = [
+  document.getElementById("top-pane"),
+  document.getElementById("left-pane"),
+  document.getElementById("right-pane"),
+  document.getElementById("pane-wrapper"),
+  document.getElementById("body"),
+  canv.canvas,
+];
+
 const handleMouseDown = (e: MouseEvent) => {
   canv.handleMouseDown(e);
 };
