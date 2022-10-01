@@ -4,8 +4,8 @@ const defaultCanv = {
   unclickPos: null,
   mousePos: null,
   prevMouse: null,
-  width: window.innerWidth - 75 - 150,
-  height: window.innerHeight - 75 - 2,
+  width: 0,
+  height: 0,
   elements: [],
   mouseDown: false,
   clickedElement: null,
@@ -48,6 +48,7 @@ class Canvas {
 
     // Canvas properties
     this.canvas = document.createElement("canvas");
+    this.setWidthAndHeight();
     this.ctx = this.canvas.getContext("2d")!;
     this.canvas.width = this.width;
     this.canvas.height = this.height;
@@ -62,6 +63,17 @@ class Canvas {
     document.getElementById(this.tool)!.className = "tool";
     document.getElementById(e.id)!.className += " active";
     this.tool = e.id;
+  }
+
+  setWidthAndHeight() {
+    this.width =
+      window.innerWidth - properties.leftPaneSize - properties.rightPaneSize;
+
+    this.height =
+      window.innerHeight - properties.topPaneSize - properties.offset;
+
+    this.canvas.width = this.width;
+    this.canvas.height = this.height;
   }
 
   useTool() {
@@ -185,5 +197,9 @@ class Canvas {
     if (this.tool === "cursor" && this.mouseDown) this.handleCursorTool();
     this.prevMouse = { x: e.x, y: e.y };
     if (e.target !== this.canvas) return;
+  }
+
+  handleResize() {
+    this.setWidthAndHeight();
   }
 }
