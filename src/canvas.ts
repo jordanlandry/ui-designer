@@ -180,7 +180,8 @@ class Canvas {
       sizeElement.value = this.fontSize.toString();
     } else this.fontSize = parseInt(sizeElement.value);
 
-    this.activeElement.style.fontSize = this.fontSize + "px";
+    if (this.activeElement)
+      this.activeElement.style.fontSize = this.fontSize + "px";
   }
 
   handleMouseDown(e: MouseEvent) {
