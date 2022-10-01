@@ -124,6 +124,7 @@ class Canvas {
   }
 
   deleteElement() {
+    if (this.clickedElement === null) return;
     this.clickedElement.style.display = "none";
   }
 
