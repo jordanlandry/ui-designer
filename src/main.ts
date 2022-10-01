@@ -11,6 +11,7 @@ const canv = new Canvas();
 const keybindsDown: any = {
   t: () => canv.setTool(document.getElementById("text")!),
   v: () => canv.setTool(document.getElementById("cursor")!),
+  delete: () => canv.deleteElement(),
 };
 
 const unclickableElements = [
@@ -36,7 +37,9 @@ const handleMouseMove = (e: MouseEvent) => {
 
 const handleKeydown = (e: KeyboardEvent) => {
   if (properties.isTyping) return;
-  if (keybindsDown[e.key]) keybindsDown[e.key]();
+
+  const key = e.key.toLowerCase();
+  if (keybindsDown[key]) keybindsDown[key]();
 };
 
 const handleResize = () => {

@@ -123,6 +123,10 @@ class Canvas {
     this.clickedElement.style.top = top + "px";
   }
 
+  deleteElement() {
+    this.clickedElement.style.display = "none";
+  }
+
   finishElement() {
     // Create a wrapper for the text element
     let d = document.createElement("div");
