@@ -168,8 +168,18 @@ class Canvas {
     properties.isTyping = false;
   }
 
-  updateFontSize(e: HTMLInputElement) {
-    this.fontSize = parseInt(e.value);
+  updateFontSize(isGoingUp?: boolean) {
+    const sizeElement = document.getElementById(
+      "font-size"
+    )! as HTMLInputElement;
+
+    if (this.fontSize === parseInt(sizeElement.value)) {
+      if (isGoingUp) this.fontSize += 1;
+      else this.fontSize -= 1;
+
+      sizeElement.value = this.fontSize.toString();
+    } else this.fontSize = parseInt(sizeElement.value);
+
     this.activeElement.style.fontSize = this.fontSize + "px";
   }
 
