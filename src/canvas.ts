@@ -106,7 +106,7 @@ class Canvas {
       top += this.mousePos!.y - this.prevMouse!.y;
     }
 
-    this.clickedElement.style.border = "1px solid black";
+    this.clickedElement.style.outline = "1px solid black";
     this.clickedElement.style.left = left + "px";
     this.clickedElement.style.top = top + "px";
   }
@@ -169,7 +169,7 @@ class Canvas {
   handleMouseUp(e: MouseEvent) {
     this.mouseDown = false;
     if (this.clickedElement) {
-      this.clickedElement.style.border = "";
+      this.clickedElement.style.outline = "";
       this.clickedElement = null;
     }
 
