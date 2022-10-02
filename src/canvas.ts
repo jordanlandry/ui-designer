@@ -185,17 +185,16 @@ class Canvas {
 
     this.activeElement.style.left = left + "px";
     this.activeElement.style.top = top + "px";
-    ``;
   }
 
   setMovingTextBox() {
     this.movingTextBox = true;
-    this.activeElement.style.cursor = "pointer";
+    if (this.activeElement) this.activeElement.style.cursor = "pointer";
   }
 
   unsetMovingTextBox() {
     this.movingTextBox = false;
-    this.activeElement.style.cursor = "text";
+    if (this.activeElement) this.activeElement.style.cursor = "text";
   }
 
   deleteElement() {
@@ -204,6 +203,7 @@ class Canvas {
   }
 
   finishElement() {
+    if (!this.activeElement) return;
     // Reset the textBox properties
     this.unsetMovingTextBox();
 

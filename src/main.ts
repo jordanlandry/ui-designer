@@ -20,6 +20,7 @@ const keybindsTyping: any = {
   ">": (e: KeyboardEvent) => handleGreaterThanKey(e),
   "<": (e: KeyboardEvent) => handleLessThanKey(e),
   control: () => canv.setMovingTextBox(),
+  escape: () => canv.finishElement(),
 };
 
 const keybindsUpTyping: any = {
