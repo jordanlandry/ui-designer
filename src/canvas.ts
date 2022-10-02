@@ -13,6 +13,8 @@ const defaultCanv = {
   activeElement: null,
   movingTextBox: false,
   font: "Arial",
+
+  defaultCanvColor: "white",
 };
 
 class Canvas {
@@ -32,6 +34,7 @@ class Canvas {
   movingTextBox: boolean;
   font: string;
 
+  defaultCanvColor: string;
   fontSize: number;
 
   constructor() {
@@ -50,6 +53,7 @@ class Canvas {
     this.movingTextBox = defaultCanv.movingTextBox;
 
     this.font = defaultCanv.font;
+    this.defaultCanvColor = defaultCanv.defaultCanvColor;
 
     this.activeElement = null;
 
@@ -66,6 +70,11 @@ class Canvas {
     document.getElementById("body")?.appendChild(this.canvas);
 
     this.editDomValuesToDefaults();
+  }
+
+  drawBlankCanvas() {
+    this.ctx.fillStyle = this.defaultCanvColor;
+    this.ctx.fillRect(0, 0, this.width, this.height);
   }
 
   editDomValuesToDefaults() {
@@ -91,6 +100,19 @@ class Canvas {
 
     this.canvas.width = this.width;
     this.canvas.height = this.height;
+  }
+
+  strokeRect(e: MouseEvent) {
+    if (this.tool === "text" && this.mouseDown) {
+      this.drawBlankCanvas();
+      this.ctx.strokeStyle = "black";
+      this.ctx.strokeRect(
+        this.clickPos!.x,
+        this.clickPos!.y,
+        e.offsetX - this.clickPos!.x,
+        e.offsetY - this.clickPos!.y
+      );
+    }
   }
 
   // ~~~ TOOLS ~~~ \\
@@ -261,6 +283,8 @@ class Canvas {
 
   handleMouseUp(e: MouseEvent) {
     this.mouseDown = false;
+    this.drawBlankCanvas();
+
     if (this.clickedElement) {
       this.clickedElement.style.outline = "";
       this.clickedElement = null;
@@ -276,6 +300,8 @@ class Canvas {
   handleMouseMove(e: MouseEvent) {
     this.mousePos = { x: e.x, y: e.y };
     if (this.tool === "cursor" && this.mouseDown) this.handleCursorTool();
+
+    this.strokeRect(e);
 
     if (this.mouseDown && this.movingTextBox) this.handleMoveTextBox();
 
