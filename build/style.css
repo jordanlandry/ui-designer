@@ -60,12 +60,22 @@ body {
   transition: 100ms;
 }
 
-#finish-text:hover {
+#size-text {
+  cursor: ew-resize;
+}
+
+.tool-hover {
+  transition: 100ms;
+  padding: 3px;
+}
+
+.tool-hover:hover {
   background-color: rgb(30, 30, 30);
 }
 
-#size-text {
-  cursor: ew-resize;
+.style-active {
+  transition: 100ms;
+  background-color: rgb(40, 40, 40);
 }
 
 .tool {
