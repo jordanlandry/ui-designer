@@ -13,6 +13,8 @@ const defaultCanv = {
   activeElement: null,
   movingTextBox: false,
   font: "Arial",
+  color: "black",
+  changingFontSize: false,
 
   defaultCanvColor: "white",
 };
@@ -33,6 +35,8 @@ class Canvas {
   clickedElement: any;
   movingTextBox: boolean;
   font: string;
+  color: string;
+  changingFontSize: boolean;
 
   defaultCanvColor: string;
   fontSize: number;
@@ -51,9 +55,12 @@ class Canvas {
     this.clickedElement = defaultCanv.clickedElement;
     this.fontSize = defaultCanv.fontSize;
     this.movingTextBox = defaultCanv.movingTextBox;
+    this.changingFontSize = defaultCanv.changingFontSize;
 
     this.font = defaultCanv.font;
     this.defaultCanvColor = defaultCanv.defaultCanvColor;
+
+    this.color = defaultCanv.color;
 
     this.activeElement = null;
 
@@ -64,8 +71,8 @@ class Canvas {
     this.canvas.width = this.width;
     this.canvas.height = this.height;
     this.canvas.style.position = "absolute";
-    this.canvas.style.top = "75px";
-    this.canvas.style.left = "75px";
+    this.canvas.style.top = properties.topPaneSize + "px";
+    this.canvas.style.left = properties.leftPaneSize + "px";
     this.canvas.style.border = "1px solid black";
     document.getElementById("body")?.appendChild(this.canvas);
 
@@ -83,6 +90,9 @@ class Canvas {
 
     const i = document.getElementById("font-size") as HTMLInputElement;
     i.value = this.fontSize + "";
+
+    document.getElementById("color-selector")!.style.backgroundColor =
+      this.color;
   }
 
   setTool(e: HTMLElement) {
@@ -118,6 +128,10 @@ class Canvas {
     }
   }
 
+  setColor(e: HTMLElement) {
+    e.style.backgroundColor = "black";
+  }
+
   // ~~~ TOOLS ~~~ \\
   useTool() {
     if (this.tool === "text") {
@@ -130,14 +144,15 @@ class Canvas {
 
       let t = document.createElement("textarea");
       t.style.position = "absolute";
-      t.style.left = `${this.clickPos?.x! + 75}px`;
-      t.style.top = `${this.clickPos?.y! + 75}px`;
+      t.style.left = `${this.clickPos?.x! + properties.leftPaneSize}px`;
+      t.style.top = `${this.clickPos?.y! + properties.topPaneSize}px`;
       t.style.fontSize = this.fontSize + "px";
       t.style.margin = "0";
       t.style.padding = "0";
       t.style.border = "none";
       t.style.outline = "1px solid black";
       t.style.fontFamily = this.font;
+      t.style.color = this.color;
 
       t.style.width = this.unclickPos!.x - this.clickPos!.x + "px";
       t.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
@@ -224,6 +239,7 @@ class Canvas {
     p.style.width = "inherit";
     p.style.wordWrap = "break-word";
     p.style.fontFamily = this.font;
+    p.style.color = this.color;
 
     // Check for new lines
     for (let i = 0; i < l; i++) {
@@ -254,6 +270,8 @@ class Canvas {
 
   // ~~~ PROPERTIES ~~~ \\
   updateFontSize(isGoingUp?: boolean) {
+    if (!isGoingUp && this.fontSize === 1) return;
+
     const sizeElement = document.getElementById(
       "font-size"
     )! as HTMLInputElement;
@@ -288,6 +306,7 @@ class Canvas {
   }
 
   handleMouseUp(e: MouseEvent) {
+    this.changingFontSize = false;
     this.mouseDown = false;
     this.drawBlankCanvas();
 
@@ -304,6 +323,10 @@ class Canvas {
   }
 
   handleMouseMove(e: MouseEvent) {
+    if (this.changingFontSize) {
+      this.updateFontSize(properties.mousePos.x > properties.prevMouse.x);
+    }
+
     this.mousePos = { x: e.x, y: e.y };
     if (this.tool === "cursor" && this.mouseDown) this.handleCursorTool();
 
