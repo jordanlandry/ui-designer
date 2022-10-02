@@ -2,9 +2,12 @@
 const properties = {
     isTyping: false,
     offset: 2,
-    leftPaneSize: 75,
+    leftPaneSize: 50,
     rightPaneSize: 150,
     topPaneSize: 75,
+    clickPos: { x: 0, y: 0 },
+    mousePos: { x: 0, y: 0 },
+    prevMouse: { x: 0, y: 0 },
 };
 const canv = new Canvas();
 const handleGreaterThanKey = (e) => {
@@ -39,13 +42,16 @@ const unclickableElements = [
     canv.canvas,
 ];
 const handleMouseDown = (e) => {
+    properties.clickPos = { x: e.x, y: e.y };
     canv.handleMouseDown(e);
 };
 const handleMouseUp = (e) => {
     canv.handleMouseUp(e);
 };
 const handleMouseMove = (e) => {
+    properties.mousePos = { x: e.x, y: e.y };
     canv.handleMouseMove(e);
+    properties.prevMouse = { x: e.x, y: e.y };
 };
 const handleKeydown = (e) => {
     const key = e.key.toLowerCase();
@@ -68,6 +74,14 @@ const handleKeyup = (e) => {
 const handleResize = () => {
     canv.handleResize();
 };
+const start = () => {
+    document.getElementById("top-pane").style.height =
+        properties.topPaneSize + "px";
+    document.getElementById("right-pane").style.width =
+        properties.rightPaneSize + "px";
+    document.getElementById("left-pane").style.width =
+        properties.leftPaneSize + "px";
+};
 // Mouse Events
 document.addEventListener("mousedown", handleMouseDown);
 document.addEventListener("mouseup", handleMouseUp);
@@ -77,3 +91,4 @@ document.addEventListener("keydown", handleKeydown);
 document.addEventListener("keyup", handleKeyup);
 // Window events
 window.addEventListener("resize", handleResize);
+start();

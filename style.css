@@ -3,11 +3,12 @@
   --left-pane-size: 50px;
   --top-pane-size: 50px;
 
-  --bg: rgb(225, 230, 235);
+  --bg: rgb(50, 50, 50);
 }
 
 * {
   user-select: none;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
@@ -18,19 +19,24 @@ body {
 #top-pane {
   display: flex;
   align-items: center;
-  gap: 5px;
+  padding-left: 10px;
+  gap: 10px;
 
   height: 75px;
   background-color: var(--bg);
+  color: white;
+
+  z-index: 1;
 }
 
 #left-pane {
   position: absolute;
   top: 75px;
   left: 0;
-  width: 75px;
   height: calc(100vh - 75px);
   background-color: var(--bg);
+
+  z-index: 1;
 }
 
 #right-pane {
@@ -41,10 +47,25 @@ body {
   height: calc(100vh - 75px);
   background-color: var(--bg);
   float: right;
+
+  z-index: 1;
 }
 
 #font-size {
   width: 50px;
+}
+
+#finish-text {
+  padding: 3px;
+  transition: 100ms;
+}
+
+#finish-text:hover {
+  background-color: rgb(30, 30, 30);
+}
+
+#size-text {
+  cursor: ew-resize;
 }
 
 .tool {
@@ -52,13 +73,33 @@ body {
   margin: auto;
   align-items: center;
   justify-content: center;
-  width: 45px;
-  height: 45px;
-  cursor: pointer;
-  outline: 1px solid black;
-  padding: 3px;
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+  color: white;
+  transition: 100ms;
+}
+
+.tool:hover {
+  background-color: rgb(30, 30, 30);
 }
 
 .active {
-  box-shadow: 0 0 5px black;
+  background-color: rgb(10, 140, 235);
+  outline: 1px solid white;
+}
+
+.active:hover {
+  background-color: rgb(10, 140, 235);
+}
+
+.color {
+  width: 25px;
+  height: 25px;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.pointer {
+  cursor: pointer;
 }

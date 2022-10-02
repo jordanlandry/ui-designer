@@ -14,6 +14,8 @@ const defaultCanv = {
     activeElement: null,
     movingTextBox: false,
     font: "Arial",
+    color: "black",
+    changingFontSize: false,
     defaultCanvColor: "white",
 };
 class Canvas {
@@ -32,8 +34,10 @@ class Canvas {
         this.clickedElement = defaultCanv.clickedElement;
         this.fontSize = defaultCanv.fontSize;
         this.movingTextBox = defaultCanv.movingTextBox;
+        this.changingFontSize = defaultCanv.changingFontSize;
         this.font = defaultCanv.font;
         this.defaultCanvColor = defaultCanv.defaultCanvColor;
+        this.color = defaultCanv.color;
         this.activeElement = null;
         // Canvas properties
         this.canvas = document.createElement("canvas");
@@ -42,8 +46,8 @@ class Canvas {
         this.canvas.width = this.width;
         this.canvas.height = this.height;
         this.canvas.style.position = "absolute";
-        this.canvas.style.top = "75px";
-        this.canvas.style.left = "75px";
+        this.canvas.style.top = properties.topPaneSize + "px";
+        this.canvas.style.left = properties.leftPaneSize + "px";
         this.canvas.style.border = "1px solid black";
         (_a = document.getElementById("body")) === null || _a === void 0 ? void 0 : _a.appendChild(this.canvas);
         this.editDomValuesToDefaults();
@@ -57,6 +61,8 @@ class Canvas {
         s.value = this.font;
         const i = document.getElementById("font-size");
         i.value = this.fontSize + "";
+        document.getElementById("color-selector").style.backgroundColor =
+            this.color;
     }
     setTool(e) {
         if (this.tool === "text")
@@ -81,6 +87,9 @@ class Canvas {
             this.ctx.strokeRect(this.clickPos.x, this.clickPos.y, e.offsetX - this.clickPos.x, e.offsetY - this.clickPos.y);
         }
     }
+    setColor(e) {
+        e.style.backgroundColor = "black";
+    }
     // ~~~ TOOLS ~~~ \\
     useTool() {
         var _a, _b, _c;
@@ -92,14 +101,15 @@ class Canvas {
             }
             let t = document.createElement("textarea");
             t.style.position = "absolute";
-            t.style.left = `${((_a = this.clickPos) === null || _a === void 0 ? void 0 : _a.x) + 75}px`;
-            t.style.top = `${((_b = this.clickPos) === null || _b === void 0 ? void 0 : _b.y) + 75}px`;
+            t.style.left = `${((_a = this.clickPos) === null || _a === void 0 ? void 0 : _a.x) + properties.leftPaneSize}px`;
+            t.style.top = `${((_b = this.clickPos) === null || _b === void 0 ? void 0 : _b.y) + properties.topPaneSize}px`;
             t.style.fontSize = this.fontSize + "px";
             t.style.margin = "0";
             t.style.padding = "0";
             t.style.border = "none";
             t.style.outline = "1px solid black";
             t.style.fontFamily = this.font;
+            t.style.color = this.color;
             t.style.width = this.unclickPos.x - this.clickPos.x + "px";
             t.style.height = this.unclickPos.y - this.clickPos.y + "px";
             t.style.backgroundColor = "transparent";
@@ -178,6 +188,7 @@ class Canvas {
         p.style.width = "inherit";
         p.style.wordWrap = "break-word";
         p.style.fontFamily = this.font;
+        p.style.color = this.color;
         // Check for new lines
         for (let i = 0; i < l; i++) {
             if (this.activeElement.value[i] === "\n" || i === l - 1) {
@@ -206,6 +217,8 @@ class Canvas {
     }
     // ~~~ PROPERTIES ~~~ \\
     updateFontSize(isGoingUp) {
+        if (!isGoingUp && this.fontSize === 1)
+            return;
         const sizeElement = document.getElementById("font-size");
         if (this.fontSize === parseInt(sizeElement.value)) {
             if (isGoingUp)
@@ -236,6 +249,7 @@ class Canvas {
         this.clickPos = { x: e.offsetX, y: e.offsetY };
     }
     handleMouseUp(e) {
+        this.changingFontSize = false;
         this.mouseDown = false;
         this.drawBlankCanvas();
         if (this.clickedElement) {
@@ -250,6 +264,9 @@ class Canvas {
         this.useTool();
     }
     handleMouseMove(e) {
+        if (this.changingFontSize) {
+            this.updateFontSize(properties.mousePos.x > properties.prevMouse.x);
+        }
         this.mousePos = { x: e.x, y: e.y };
         if (this.tool === "cursor" && this.mouseDown)
             this.handleCursorTool();

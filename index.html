@@ -34,8 +34,11 @@
       </span> -->
     </div>
     <div id="pane-wrapper">
-      <div id="top-pane">Properties <button onClick="canv.finishElement()">Finish</button>
-        Font Size: <input id="font-size" type="number" onChange="canv.updateFontSize()" value="13">
+      <div id="top-pane">  
+        <div id="size-text" onmousedown="canv.changingFontSize = true">
+          Size: 
+        </div>
+        <input id="font-size" type="number" onChange="canv.updateFontSize()" value="13">
         Font: 
         <select id="font" onchange="canv.updateFont(this)">
           <option value="Arial">Arial</option>
@@ -43,14 +46,40 @@
           <option value="Impact">Impact</option>
           <option value="Import">Import font</option>
         </select>
+        Color: <div class="color" id="color-selector" onClick="canv.setColor(this)"></div>
+        <svg onClick="canv.finishElement()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green" class="bi bi-check2-all pointer" id="finish-text" viewBox="0 0 16 16">
+          <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
+          <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
+        </svg>
 
       </div>
       <div id="left-pane">
-        <div class="tool active" id="cursor" onClick="canv.setTool(this)"><img src="./assets/cursor-svgrepo-com.svg" alt="text"></div>
-        <div class="tool" id="text" onClick="canv.setTool(this)"><img src="./assets/text-svgrepo-com.svg" alt="text"></div>
-        <div class="tool" id="input" onClick="canv.setTool(this)">Input</div>
-        <div class="tool" id="section" onClick="canv.setTool(this)">Section</div>
-        <div class="tool" id="line" onClick="canv.setTool(this)">Line</div>
+        <div class="tool active" id="cursor" onClick="canv.setTool(this)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cursor" viewBox="0 0 16 16">
+            <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"/>
+          </svg>
+        </div>
+        <div class="tool" id="text" onClick="canv.setTool(this)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fonts" viewBox="0 0 16 16">
+            <path d="M12.258 3h-8.51l-.083 2.46h.479c.26-1.544.758-1.783 2.693-1.845l.424-.013v7.827c0 .663-.144.82-1.3.923v.52h4.082v-.52c-1.162-.103-1.306-.26-1.306-.923V3.602l.431.013c1.934.062 2.434.301 2.693 1.846h.479L12.258 3z"/>
+          </svg>
+        </div>
+        <div class="tool" id="input" onClick="canv.setTool(this)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-text" viewBox="0 0 16 16">
+            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+            <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+          </svg>
+        </div>
+        <div class="tool" id="section" onClick="canv.setTool(this)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box" viewBox="0 0 16 16">
+            <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
+          </svg>
+        </div>
+        <div class="tool" id="line" onClick="canv.setTool(this)">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+      </div>
       </div>
       <div id="right-pane">
         Elements
