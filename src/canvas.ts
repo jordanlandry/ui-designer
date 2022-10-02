@@ -106,6 +106,7 @@ class Canvas {
     if (this.tool === "text" && this.mouseDown) {
       this.drawBlankCanvas();
       this.ctx.strokeStyle = "black";
+      this.ctx.lineWidth = 1;
       this.ctx.strokeRect(
         this.clickPos!.x,
         this.clickPos!.y,
@@ -132,6 +133,8 @@ class Canvas {
       t.style.fontSize = this.fontSize + "px";
       t.style.margin = "0";
       t.style.padding = "0";
+      t.style.border = "none";
+      t.style.outline = "1px solid black";
       t.style.fontFamily = this.font;
 
       t.style.width = this.unclickPos!.x - this.clickPos!.x + "px";
@@ -180,6 +183,7 @@ class Canvas {
 
     this.activeElement.style.left = left + "px";
     this.activeElement.style.top = top + "px";
+    ``;
   }
 
   setMovingTextBox() {
