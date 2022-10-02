@@ -127,6 +127,7 @@ class Canvas {
   }
 
   strokeRect(e: MouseEvent) {
+    if (e.target === this.activeElement) return;
     if (this.tool === "text" && this.mouseDown) {
       this.drawBlankCanvas();
       this.ctx.strokeStyle = "black";
