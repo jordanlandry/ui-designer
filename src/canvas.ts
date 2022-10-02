@@ -86,6 +86,8 @@ class Canvas {
   }
 
   setTool(e: HTMLElement) {
+    if (this.tool === "text") this.finishElement();
+
     document.getElementById(this.tool)!.className = "tool";
     document.getElementById(e.id)!.className += " active";
     this.tool = e.id;
