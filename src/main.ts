@@ -19,6 +19,11 @@ const handleLessThanKey = (e: KeyboardEvent) => {
 const keybindsTyping: any = {
   ">": (e: KeyboardEvent) => handleGreaterThanKey(e),
   "<": (e: KeyboardEvent) => handleLessThanKey(e),
+  control: () => canv.setMovingTextBox(),
+};
+
+const keybindsUpTyping: any = {
+  control: () => canv.unsetMovingTextBox(),
 };
 
 const keybindsDown: any = {
@@ -26,6 +31,8 @@ const keybindsDown: any = {
   v: () => canv.setTool(document.getElementById("cursor")!),
   delete: () => canv.deleteElement(),
 };
+
+const keybindsUp: any = {};
 
 const unclickableElements = [
   document.getElementById("top-pane"),
@@ -50,8 +57,16 @@ const handleMouseMove = (e: MouseEvent) => {
 
 const handleKeydown = (e: KeyboardEvent) => {
   const key = e.key.toLowerCase();
-  if (properties.isTyping && keybindsTyping[key]) keybindsTyping[key](e);
-  else if (keybindsDown[key] && keybindsDown[key]) keybindsDown[key](e);
+  if (properties.isTyping) {
+    if (keybindsTyping[key]) keybindsTyping[key](e);
+  } else if (keybindsDown[key] && keybindsDown[key]) keybindsDown[key](e);
+};
+
+const handleKeyup = (e: KeyboardEvent) => {
+  const key = e.key.toLowerCase();
+  if (properties.isTyping) {
+    if (keybindsUpTyping[key]) keybindsUpTyping[key](e);
+  } else if (keybindsUp[key] && keybindsUp[key]) keybindsUp[key](e);
 };
 
 const handleResize = () => {
@@ -65,6 +80,7 @@ document.addEventListener("mousemove", handleMouseMove);
 
 // Keyboard events
 document.addEventListener("keydown", handleKeydown);
+document.addEventListener("keyup", handleKeyup);
 
 // Window events
 window.addEventListener("resize", handleResize);

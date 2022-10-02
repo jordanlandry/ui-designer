@@ -11,6 +11,7 @@ const defaultCanv = {
   clickedElement: null,
   fontSize: 12,
   activeElement: null,
+  movingTextBox: false,
 };
 
 class Canvas {
@@ -27,6 +28,7 @@ class Canvas {
   elements: any;
   mouseDown: boolean;
   clickedElement: any;
+  movingTextBox: boolean;
 
   fontSize: number;
 
@@ -43,6 +45,7 @@ class Canvas {
     this.mouseDown = defaultCanv.mouseDown;
     this.clickedElement = defaultCanv.clickedElement;
     this.fontSize = defaultCanv.fontSize;
+    this.movingTextBox = defaultCanv.movingTextBox;
 
     this.activeElement = null;
 
@@ -76,6 +79,7 @@ class Canvas {
     this.canvas.height = this.height;
   }
 
+  // ~~~ TOOLS ~~~ \\
   useTool() {
     if (this.tool === "text") {
       properties.isTyping = true;
@@ -110,17 +114,44 @@ class Canvas {
       if (this.clickedElement === el) return;
     }
 
+    // Get position
     let left = parseInt(this.clickedElement.style.left.replaceAll("px", ""));
     let top = parseInt(this.clickedElement.style.top.replaceAll("px", ""));
+
+    // Move position
+    if (this.prevMouse) {
+      left += this.mousePos!.x - this.prevMouse!.x;
+      top += this.mousePos!.y - this.prevMouse!.y;
+    }
+
+    // Set position of DOM element
+    this.clickedElement.style.outline = "1px solid black";
+    this.clickedElement.style.left = left + "px";
+    this.clickedElement.style.top = top + "px";
+  }
+
+  handleMoveTextBox() {
+    if (!this.movingTextBox) return;
+    let left = parseInt(this.activeElement.style.left.replaceAll("px", ""));
+    let top = parseInt(this.activeElement.style.top.replaceAll("px", ""));
 
     if (this.prevMouse) {
       left += this.mousePos!.x - this.prevMouse!.x;
       top += this.mousePos!.y - this.prevMouse!.y;
     }
 
-    this.clickedElement.style.outline = "1px solid black";
-    this.clickedElement.style.left = left + "px";
-    this.clickedElement.style.top = top + "px";
+    this.activeElement.style.left = left + "px";
+    this.activeElement.style.top = top + "px";
+  }
+
+  setMovingTextBox() {
+    this.movingTextBox = true;
+    this.activeElement.style.cursor = "pointer";
+  }
+
+  unsetMovingTextBox() {
+    this.movingTextBox = false;
+    this.activeElement.style.cursor = "text";
   }
 
   deleteElement() {
@@ -129,11 +160,14 @@ class Canvas {
   }
 
   finishElement() {
+    // Reset the textBox properties
+    this.unsetMovingTextBox();
+
     // Create a wrapper for the text element
     let d = document.createElement("div");
     d.style.position = "absolute";
-    d.style.left = `${this.clickPos?.x! + 75}px`;
-    d.style.top = `${this.clickPos?.y! + 75}px`;
+    d.style.left = `${this.activeElement?.style.left}`;
+    d.style.top = `${this.activeElement?.style.top}`;
     d.style.width = this.activeElement.style.width;
     d.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
     d.style.margin = "0";
@@ -168,6 +202,7 @@ class Canvas {
     properties.isTyping = false;
   }
 
+  // ~~~ PROPERTIES ~~~ \\
   updateFontSize(isGoingUp?: boolean) {
     const sizeElement = document.getElementById(
       "font-size"
@@ -211,6 +246,9 @@ class Canvas {
   handleMouseMove(e: MouseEvent) {
     this.mousePos = { x: e.x, y: e.y };
     if (this.tool === "cursor" && this.mouseDown) this.handleCursorTool();
+
+    if (this.mouseDown && this.movingTextBox) this.handleMoveTextBox();
+
     this.prevMouse = { x: e.x, y: e.y };
     if (e.target !== this.canvas) return;
   }
