@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body id="body">
-    <div class="top-pane">
+    <!-- <div class="top-pane">
       <button onClick="save()">Save</button>
       <button onClick="canv.updateThickness(false)">-</button>
       <span id="thickness-value">10</span>
@@ -31,42 +31,65 @@
           id="circle"
           onClick="canv.setBrush('circle')"
         ></span>
-      </span>
+      </span> -->
+    </div>
+    <div id="pane-wrapper">
+      <div id="top-pane">Properties <button onClick="canv.finishElement()">Finish</button>
+        Font Size: <input id="font-size" type="number" onChange="canv.updateFontSize()" value="13">
+        Font: 
+        <select id="font" onchange="canv.updateFont(this)">
+          <option value="Arial">Arial</option>
+          <option value="Cambria">Cambria</option>
+          <option value="Impact">Impact</option>
+          <option value="Import">Import font</option>
+        </select>
+
+      </div>
+      <div id="left-pane">
+        <div class="tool active" id="cursor" onClick="canv.setTool(this)"><img src="./assets/cursor-svgrepo-com.svg" alt="text"></div>
+        <div class="tool" id="text" onClick="canv.setTool(this)"><img src="./assets/text-svgrepo-com.svg" alt="text"></div>
+        <div class="tool" id="input" onClick="canv.setTool(this)">Input</div>
+        <div class="tool" id="section" onClick="canv.setTool(this)">Section</div>
+        <div class="tool" id="line" onClick="canv.setTool(this)">Line</div>
+      </div>
+      <div id="right-pane">
+        Elements
+      </div>
     </div>
 
-    <div class="flex">
+    <!-- <div class="flex">
       <div class="left-pane">
         <div class="tool-wrapper">
           <img
-            src="./assets/pencil-svgrepo-com.svg"
+            src="../assets/pencil-svgrepo-com.svg"
             onClick="setTool('pencil')"
             id="pencil"
             class="tool active"
           />
 
           <img
-            src="./assets/eraser-svgrepo-com.svg"
+            src="../assets/eraser-svgrepo-com.svg"
             onClick="setTool('eraser')"
             id="eraser"
             class="tool"
           />
 
           <img
-            src="./assets/text-svgrepo-com.svg"
+            src="../assets/text-svgrepo-com.svg"
             onClick="setTool('text')"
             id="text"
             class="tool"
           />
 
           <img
-            src="./assets/line-svgrepo-com.svg"
+            src="../assets/line-svgrepo-com.svg"
             onClick="setTool('line')"
             id="line"
             class="tool"
           />
 
           <img
-            src="./assets/bucket-svgrepo-com.svg"
+            src="../assets/bucket-svgrepo-com.svg"
             onClick="setTool('bucket')"
             id="bucket"
             class="tool"
@@ -93,7 +116,7 @@
           ></div>
         </div>
       </div>
-    </div>
+    </div> -->
 
     <div class="flex"></div>
   </body>

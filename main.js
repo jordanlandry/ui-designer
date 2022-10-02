@@ -1,70 +1,79 @@
 "use strict";
-// Dom elements
-const thicknessElement = document.getElementById("thickness");
-const colorElement = document.getElementById("color");
-// Global variables
-const defaultValues = {
-    color: "black",
-    background: "white",
-};
 const properties = {
-    leftPaneSize: 52,
-    topPaneSize: 57,
-    rightPaneSize: 121,
-    offset: 0,
+    isTyping: false,
+    offset: 2,
+    leftPaneSize: 75,
+    rightPaneSize: 150,
+    topPaneSize: 75,
 };
-const setColor = (newColor) => {
-    colorElement.style.backgroundColor = newColor;
-};
-const colorWheel = new ColorWheel(properties, setColor);
 const canv = new Canvas();
-canv.createNewLayer();
-const cursorLayer = canv.createNewLayer(true);
-const handleEscape = () => {
-    colorWheel.hide();
+const handleGreaterThanKey = (e) => {
+    if (e.ctrlKey && e.shiftKey)
+        canv.updateFontSize(true);
 };
-const logGlobals = () => {
-    // console.log(properties);
+const handleLessThanKey = (e) => {
+    if (e.ctrlKey && e.shiftKey)
+        canv.updateFontSize(false);
+};
+const keybindsTyping = {
+    ">": (e) => handleGreaterThanKey(e),
+    "<": (e) => handleLessThanKey(e),
+    control: () => canv.setMovingTextBox(),
+    escape: () => canv.finishElement(),
+};
+const keybindsUpTyping = {
+    control: () => canv.unsetMovingTextBox(),
 };
 const keybindsDown = {
-    escape: () => handleEscape(),
-    "]": () => canv.updateThickness(true),
-    "[": () => canv.updateThickness(false),
+    t: () => canv.setTool(document.getElementById("text")),
+    v: () => canv.setTool(document.getElementById("cursor")),
+    delete: () => canv.deleteElement(),
 };
 const keybindsUp = {};
-// Event listeners
-const handleKeydown = (e) => {
-    if (keybindsDown[e.key])
-        keybindsDown[e.key]();
-};
-const handleKeyup = (e) => {
-    if (keybindsUp[e.key])
-        keybindsUp[e.key]();
-};
-const handleMousedown = (e) => {
-    colorWheel.handleMouseDown(e);
+const unclickableElements = [
+    document.getElementById("top-pane"),
+    document.getElementById("left-pane"),
+    document.getElementById("right-pane"),
+    document.getElementById("pane-wrapper"),
+    document.getElementById("body"),
+    canv.canvas,
+];
+const handleMouseDown = (e) => {
     canv.handleMouseDown(e);
 };
-const handleMouseup = (e) => {
-    colorWheel.handleMouseUp(e);
+const handleMouseUp = (e) => {
     canv.handleMouseUp(e);
 };
-const handleMousemove = (e) => {
-    colorWheel.handleMouseMove(e);
+const handleMouseMove = (e) => {
     canv.handleMouseMove(e);
-    cursorLayer.handleMouseMove(e);
 };
-const handleResize = (e) => {
-    canv.handleResize(e);
-};
-const save = () => {
-    for (const layer of canv.layers) {
-        console.log(layer.data);
+const handleKeydown = (e) => {
+    const key = e.key.toLowerCase();
+    if (properties.isTyping) {
+        if (keybindsTyping[key])
+            keybindsTyping[key](e);
     }
+    else if (keybindsDown[key] && keybindsDown[key])
+        keybindsDown[key](e);
 };
+const handleKeyup = (e) => {
+    const key = e.key.toLowerCase();
+    if (properties.isTyping) {
+        if (keybindsUpTyping[key])
+            keybindsUpTyping[key](e);
+    }
+    else if (keybindsUp[key] && keybindsUp[key])
+        keybindsUp[key](e);
+};
+const handleResize = () => {
+    canv.handleResize();
+};
+// Mouse Events
+document.addEventListener("mousedown", handleMouseDown);
+document.addEventListener("mouseup", handleMouseUp);
+document.addEventListener("mousemove", handleMouseMove);
+// Keyboard events
 document.addEventListener("keydown", handleKeydown);
 document.addEventListener("keyup", handleKeyup);
-document.addEventListener("mouseup", handleMouseup);
-document.addEventListener("mousedown", handleMousedown);
-document.addEventListener("mousemove", handleMousemove);
-window.addEventListener("resize", (e) => handleResize(e));
+// Window events
+window.addEventListener("resize", handleResize);
