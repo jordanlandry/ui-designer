@@ -9,9 +9,10 @@ const defaultCanv = {
   elements: [],
   mouseDown: false,
   clickedElement: null,
-  fontSize: 12,
+  fontSize: 24,
   activeElement: null,
   movingTextBox: false,
+  font: "Arial",
 };
 
 class Canvas {
@@ -29,6 +30,7 @@ class Canvas {
   mouseDown: boolean;
   clickedElement: any;
   movingTextBox: boolean;
+  font: string;
 
   fontSize: number;
 
@@ -47,6 +49,8 @@ class Canvas {
     this.fontSize = defaultCanv.fontSize;
     this.movingTextBox = defaultCanv.movingTextBox;
 
+    this.font = defaultCanv.font;
+
     this.activeElement = null;
 
     // Canvas properties
@@ -60,6 +64,16 @@ class Canvas {
     this.canvas.style.left = "75px";
     this.canvas.style.border = "1px solid black";
     document.getElementById("body")?.appendChild(this.canvas);
+
+    this.editDomValuesToDefaults();
+  }
+
+  editDomValuesToDefaults() {
+    const s = document.getElementById("font")! as HTMLSelectElement;
+    s.value = this.font;
+
+    const i = document.getElementById("font-size") as HTMLInputElement;
+    i.value = this.fontSize + "";
   }
 
   setTool(e: HTMLElement) {
@@ -96,6 +110,7 @@ class Canvas {
       t.style.fontSize = this.fontSize + "px";
       t.style.margin = "0";
       t.style.padding = "0";
+      t.style.fontFamily = this.font;
 
       t.style.width = this.unclickPos!.x - this.clickPos!.x + "px";
       t.style.height = this.unclickPos!.y - this.clickPos!.y + "px";
@@ -132,6 +147,7 @@ class Canvas {
 
   handleMoveTextBox() {
     if (!this.movingTextBox) return;
+
     let left = parseInt(this.activeElement.style.left.replaceAll("px", ""));
     let top = parseInt(this.activeElement.style.top.replaceAll("px", ""));
 
@@ -176,7 +192,10 @@ class Canvas {
     let p = document.createElement("p");
     p.style.margin = "0";
     p.style.fontSize = this.fontSize + "px";
-    p.style.display = "inline-block";
+    p.style.display = "block";
+    p.style.width = "inherit";
+    p.style.wordWrap = "break-word";
+    p.style.fontFamily = this.font;
 
     // Check for new lines
     for (let i = 0; i < l; i++) {
@@ -188,6 +207,9 @@ class Canvas {
         p.style.margin = "0";
         p.style.display = "inline-block";
         p.style.fontSize = this.fontSize + "px";
+        p.style.width = "inherit";
+        p.style.wordWrap = "break-word";
+        p.style.fontFamily = this.font;
       } else p.textContent += this.activeElement.value[i];
     }
 
@@ -217,6 +239,14 @@ class Canvas {
 
     if (this.activeElement)
       this.activeElement.style.fontSize = this.fontSize + "px";
+  }
+
+  updateFont(e: HTMLSelectElement) {
+    this.font = e.value;
+
+    if (this.activeElement) {
+      this.activeElement.style.fontFamily = this.font;
+    }
   }
 
   handleMouseDown(e: MouseEvent) {

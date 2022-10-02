@@ -35,11 +35,19 @@
     </div>
     <div id="pane-wrapper">
       <div id="top-pane">Properties <button onClick="canv.finishElement()">Finish</button>
-        <input id="font-size" type="number" onChange="canv.updateFontSize()" value="13">
+        Font Size: <input id="font-size" type="number" onChange="canv.updateFontSize()" value="13">
+        Font: 
+        <select id="font" onchange="canv.updateFont(this)">
+          <option value="Arial">Arial</option>
+          <option value="Cambria">Cambria</option>
+          <option value="Impact">Impact</option>
+          <option value="Import">Import font</option>
+        </select>
+
       </div>
       <div id="left-pane">
-        <div class="tool active" id="cursor" onClick="canv.setTool(this)">Cursor</div>
-        <div class="tool" id="text" onClick="canv.setTool(this)">Text</div>
+        <div class="tool active" id="cursor" onClick="canv.setTool(this)"><img src="./assets/cursor-svgrepo-com.svg" alt="text"></div>
+        <div class="tool" id="text" onClick="canv.setTool(this)"><img src="./assets/text-svgrepo-com.svg" alt="text"></div>
         <div class="tool" id="input" onClick="canv.setTool(this)">Input</div>
         <div class="tool" id="section" onClick="canv.setTool(this)">Section</div>
         <div class="tool" id="line" onClick="canv.setTool(this)">Line</div>
