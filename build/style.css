@@ -17,6 +17,7 @@ body {
 }
 
 #top-pane {
+  position: fixed;
   display: flex;
   align-items: center;
   padding-left: 10px;
@@ -25,12 +26,13 @@ body {
   height: 75px;
   background-color: var(--bg);
   color: white;
+  width: 100%;
 
   z-index: 1;
 }
 
 #left-pane {
-  position: absolute;
+  position: fixed;
   top: 75px;
   left: 0;
   height: calc(100vh - 75px);
@@ -40,7 +42,7 @@ body {
 }
 
 #right-pane {
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 75px;
   width: 150px;
