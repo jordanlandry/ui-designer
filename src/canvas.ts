@@ -275,7 +275,9 @@ class Canvas {
   }
 
   deleteElement() {
-    if (this.clickedElement === null) return;
+    console.log(this.clickedElement);
+    if (this.clickedElement === null || this.clickedElement.id === "body")
+      return;
     this.clickedElement.style.display = "none";
   }
 
