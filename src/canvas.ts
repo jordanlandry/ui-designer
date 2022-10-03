@@ -97,8 +97,8 @@ class Canvas {
   }
 
   editDomValuesToDefaults() {
-    const s = document.getElementById("font")! as HTMLSelectElement;
-    s.value = this.font;
+    const f = document.getElementById("font-value")!;
+    f.textContent = this.font;
 
     const i = document.getElementById("font-size") as HTMLInputElement;
     i.value = this.fontSize + "";
@@ -326,12 +326,17 @@ class Canvas {
       this.activeElement.style.fontSize = this.fontSize + "px";
   }
 
-  updateFont(e: HTMLSelectElement) {
-    this.font = e.value;
+  updateFont(e: HTMLElement) {
+    // Changing the value element
+    // e.textContent = ;
 
+    // Update the value
+    this.font = e.firstChild!.textContent!;
     if (this.activeElement) {
       this.activeElement.style.fontFamily = this.font;
     }
+
+    document.getElementById("font-value")!.textContent = this.font;
   }
 
   setFontStyle(e: HTMLElement) {

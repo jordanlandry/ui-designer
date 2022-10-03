@@ -18,6 +18,7 @@
 - `Ctrl` + `Shift` + `,` descrease font size
 - Hold `Ctrl` while in a text box to move element
 - `Escape` while in a text box to exit and complete the element
+- `Escape` will close the font dropdown
 - `Delete` while holding an element to delete it
 
 [Try it out here](https://jordanlandry.github.io/ui-designer/)

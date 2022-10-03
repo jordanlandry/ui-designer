@@ -53,6 +53,14 @@ body {
   z-index: 1;
 }
 
+#font {
+  font-size: 1.2rem;
+}
+
+#font option {
+  font-size: 1.5rem;
+}
+
 #font-size {
   width: 50px;
 }
@@ -142,7 +150,47 @@ body {
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
 .tooltip .tooltiptext {
   top: -5px;
   left: 105%;
+}
+
+#font-dropdown {
+  background-color: white;
+  color: black;
+  min-width: 100px;
+  width: fit-content;
+  padding: 5px;
+  text-transform: capitalize;
+}
+
+#font-options {
+  display: none;
+  position: fixed;
+  translate: -5px 5px;
+  background-color: white;
+  color: black;
+  outline: 1px solid black;
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+#font-options > div {
+  padding: 3px;
+}
+
+#font-options > div:hover {
+  outline: 1px solid black;
+}
+
+/* Preview Font */
+#font-options > div > span {
+  float: right;
+  padding-left: 50px;
+  font-size: 1.3rem;
+}
+
+#font-options > .acitve {
+  background-color: rgb(30, 30, 30);
 }
