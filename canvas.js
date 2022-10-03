@@ -16,6 +16,9 @@ const defaultCanv = {
     font: "Arial",
     color: "black",
     changingFontSize: false,
+    italic: false,
+    bold: false,
+    underline: false,
     defaultCanvColor: "white",
 };
 class Canvas {
@@ -37,6 +40,9 @@ class Canvas {
         this.changingFontSize = defaultCanv.changingFontSize;
         this.font = defaultCanv.font;
         this.defaultCanvColor = defaultCanv.defaultCanvColor;
+        this.italic = defaultCanv.italic;
+        this.bold = defaultCanv.bold;
+        this.underline = defaultCanv.underline;
         this.color = defaultCanv.color;
         this.activeElement = null;
         // Canvas properties
@@ -80,6 +86,9 @@ class Canvas {
         this.canvas.height = this.height;
     }
     strokeRect(e) {
+        if (e.target !== this.canvas ||
+            this.clickedElement !== document.getElementById("body"))
+            return;
         if (this.tool === "text" && this.mouseDown) {
             this.drawBlankCanvas();
             this.ctx.strokeStyle = "black";
@@ -99,19 +108,27 @@ class Canvas {
                 this.activeElement.style.display = "none";
                 this.activeElement = null;
             }
+            // Create text area
             let t = document.createElement("textarea");
+            // Positioning
             t.style.position = "absolute";
             t.style.left = `${((_a = this.clickPos) === null || _a === void 0 ? void 0 : _a.x) + properties.leftPaneSize}px`;
             t.style.top = `${((_b = this.clickPos) === null || _b === void 0 ? void 0 : _b.y) + properties.topPaneSize}px`;
-            t.style.fontSize = this.fontSize + "px";
-            t.style.margin = "0";
-            t.style.padding = "0";
+            // Style
             t.style.border = "none";
             t.style.outline = "1px solid black";
             t.style.fontFamily = this.font;
             t.style.color = this.color;
+            // Decoration
+            t.style.textDecoration = this.underline ? "underline" : "";
+            t.style.fontWeight = this.bold ? "bold" : "";
+            t.style.fontStyle = this.italic ? "italic" : "";
+            // Sizing
             t.style.width = this.unclickPos.x - this.clickPos.x + "px";
             t.style.height = this.unclickPos.y - this.clickPos.y + "px";
+            t.style.fontSize = this.fontSize + "px";
+            t.style.margin = "0";
+            t.style.padding = "0";
             t.style.backgroundColor = "transparent";
             (_c = document.getElementById("body")) === null || _c === void 0 ? void 0 : _c.appendChild(t);
             this.activeElement = t;
@@ -189,6 +206,9 @@ class Canvas {
         p.style.wordWrap = "break-word";
         p.style.fontFamily = this.font;
         p.style.color = this.color;
+        p.style.textDecoration = this.underline ? "underline" : "";
+        p.style.fontWeight = this.bold ? "bold" : "";
+        p.style.fontStyle = this.italic ? "italic" : "";
         // Check for new lines
         for (let i = 0; i < l; i++) {
             if (this.activeElement.value[i] === "\n" || i === l - 1) {
@@ -204,6 +224,9 @@ class Canvas {
                 p.style.width = "inherit";
                 p.style.wordWrap = "break-word";
                 p.style.fontFamily = this.font;
+                p.style.textDecoration = this.underline ? "underline" : "";
+                p.style.fontWeight = this.bold ? "bold" : "";
+                p.style.fontStyle = this.italic ? "italic" : "";
             }
             else
                 p.textContent += this.activeElement.value[i];
@@ -237,6 +260,19 @@ class Canvas {
         if (this.activeElement) {
             this.activeElement.style.fontFamily = this.font;
         }
+    }
+    setFontStyle(e) {
+        if (e.id === "underline")
+            this.underline = !this.underline;
+        if (e.id === "bold")
+            this.bold = !this.bold;
+        if (e.id === "italic")
+            this.italic = !this.italic;
+        if (!this.activeElement)
+            return;
+        this.activeElement.style.textDecoration = this.underline ? "underline" : "";
+        this.activeElement.style.fontWeight = this.bold ? "bold" : "";
+        this.activeElement.style.fontStyle = this.italic ? "italic" : "";
     }
     handleMouseDown(e) {
         this.clickedElement = e.target;
