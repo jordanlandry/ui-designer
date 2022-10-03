@@ -6,8 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>UI Designer</title>
     <script src="./interfaces.js" defer></script>
-    <script src="./colorwheel.js" defer></script>
-    <script src="./layer.js" defer></script>
     <script src="./canvas.js" defer></script>
     <script src="./helpers.js"></script>
     <script src="./main.js" defer></script>
@@ -39,13 +37,48 @@
           Size: 
         </div>
         <input id="font-size" type="number" onChange="canv.updateFontSize()" value="13">
-        Font: 
-        <select id="font" onchange="canv.updateFont(this)">
-          <option value="Arial">Arial</option>
-          <option value="Cambria">Cambria</option>
-          <option value="Impact">Impact</option>
-          <option value="Import">Import font</option>
-        </select>
+
+        Font:
+        <div id="font-dropdown" onClick="toggleDropdown()">
+          <div id="font-value">Arial</div>
+          <div id="font-options" style="display: none">
+            <div onclick="canv.updateFont(this)">Arial<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Helvetica<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Verdana<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Courier<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Calibri<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Noto<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Lucida Sans<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Gill Sans<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Century Gothic<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Futura<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Franklin Gothic Medium<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Trebuchet MS<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Geneva<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Segoe UI<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Optima<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Avanta Garde<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Times New Roman<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Big Caslon<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Bodoni MT<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Book Antiqua<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Bookman<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">New Century Schoolbook<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Calisto MT<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Cambria<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Didot<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Garamond<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Georgia<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Goudy Old Style<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Hoefler Text<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Lucida Bright<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Palatino<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Perpetua<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Rockwell<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Rockwell Extra Bold<span>Preview</span></div>
+            <div onclick="canv.updateFont(this)">Baskerville<span>Preview</span></div>
+          </div>
+        </div>
         <svg onClick="canv.setFontStyle(this)" id="bold" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-type-bold tool-hover" viewBox="0 0 16 16">
           <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z"/>
         </svg>
@@ -93,68 +126,6 @@
         Elements
       </div>
     </div>
-
-    <!-- <div class="flex">
-      <div class="left-pane">
-        <div class="tool-wrapper">
-          <img
-            src="../assets/pencil-svgrepo-com.svg"
-            onClick="setTool('pencil')"
-            id="pencil"
-            class="tool active"
-          />
-
-          <img
-            src="../assets/eraser-svgrepo-com.svg"
-            onClick="setTool('eraser')"
-            id="eraser"
-            class="tool"
-          />
-
-          <img
-            src="../assets/text-svgrepo-com.svg"
-            onClick="setTool('text')"
-            id="text"
-            class="tool"
-          />
-
-          <img
-            src="../assets/line-svgrepo-com.svg"
-            onClick="setTool('line')"
-            id="line"
-            class="tool"
-          />
-
-          <img
-            src="../assets/bucket-svgrepo-com.svg"
-            onClick="setTool('bucket')"
-            id="bucket"
-            class="tool"
-          />
-        </div>
-        <div id="canvas-wrapper"></div>
-        <div class="right-pane">
-          <div id="layer-wrapper">
-            <div class="layer"></div>
-            <div class="layer-btn-wrapper">
-              <span onClick="canv.createNewLayer()" class="add-layer-btn"
-                >+</span
-              >
-              <span onClick="canv.removeActiveLayer()" class="rmv-layer-btn"
-                >-</span
-              >
-            </div>
-          </div>
-
-          <div
-            onClick="colorWheel.toggleShown()"
-            class="color"
-            id="color"
-          ></div>
-        </div>
-      </div>
-    </div> -->
-
     <div class="flex"></div>
   </body>
 </html>

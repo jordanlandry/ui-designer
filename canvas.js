@@ -63,8 +63,8 @@ class Canvas {
         this.ctx.fillRect(0, 0, this.width, this.height);
     }
     editDomValuesToDefaults() {
-        const s = document.getElementById("font");
-        s.value = this.font;
+        const f = document.getElementById("font-value");
+        f.textContent = this.font;
         const i = document.getElementById("font-size");
         i.value = this.fontSize + "";
         document.getElementById("color-selector").style.backgroundColor =
@@ -132,6 +132,7 @@ class Canvas {
             t.style.backgroundColor = "transparent";
             (_c = document.getElementById("body")) === null || _c === void 0 ? void 0 : _c.appendChild(t);
             this.activeElement = t;
+            t.focus();
         }
         if (this.tool === "cursor")
             this.handleCursorTool();
@@ -256,10 +257,14 @@ class Canvas {
             this.activeElement.style.fontSize = this.fontSize + "px";
     }
     updateFont(e) {
-        this.font = e.value;
+        // Changing the value element
+        // e.textContent = ;
+        // Update the value
+        this.font = e.firstChild.textContent;
         if (this.activeElement) {
             this.activeElement.style.fontFamily = this.font;
         }
+        document.getElementById("font-value").textContent = this.font;
     }
     setFontStyle(e) {
         if (e.id === "underline")

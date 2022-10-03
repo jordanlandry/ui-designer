@@ -31,6 +31,10 @@ const keybindsDown = {
     t: () => canv.setTool(document.getElementById("text")),
     v: () => canv.setTool(document.getElementById("cursor")),
     delete: () => canv.deleteElement(),
+    escape: () => {
+        // Hide the font dropdown
+        document.getElementById("font-options").style.display = "none";
+    },
 };
 const keybindsUp = {};
 const unclickableElements = [
@@ -91,4 +95,21 @@ document.addEventListener("keydown", handleKeydown);
 document.addEventListener("keyup", handleKeyup);
 // Window events
 window.addEventListener("resize", handleResize);
+const toggleDropdown = () => {
+    const el = document.getElementById("font-options");
+    el.style.display = el.style.display === "none" ? "block" : "none";
+};
+const fontElement = document.getElementById("font-options");
+for (const child of fontElement.children) {
+    // @ts-ignore
+    let s = child.onclick.toString();
+    // @ts-ignore
+    child.children[0].style.fontFamily = child.firstChild.textContent;
+}
+const setFont = (value) => {
+    // Changing the value element
+    const e = document.getElementById("font-value");
+    e.textContent = value;
+    canv.font = value;
+};
 start();
