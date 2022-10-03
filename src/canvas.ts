@@ -114,6 +114,8 @@ class Canvas {
     if (document.getElementById(`${this.tool}-pane`))
       document.getElementById(`${this.tool}-pane`)!.style.display = "flex";
     else document.getElementById(`default-pane`)!.style.display = "flex";
+
+    // document.getElementById("delete-cursor");
   }
 
   setTool(e: HTMLElement) {
@@ -360,7 +362,6 @@ class Canvas {
   }
 
   setFontStyle(e: HTMLElement) {
-    console.log(e);
     if (e.id === "underline") this.underline = !this.underline;
     if (e.id === "bold") this.bold = !this.bold;
     if (e.id === "italic") this.italic = !this.italic;
@@ -371,11 +372,34 @@ class Canvas {
     this.activeElement.style.fontStyle = this.italic ? "italic" : "";
   }
 
+  handleDeleteHover(e: HTMLElement) {
+    if (!this.clickedElement) return;
+
+    e.style.cursor = "pointer";
+    e.style.color = "red";
+  }
+
+  handleDeleteMouseUp(e: HTMLElement) {
+    e.style.color = "white";
+    e.style.cursor = "default";
+  }
+
   handleMouseDown(e: MouseEvent) {
+    // Check if the mouse was clicked on the canvas
+    if (
+      e.x < properties.leftPaneSize ||
+      e.x > window.innerWidth - properties.rightPaneSize ||
+      e.y < properties.topPaneSize ||
+      e.y > window.innerHeight - properties.topPaneSize
+    )
+      return;
+
     this.clickedElement = e.target;
     this.clickedElement = this.clickedElement.parentNode;
     this.mouseDown = true;
-    if (this.tool === "cursor") this.useTool();
+    if (this.tool === "cursor") {
+      this.useTool();
+    }
 
     if (e.target !== this.canvas) return;
     this.clickPos = { x: e.offsetX, y: e.offsetY };
