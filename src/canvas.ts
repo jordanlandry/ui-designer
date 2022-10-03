@@ -340,6 +340,7 @@ class Canvas {
   }
 
   setFontStyle(e: HTMLElement) {
+    console.log(e);
     if (e.id === "underline") this.underline = !this.underline;
     if (e.id === "bold") this.bold = !this.bold;
     if (e.id === "italic") this.italic = !this.italic;
