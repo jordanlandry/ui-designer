@@ -12,119 +12,279 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body id="body">
-    <!-- <div class="top-pane">
-      <button onClick="save()">Save</button>
-      <button onClick="canv.updateThickness(false)">-</button>
-      <span id="thickness-value">10</span>
-      <button onClick="canv.updateThickness(true)">+</button>
-      <span>
-        Brush type:
-        <span
-          class="active brush"
-          id="square"
-          onClick="canv.setBrush('square')"
-        ></span>
-        <span
-          class="brush"
-          id="circle"
-          onClick="canv.setBrush('circle')"
-        ></span>
-      </span> -->
-    </div>
     <div id="pane-wrapper">
-      <div id="top-pane">  
-        <div id="size-text" onmousedown="canv.changingFontSize = true">
-          Size: 
-        </div>
-        <input id="font-size" type="number" onChange="canv.updateFontSize()" value="13">
-
-        Font:
-        <div id="font-dropdown" onClick="toggleDropdown()">
-          <div id="font-value">Arial</div>
-          <div id="font-options" style="display: none">
-            <div onclick="canv.updateFont(this)">Arial<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Avanta Garde<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Baskerville<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Big Caslon<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Bodoni MT<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Book Antiqua<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Bookman<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Calibri<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Calisto MT<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Cambria<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Century Gothic<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Courier<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Didot<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Franklin Gothic Medium<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Futura<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Garamond<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Geneva<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Georgia<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Gill Sans<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Goudy Old Style<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Helvetica<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Hoefler Text<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Lucida Bright<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Lucida Sans<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">New Century Schoolbook<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Noto<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Optima<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Palatino<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Perpetua<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Rockwell<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Rockwell Extra Bold<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Segoe UI<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Times New Roman<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Trebuchet MS<span>Preview</span></div>
-            <div onclick="canv.updateFont(this)">Verdana<span>Preview</span></div>
+      <div id="top-pane">
+        <div id="cursor-pane" class="tool-pane">Cursor Stuff</div>
+        <div id="input-pane" class="tool-pane">Input Stuff</div>
+        <div id="section-pane" class="tool-pane">Section Stuff</div>
+        <div id="line-pane" class="tool-pane">Line Stuff</div>
+        <div id="default-pane" class="tool-pane">Default</div>
+        <div id="text-pane" class="tool-pane">
+          <div id="size-text" onmousedown="canv.changingFontSize = true">
+            Size:
           </div>
+          <input
+            id="font-size"
+            type="number"
+            onChange="canv.updateFontSize()"
+            value="13"
+          />
+
+          Font:
+          <div id="font-dropdown" onClick="toggleDropdown()">
+            <div id="font-value">Arial</div>
+            <div id="font-options" style="display: none">
+              <div onclick="canv.updateFont(this)">
+                Arial<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Avanta Garde<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Baskerville<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Big Caslon<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Bodoni MT<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Book Antiqua<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Bookman<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Calibri<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Calisto MT<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Cambria<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Century Gothic<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Courier<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Didot<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Franklin Gothic Medium<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Futura<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Garamond<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Geneva<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Georgia<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Gill Sans<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Goudy Old Style<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Helvetica<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Hoefler Text<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Lucida Bright<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Lucida Sans<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                New Century Schoolbook<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Noto<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Optima<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Palatino<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Perpetua<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Rockwell<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Rockwell Extra Bold<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Segoe UI<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Times New Roman<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Trebuchet MS<span>Preview</span>
+              </div>
+              <div onclick="canv.updateFont(this)">
+                Verdana<span>Preview</span>
+              </div>
+            </div>
+          </div>
+          <svg
+            onClick="canv.setFontStyle(this)"
+            id="bold"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="currentColor"
+            class="bi bi-type-bold tool-hover"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z"
+            />
+          </svg>
+          <svg
+            onClick="canv.setFontStyle(this)"
+            id="italic"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="currentColor"
+            class="bi bi-type-italic tool-hover"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z"
+            />
+          </svg>
+          <svg
+            onClick="canv.setFontStyle(this)"
+            id="underline"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="currentColor"
+            class="bi bi-type-underline tool-hover"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M5.313 3.136h-1.23V9.54c0 2.105 1.47 3.623 3.917 3.623s3.917-1.518 3.917-3.623V3.136h-1.23v6.323c0 1.49-.978 2.57-2.687 2.57-1.709 0-2.687-1.08-2.687-2.57V3.136zM12.5 15h-9v-1h9v1z"
+            />
+          </svg>
+          Color:
+          <div
+            class="color"
+            id="color-selector"
+            onClick="canv.setColor(this)"
+          ></div>
+          <svg
+            onClick="canv.finishElement()"
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="green"
+            class="bi bi-check2-all tool-hover"
+            id="finish-text"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"
+            />
+            <path
+              d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"
+            />
+          </svg>
         </div>
-        <svg onClick="canv.setFontStyle(this)" id="bold" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-type-bold tool-hover" viewBox="0 0 16 16">
-          <path d="M8.21 13c2.106 0 3.412-1.087 3.412-2.823 0-1.306-.984-2.283-2.324-2.386v-.055a2.176 2.176 0 0 0 1.852-2.14c0-1.51-1.162-2.46-3.014-2.46H3.843V13H8.21zM5.908 4.674h1.696c.963 0 1.517.451 1.517 1.244 0 .834-.629 1.32-1.73 1.32H5.908V4.673zm0 6.788V8.598h1.73c1.217 0 1.88.492 1.88 1.415 0 .943-.643 1.449-1.832 1.449H5.907z"/>
-        </svg>
-        <svg onClick="canv.setFontStyle(this)" id="italic" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-type-italic tool-hover" viewBox="0 0 16 16">
-          <path d="M7.991 11.674 9.53 4.455c.123-.595.246-.71 1.347-.807l.11-.52H7.211l-.11.52c1.06.096 1.128.212 1.005.807L6.57 11.674c-.123.595-.246.71-1.346.806l-.11.52h3.774l.11-.52c-1.06-.095-1.129-.211-1.006-.806z"/>
-        </svg>
-        <svg onClick="canv.setFontStyle(this)" id="underline" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-type-underline tool-hover" viewBox="0 0 16 16">
-          <path d="M5.313 3.136h-1.23V9.54c0 2.105 1.47 3.623 3.917 3.623s3.917-1.518 3.917-3.623V3.136h-1.23v6.323c0 1.49-.978 2.57-2.687 2.57-1.709 0-2.687-1.08-2.687-2.57V3.136zM12.5 15h-9v-1h9v1z"/>
-        </svg>
-        Color: <div class="color" id="color-selector" onClick="canv.setColor(this)"></div>
-        <svg onClick="canv.finishElement()" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="green" class="bi bi-check2-all tool-hover" id="finish-text" viewBox="0 0 16 16">
-          <path d="M12.354 4.354a.5.5 0 0 0-.708-.708L5 10.293 1.854 7.146a.5.5 0 1 0-.708.708l3.5 3.5a.5.5 0 0 0 .708 0l7-7zm-4.208 7-.896-.897.707-.707.543.543 6.646-6.647a.5.5 0 0 1 .708.708l-7 7a.5.5 0 0 1-.708 0z"/>
-          <path d="m5.354 7.146.896.897-.707.707-.897-.896a.5.5 0 1 1 .708-.708z"/>
-        </svg>
       </div>
       <div id="left-pane">
         <div class="tool active" id="cursor" onClick="canv.setTool(this)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cursor" viewBox="0 0 16 16">
-            <path d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-cursor"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M14.082 2.182a.5.5 0 0 1 .103.557L8.528 15.467a.5.5 0 0 1-.917-.007L5.57 10.694.803 8.652a.5.5 0 0 1-.006-.916l12.728-5.657a.5.5 0 0 1 .556.103zM2.25 8.184l3.897 1.67a.5.5 0 0 1 .262.263l1.67 3.897L12.743 3.52 2.25 8.184z"
+            />
           </svg>
         </div>
         <div class="tool" id="text" onClick="canv.setTool(this)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-fonts" viewBox="0 0 16 16">
-            <path d="M12.258 3h-8.51l-.083 2.46h.479c.26-1.544.758-1.783 2.693-1.845l.424-.013v7.827c0 .663-.144.82-1.3.923v.52h4.082v-.52c-1.162-.103-1.306-.26-1.306-.923V3.602l.431.013c1.934.062 2.434.301 2.693 1.846h.479L12.258 3z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-fonts"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M12.258 3h-8.51l-.083 2.46h.479c.26-1.544.758-1.783 2.693-1.845l.424-.013v7.827c0 .663-.144.82-1.3.923v.52h4.082v-.52c-1.162-.103-1.306-.26-1.306-.923V3.602l.431.013c1.934.062 2.434.301 2.693 1.846h.479L12.258 3z"
+            />
           </svg>
         </div>
         <div class="tool" id="input" onClick="canv.setTool(this)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-square-text" viewBox="0 0 16 16">
-            <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
-            <path d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-chat-square-text"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1h-2.5a2 2 0 0 0-1.6.8L8 14.333 6.1 11.8a2 2 0 0 0-1.6-.8H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"
+            />
+            <path
+              d="M3 3.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5zM3 6a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9A.5.5 0 0 1 3 6zm0 2.5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"
+            />
           </svg>
         </div>
         <div class="tool" id="section" onClick="canv.setTool(this)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-box" viewBox="0 0 16 16">
-            <path d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-box"
+            viewBox="0 0 16 16"
+          >
+            <path
+              d="M8.186 1.113a.5.5 0 0 0-.372 0L1.846 3.5 8 5.961 14.154 3.5 8.186 1.113zM15 4.239l-6.5 2.6v7.922l6.5-2.6V4.24zM7.5 14.762V6.838L1 4.239v7.923l6.5 2.6zM7.443.184a1.5 1.5 0 0 1 1.114 0l7.129 2.852A.5.5 0 0 1 16 3.5v8.662a1 1 0 0 1-.629.928l-7.185 2.874a.5.5 0 0 1-.372 0L.63 13.09a1 1 0 0 1-.63-.928V3.5a.5.5 0 0 1 .314-.464L7.443.184z"
+            />
           </svg>
         </div>
         <div class="tool" id="line" onClick="canv.setTool(this)">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-right" viewBox="0 0 16 16">
-            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-arrow-right"
+            viewBox="0 0 16 16"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"
+            />
           </svg>
+        </div>
       </div>
-      </div>
-      <div id="right-pane">
-        Elements
-      </div>
+      <div id="right-pane">Elements</div>
     </div>
     <div class="flex"></div>
   </body>

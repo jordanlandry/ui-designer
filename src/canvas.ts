@@ -105,14 +105,34 @@ class Canvas {
 
     document.getElementById("color-selector")!.style.backgroundColor =
       this.color;
+
+    const p = document.getElementById("top-pane")!;
+    for (const child of p.children) {
+      document.getElementById(child.id)!.style.display = "none";
+    }
+
+    if (document.getElementById(`${this.tool}-pane`))
+      document.getElementById(`${this.tool}-pane`)!.style.display = "flex";
+    else document.getElementById(`default-pane`)!.style.display = "flex";
   }
 
   setTool(e: HTMLElement) {
     if (this.tool === "text") this.finishElement();
 
+    // Hide the current top pane
+    if (document.getElementById(`${this.tool}-pane`))
+      document.getElementById(`${this.tool}-pane`)!.style.display = "none";
+    else document.getElementById("default-pane")!.style.display = "none";
+
+    // Set the active className on the dom element
     document.getElementById(this.tool)!.className = "tool";
     document.getElementById(e.id)!.className += " active";
     this.tool = e.id;
+
+    // Show the new tool pane
+    if (document.getElementById(`${this.tool}-pane`))
+      document.getElementById(`${this.tool}-pane`)!.style.display = "flex";
+    else document.getElementById("default-pane")!.style.display = "flex";
   }
 
   setWidthAndHeight() {
