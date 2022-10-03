@@ -45,6 +45,7 @@ const keybindsDown: any = {
   delete: () => canv.deleteElement(),
   escape: () => {
     document.getElementById("font-options")!.style.display = "none"; // Hide the font dropdown
+    canv.unselectItem();
   },
 };
 

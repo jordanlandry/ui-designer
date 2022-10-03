@@ -20,6 +20,9 @@ const defaultCanv = {
   bold: false,
   underline: false,
 
+  clickTime: 0,
+  lastClickTime: 0,
+
   defaultCanvColor: "white",
 };
 
@@ -41,6 +44,9 @@ class Canvas {
   font: string;
   color: string;
   changingFontSize: boolean;
+
+  clickTime: number;
+  lastClickTime: number;
 
   italic: boolean;
   bold: boolean;
@@ -71,6 +77,9 @@ class Canvas {
     this.italic = defaultCanv.italic;
     this.bold = defaultCanv.bold;
     this.underline = defaultCanv.underline;
+
+    this.clickTime = defaultCanv.clickTime;
+    this.lastClickTime = defaultCanv.lastClickTime;
 
     this.color = defaultCanv.color;
 
@@ -394,6 +403,9 @@ class Canvas {
     )
       return;
 
+    // Reset last clickedElement
+    if (this.clickedElement) this.clickedElement.style.outline = "none";
+
     this.clickedElement = e.target;
     this.clickedElement = this.clickedElement.parentNode;
     this.mouseDown = true;
@@ -405,15 +417,20 @@ class Canvas {
     this.clickPos = { x: e.offsetX, y: e.offsetY };
   }
 
+  unselectItem() {
+    this.clickedElement.style.outline = "";
+    this.clickedElement = null;
+  }
+
   handleMouseUp(e: MouseEvent) {
     this.changingFontSize = false;
     this.mouseDown = false;
     this.drawBlankCanvas();
 
-    if (this.clickedElement) {
-      this.clickedElement.style.outline = "";
-      this.clickedElement = null;
-    }
+    // if (this.clickedElement) {
+    //   this.clickedElement.style.outline = "";
+    //   this.clickedElement = null;
+    // }
 
     if (e.target !== this.canvas) return;
     this.unclickPos = { x: e.offsetX, y: e.offsetY };
