@@ -190,6 +190,7 @@ class Canvas {
 
       document.getElementById("body")?.appendChild(t);
       this.activeElement = t;
+      t.focus();
     }
 
     if (this.tool === "cursor") this.handleCursorTool();
