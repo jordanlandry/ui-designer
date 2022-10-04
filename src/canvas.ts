@@ -144,6 +144,14 @@ class Canvas {
     if (document.getElementById(`${this.tool}-pane`))
       document.getElementById(`${this.tool}-pane`)!.style.display = "flex";
     else document.getElementById("default-pane")!.style.display = "flex";
+
+    // Check if the text pane is being shown
+    if (
+      document.getElementById(`text-pane`)!.style.display === "flex" &&
+      this.tool !== "text"
+    ) {
+      document.getElementById(`text-pane`)!.style.display = "none";
+    }
   }
 
   setWidthAndHeight() {
@@ -356,6 +364,13 @@ class Canvas {
 
     if (this.activeElement)
       this.activeElement.style.fontSize = this.fontSize + "px";
+
+    // Change properties when selected
+    if (this.tool === "cursor") {
+      for (const child of this.clickedElement.children) {
+        child.style.fontSize = this.fontSize + "px";
+      }
+    }
   }
 
   updateFont(e: HTMLElement) {
@@ -369,17 +384,44 @@ class Canvas {
     }
 
     document.getElementById("font-value")!.textContent = this.font;
+
+    // Change if you have the item selected
+    if (this.tool === "cursor") {
+      for (const child of this.clickedElement.children) {
+        child.style.fontFamily = this.font;
+      }
+    }
   }
 
   setFontStyle(e: HTMLElement) {
-    if (e.id === "underline") this.underline = !this.underline;
-    if (e.id === "bold") this.bold = !this.bold;
-    if (e.id === "italic") this.italic = !this.italic;
+    // Change properties if text selected
+    if (this.tool === "cursor") {
+      for (const child of this.clickedElement.children) {
+        if (e.id === "underline") {
+          child.style.textDecoration =
+            child.style.textDecoration === "underline" ? "" : "underline";
+        }
+        if (e.id === "bold") {
+          child.style.fontWeight =
+            child.style.fontWeight === "bold" ? "" : "bold";
+        }
+        if (e.id === "italic") {
+          child.style.fontStyle =
+            child.style.fontStyle === "italic" ? "" : "italic";
+        }
+      }
+    } else {
+      if (e.id === "underline") this.underline = !this.underline;
+      if (e.id === "bold") this.bold = !this.bold;
+      if (e.id === "italic") this.italic = !this.italic;
 
-    if (!this.activeElement) return;
-    this.activeElement.style.textDecoration = this.underline ? "underline" : "";
-    this.activeElement.style.fontWeight = this.bold ? "bold" : "";
-    this.activeElement.style.fontStyle = this.italic ? "italic" : "";
+      if (!this.activeElement) return;
+      this.activeElement.style.textDecoration = this.underline
+        ? "underline"
+        : "";
+      this.activeElement.style.fontWeight = this.bold ? "bold" : "";
+      this.activeElement.style.fontStyle = this.italic ? "italic" : "";
+    }
   }
 
   handleDeleteHover(e: HTMLElement) {
@@ -404,6 +446,15 @@ class Canvas {
     )
       return;
 
+    // @ts-ignore
+    if (e.target.parentNode === document.getElementById("font-options")) return;
+
+    if (this.clickedElement) {
+      if (this.clickedElement.children[0].nodeName === "P") {
+        this.unselectItem();
+      }
+    }
+
     // Reset last clickedElement
     if (this.clickedElement) this.clickedElement.style.outline = "none";
 
@@ -414,11 +465,22 @@ class Canvas {
       this.useTool();
     }
 
+    if (this.clickedElement.children[0].nodeName === "P") {
+      // if (document.getElementById(`${this.tool}-pane`)) {
+      //   document.getElementById(`${this.tool}-pane`)!.style.display = "none";
+      // } else document.getElementById("default-tool")!.style.display = "none";
+      document.getElementById("text-pane")!.style.display = "flex";
+    }
+
     if (e.target !== this.canvas) return;
     this.clickPos = { x: e.offsetX, y: e.offsetY };
   }
 
   unselectItem() {
+    if (document.getElementById("text-pane")!.style.display === "flex") {
+      document.getElementById("text-pane")!.style.display = "none";
+    }
+
     this.clickedElement.style.outline = "";
     this.clickedElement = null;
   }
