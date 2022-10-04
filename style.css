@@ -194,3 +194,15 @@ body {
 #font-options > .acitve {
   background-color: rgb(30, 30, 30);
 }
+
+.tool-pane {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  display: none;
+}
+
+/* Tool Panes */
+#text-pane {
+  display: none;
+}

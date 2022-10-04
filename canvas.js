@@ -19,6 +19,8 @@ const defaultCanv = {
     italic: false,
     bold: false,
     underline: false,
+    clickTime: 0,
+    lastClickTime: 0,
     defaultCanvColor: "white",
 };
 class Canvas {
@@ -43,6 +45,8 @@ class Canvas {
         this.italic = defaultCanv.italic;
         this.bold = defaultCanv.bold;
         this.underline = defaultCanv.underline;
+        this.clickTime = defaultCanv.clickTime;
+        this.lastClickTime = defaultCanv.lastClickTime;
         this.color = defaultCanv.color;
         this.activeElement = null;
         // Canvas properties
@@ -69,13 +73,38 @@ class Canvas {
         i.value = this.fontSize + "";
         document.getElementById("color-selector").style.backgroundColor =
             this.color;
+        const p = document.getElementById("top-pane");
+        for (const child of p.children) {
+            document.getElementById(child.id).style.display = "none";
+        }
+        if (document.getElementById(`${this.tool}-pane`))
+            document.getElementById(`${this.tool}-pane`).style.display = "flex";
+        else
+            document.getElementById(`default-pane`).style.display = "flex";
+        // document.getElementById("delete-cursor");
     }
     setTool(e) {
         if (this.tool === "text")
             this.finishElement();
+        // Hide the current top pane
+        if (document.getElementById(`${this.tool}-pane`))
+            document.getElementById(`${this.tool}-pane`).style.display = "none";
+        else
+            document.getElementById("default-pane").style.display = "none";
+        // Set the active className on the dom element
         document.getElementById(this.tool).className = "tool";
         document.getElementById(e.id).className += " active";
         this.tool = e.id;
+        // Show the new tool pane
+        if (document.getElementById(`${this.tool}-pane`))
+            document.getElementById(`${this.tool}-pane`).style.display = "flex";
+        else
+            document.getElementById("default-pane").style.display = "flex";
+        // Check if the text pane is being shown
+        if (document.getElementById(`text-pane`).style.display === "flex" &&
+            this.tool !== "text") {
+            document.getElementById(`text-pane`).style.display = "none";
+        }
     }
     setWidthAndHeight() {
         this.width =
@@ -180,7 +209,7 @@ class Canvas {
             this.activeElement.style.cursor = "text";
     }
     deleteElement() {
-        if (this.clickedElement === null)
+        if (this.clickedElement === null || this.clickedElement.id === "body")
             return;
         this.clickedElement.style.display = "none";
     }
@@ -255,6 +284,12 @@ class Canvas {
             this.fontSize = parseInt(sizeElement.value);
         if (this.activeElement)
             this.activeElement.style.fontSize = this.fontSize + "px";
+        // Change properties when selected
+        if (this.tool === "cursor") {
+            for (const child of this.clickedElement.children) {
+                child.style.fontSize = this.fontSize + "px";
+            }
+        }
     }
     updateFont(e) {
         // Changing the value element
@@ -265,38 +300,106 @@ class Canvas {
             this.activeElement.style.fontFamily = this.font;
         }
         document.getElementById("font-value").textContent = this.font;
+        // Change if you have the item selected
+        if (this.tool === "cursor") {
+            for (const child of this.clickedElement.children) {
+                child.style.fontFamily = this.font;
+            }
+        }
     }
     setFontStyle(e) {
-        if (e.id === "underline")
-            this.underline = !this.underline;
-        if (e.id === "bold")
-            this.bold = !this.bold;
-        if (e.id === "italic")
-            this.italic = !this.italic;
-        if (!this.activeElement)
+        // Change properties if text selected
+        if (this.tool === "cursor") {
+            for (const child of this.clickedElement.children) {
+                if (e.id === "underline") {
+                    child.style.textDecoration =
+                        child.style.textDecoration === "underline" ? "" : "underline";
+                }
+                if (e.id === "bold") {
+                    child.style.fontWeight =
+                        child.style.fontWeight === "bold" ? "" : "bold";
+                }
+                if (e.id === "italic") {
+                    child.style.fontStyle =
+                        child.style.fontStyle === "italic" ? "" : "italic";
+                }
+            }
+        }
+        else {
+            if (e.id === "underline")
+                this.underline = !this.underline;
+            if (e.id === "bold")
+                this.bold = !this.bold;
+            if (e.id === "italic")
+                this.italic = !this.italic;
+            if (!this.activeElement)
+                return;
+            this.activeElement.style.textDecoration = this.underline
+                ? "underline"
+                : "";
+            this.activeElement.style.fontWeight = this.bold ? "bold" : "";
+            this.activeElement.style.fontStyle = this.italic ? "italic" : "";
+        }
+    }
+    handleDeleteHover(e) {
+        if (!this.clickedElement)
             return;
-        this.activeElement.style.textDecoration = this.underline ? "underline" : "";
-        this.activeElement.style.fontWeight = this.bold ? "bold" : "";
-        this.activeElement.style.fontStyle = this.italic ? "italic" : "";
+        e.style.cursor = "pointer";
+        e.style.color = "red";
+    }
+    handleDeleteMouseUp(e) {
+        e.style.color = "white";
+        e.style.cursor = "default";
     }
     handleMouseDown(e) {
+        // Check if the mouse was clicked on the canvas
+        if (e.x < properties.leftPaneSize ||
+            e.x > window.innerWidth - properties.rightPaneSize ||
+            e.y < properties.topPaneSize ||
+            e.y > window.innerHeight - properties.topPaneSize)
+            return;
+        // @ts-ignore
+        if (e.target.parentNode === document.getElementById("font-options"))
+            return;
+        if (this.clickedElement) {
+            if (this.clickedElement.children[0].nodeName === "P") {
+                this.unselectItem();
+            }
+        }
+        // Reset last clickedElement
+        if (this.clickedElement)
+            this.clickedElement.style.outline = "none";
         this.clickedElement = e.target;
         this.clickedElement = this.clickedElement.parentNode;
         this.mouseDown = true;
-        if (this.tool === "cursor")
+        if (this.tool === "cursor") {
             this.useTool();
+        }
+        if (this.clickedElement.children[0].nodeName === "P") {
+            // if (document.getElementById(`${this.tool}-pane`)) {
+            //   document.getElementById(`${this.tool}-pane`)!.style.display = "none";
+            // } else document.getElementById("default-tool")!.style.display = "none";
+            document.getElementById("text-pane").style.display = "flex";
+        }
         if (e.target !== this.canvas)
             return;
         this.clickPos = { x: e.offsetX, y: e.offsetY };
+    }
+    unselectItem() {
+        if (document.getElementById("text-pane").style.display === "flex") {
+            document.getElementById("text-pane").style.display = "none";
+        }
+        this.clickedElement.style.outline = "";
+        this.clickedElement = null;
     }
     handleMouseUp(e) {
         this.changingFontSize = false;
         this.mouseDown = false;
         this.drawBlankCanvas();
-        if (this.clickedElement) {
-            this.clickedElement.style.outline = "";
-            this.clickedElement = null;
-        }
+        // if (this.clickedElement) {
+        //   this.clickedElement.style.outline = "";
+        //   this.clickedElement = null;
+        // }
         if (e.target !== this.canvas)
             return;
         this.unclickPos = { x: e.offsetX, y: e.offsetY };

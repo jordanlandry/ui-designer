@@ -18,11 +18,21 @@ const handleLessThanKey = (e) => {
     if (e.ctrlKey && e.shiftKey)
         canv.updateFontSize(false);
 };
+const handleFontStyle = (e, style) => {
+    if (!e.ctrlKey)
+        return;
+    if (e.key === "u")
+        e.preventDefault();
+    canv.setFontStyle(document.getElementById(style));
+};
 const keybindsTyping = {
     ">": (e) => handleGreaterThanKey(e),
     "<": (e) => handleLessThanKey(e),
     control: () => canv.setMovingTextBox(),
     escape: () => canv.finishElement(),
+    b: (e) => handleFontStyle(e, "bold"),
+    u: (e) => handleFontStyle(e, "underline"),
+    i: (e) => handleFontStyle(e, "italic"),
 };
 const keybindsUpTyping = {
     control: () => canv.unsetMovingTextBox(),
@@ -32,8 +42,8 @@ const keybindsDown = {
     v: () => canv.setTool(document.getElementById("cursor")),
     delete: () => canv.deleteElement(),
     escape: () => {
-        // Hide the font dropdown
-        document.getElementById("font-options").style.display = "none";
+        document.getElementById("font-options").style.display = "none"; // Hide the font dropdown
+        canv.unselectItem();
     },
 };
 const keybindsUp = {};
